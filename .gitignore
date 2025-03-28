@@ -1,0 +1,10 @@
+# Ambiente Python
+venv/
+__pycache__/
+
+# Variáveis de ambiente
+.env
+
+# Logs e outputs
+*.log
+*.tmp
