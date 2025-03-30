@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <script src="{% static 'sala_leitura/js/cadastro.js' %}"></script>
+{% endblock head %}
+
+{% block content %}
+    <h1>Cadastros</h1>
+    <hr>
+    <form class="select">
+        <label for="modelo">Escolha o que deseja cadastrar:</label><br>
+        <select id="modelo" name="modelo" class="form-control mr-2" onchange="exibirFormulario()">
+            <option value="">Selecione...</option>
+            <option value="livros">Livros</option>
+            <option value="alunos">Alunos</option>
+            <option value="editoras">Editoras</option>
+            <option value="categorias">Categorías</option>
+        </select>
+    </form>
+    <hr>
+    <!-- Formulários de Cadastro -->
+    <div id="form-livros"  class="formulario-cadastro" style="display:none;">
+        <h1>Livros</h1>
+
+        <form method="post" action="?modelo=livros">
+            {% csrf_token %}
+            {{ form_livros.as_p }}  <!-- Exibe o formulário de livros aqui -->
+            <button type="submit" class="btn btn-primary" alt='Salvar'>Salvar</button>
+        </form>
+    </div>
+    <div id="form-alunos"  class="formulario-cadastro" style="display:none;">
+        <h1>Alunos</h1>
+
+        <form method="post" action="?modelo=alunos"> 
+            {% csrf_token %}
+            {{ form_alunos.as_p }}  <!-- Exibe o formulário de alunos aqui -->
+            <button type="submit" class="btn btn-primary" alt='Salvar'>Salvar</button>
+        </form>
+    </div>
+    <div id="form-editoras" class="formulario-cadastro" style="display:none;">
+        <h1>Editoras</h1>
+
+        <form method="post" action="?modelo=editoras">
+            {% csrf_token %}
+            {{ form_editoras.as_p }}  <!-- Exibe o formulário de editoras aqui -->
+            <button type="submit" class="btn btn-primary" alt='Salvar'>Salvar</button>
+        </form>
+    </div>
+    <div id="form-categorias" class="formulario-cadastro" style="display:none;">
+        <h1>Categorias</h1>
+
+        <form method="post" action="?modelo=categorias">
+            {% csrf_token %}
+            {{ form_categorias.as_p }}  <!-- Exibe o formulário de categorias aqui -->
+            <button type="submit" class="btn btn-primary" alt='Salvar'>Salvar</button>
+        </form>
+    </div>
+{% endblock content %}
+
+

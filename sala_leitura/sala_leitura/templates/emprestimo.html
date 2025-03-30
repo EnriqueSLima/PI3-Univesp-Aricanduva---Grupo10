@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <title>Empréstimos</title>
+    <script src="{% static 'sala_leitura/js/emprestimo.js' %}"></script>
+{% endblock head %}
+
+{% block content %}
+    <h1>Empréstimos</h1>
+    <hr>
+    <div class='div_flex'>
+        <button class='btn btn-primary' onclick="mostrarNovoEmprestimo()">Novo Empréstimo</button>
+        <button class='btn btn-primary' onclick="mostrarEmprestimosAtivos()">Empréstimos Ativos</button>
+    </div>
+    <hr>
+    <div id="novo-emprestimo-form" style="display: none;">
+        <h2>Novo Empréstimo</h2>
+        <hr>
+        <form method="post" action="{% url 'emprestimo' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class='btn btn-primary' type="submit">Gerar Empréstimo</button>
+        </form>
+    </div>
+
+    <div id="emprestimos-ativos" style="display: none;">
+        <h2>Empréstimos Ativos</h2>
+        <hr>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Aluno</th>
+                    <th>Livro</th>
+                    <th>Data Empréstimo</th>
+                    <th>Data Prevista</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for emprestimo in emprestimos %}
+                    <tr>
+                        <td>{{ emprestimo.aluno.nome }}</td>
+                        <td>{{ emprestimo.livro.titulo }}</td>
+                        <td>{{ emprestimo.data_emprestimo }}</td>
+                        <td>{{ emprestimo.data_prev }}</td>
+                        <td>{% if emprestimo.ativo %}Ativo{% else %}Inativo{% endif %}</td>
+                        <td>
+                            {% if emprestimo.ativo %}
+                                <a href="{% url 'devolver_livro' emprestimo.id %}">Devolver</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    </div>
+{% endblock content %}

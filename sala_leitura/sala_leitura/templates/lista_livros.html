@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class='div_flex'>
+        <h3>Lista de Livros:</h3>
+        <a href="{% url 'consulta' %}">Voltar</a>
+    </div>
+    <hr>
+    <!-- Formulário de Filtro -->
+    <form method="GET" action="{% url 'lista_livros' %}" class="form-inline mb-3">
+        <div class='div_filter'>
+            <label for="filtro" class="mr-2">Filtros:</label>
+            <select name="filtro" id="filtro" class="form-control mr-2">
+                <option value="">Selecione...</option>
+                <option value="registro" {% if request.GET.filtro == 'registro' %}selected{% endif %}>Registro</option>
+                <option value="autor" {% if request.GET.filtro == 'autor' %}selected{% endif %}>Autor</option>
+                <option value="titulo" {% if request.GET.filtro == 'titulo' %}selected{% endif %}>Título</option>
+                <option value="editora" {% if request.GET.filtro == 'editora' %}selected{% endif %}>Editora</option>
+                <!-- Adicione outras opções conforme necessário -->
+            </select>
+
+            <input type="text" name="valor" id="valor" class="form-control mr-2" value="{{ request.GET.valor }}">
+
+            <button type="submit" class="btn btn-primary">Aplicar Filtro</button>
+        </div>
+    </form>
+    <hr>
+    <!-- Tabela de Livros -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Registro</th>
+                <th>Autor</th>
+                <th>Título</th>
+                <th>Exemplar</th>
+                <th>Edição</th>
+                <th>Ano</th>
+                <th>Vol</th>
+                <th>Editora</th>
+                <th>Detalhe</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for livro in livros %}
+                <tr>
+                    <td>{{ livro.registro }}</td>
+                    <td>{{ livro.autor }}</td>
+                    <td>{{ livro.titulo }}</td>
+                    <td>{{ livro.exemplar }}</td>
+                    <td>{{ livro.edicao }}</td>
+                    <td>{{ livro.ano }}</td>
+                    <td>{{ livro.vol }}</td>
+                    <td>{{ livro.editora }}</td>
+                    <td><a href="{% url 'detalhes_livro' livro.id %}">Detalhes</a></td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="11">Nenhum livro encontrado.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}

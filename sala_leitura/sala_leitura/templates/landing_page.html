@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        <h1>Bem-vindo à Sala de Leitura</h1>
+        <p class="lead">Gerencie seus empréstimos de livros de forma fácil e rápida.</p>
+        <hr class="my-4">
+        <p>Explore nossos livros disponíveis e faça seus empréstimos.</p>
+        <a class="btn btn-primary btn-lg" href="{% url 'login' %}" role="button">Entrar</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Detalhes do Livro</h2>
+    <p><strong>Tombo:</strong> {{ livro.tombo }}</p>
+    <p><strong>Registro:</strong> {{ livro.registro }}</p>
+    <p><strong>Título:</strong> {{ livro.titulo }}</p>
+    <p><strong>Autor:</strong> {{ livro.autor }}</p>
+    <p><strong>Editora:</strong> {{ livro.editora }}</p>
+    <p><strong>Ano:</strong> {{ livro.ano }}</p>
+    <p><strong>Procedência:</strong> {{ livro.procedencia }}</p>
+    <p><strong>Exemplar:</strong> {{ livro.exemplar }}</p>
+    <p><strong>Coleção:</strong> {{ livro.colecao }}</p>
+    <p><strong>Edição:</strong> {{ livro.edicao }}</p>
+    <p><strong>Volume:</strong> {{ livro.vol }}</p>
+    <p><strong>Categoria:</strong> {{ livro.categoria }}</p>
+    <p><strong>Obs:</strong> {{ livro.observacao }}</p>
+    <p><strong>Aquisição:</strong> {{ livro.aquisicao }}</p>
+    <a href="{% url 'lista_livros' %}" class='btn btn-primary'>Voltar à Lista de Livros</a>
+{% endblock %}
