@@ -1,0 +1,106 @@
+
+html, body {
+    height: 100%;  /* Garantir que o corpo da página ocupe toda a altura */
+    margin: 0;     /* Remover margens padrão */
+    display: flex;
+    flex-direction: column;  /* Organizar o conteúdo em coluna */
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+main {
+    max-width: 1200px; /* Largura máxima para o conteúdo */
+    margin: 0 auto; /* Centraliza horizontalmente */
+    flex: 1;  /* Faz o conteúdo principal ocupar o espaço disponível */
+    width: 100%;  /* Garante que o conteúdo ocupe toda a largura da tela */
+    box-sizing: border-box;  /* Garantir que o padding não afete a largura */
+    padding: 0 16px;  /* Padding para o conteúdo principal */
+    border-right:1px solid lightgray;
+    border-left:1px solid lightgray;
+    background-color: whitesmoke;
+    margin-top: 0;
+}
+
+#navbar {
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+#modelo {
+    width: 50%;
+}
+.navbar-brand,.nav-item, .nav-link {
+    font-size: large;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.div_filter {
+    display: flex;
+    align-items: center;
+    max-height: fit-content;
+}
+
+.div_flex{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-height: fit-content;
+}
+
+.div_filter select, .div_filter input, .div_filter button {
+    margin: 5px 10px 5px 0; /* Ajuste do espaçamento entre os elementos */
+}
+
+a {
+    padding: 20px;
+    text-decoration: none;  /* Remove o sublinhado */
+    color: inherit;         /* Faz o texto ter a cor do elemento pai */
+}
+
+a:focus, a:hover {
+    outline: none;  /* Remove o contorno ao focar no link */
+    text-decoration: none;  /* Garante que o sublinhado não apareça ao passar o mouse ou focar */
+}
+
+.btn {
+    width: 50%;
+    margin: 10px;
+    background-color: #ced4da;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    transition: border-color 0.3s ease;
+    color: black;
+}
+
+.btn:hover {
+    color: white;
+}
+
+input, select, textarea {
+    display: block;
+    width: 50%;
+    height: 2.5rem;
+    font-size: 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    transition: border-color 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: gray;
+    outline: auto;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+    margin-top: 40px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    main {
+        padding: 10px;
+    }
+}
