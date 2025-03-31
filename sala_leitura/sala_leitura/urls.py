@@ -1,8 +1,11 @@
 from django.urls import path
 from django.shortcuts import redirect
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.views import LoginView, LogoutView
+from . import views
 
 from .views import (
+    cadastrar_usuario,
     landing_page,
     home_page,
     consulta,
@@ -20,6 +23,7 @@ from .views import (
 urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'), # Funcionalidade nativa Django
     path('logout/', auth_views.LogoutView.as_view(), name='logout'), # Funcionalidade nativa Django
+    path('signin/', views.cadastrar_usuario, name='signin'),
     path('', landing_page, name='landing_page'),    
     path('home/', home_page, name='home_page'),
     path('consulta/', consulta, name='consulta'),

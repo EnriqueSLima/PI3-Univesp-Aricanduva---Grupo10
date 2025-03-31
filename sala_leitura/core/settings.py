@@ -124,7 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'sala_leitura.Usuario'  # Substitua 'biblioteca' pelo nome do seu app
+AUTH_USER_MODEL = 'sala_leitura.Usuario'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/

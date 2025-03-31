@@ -1,7 +1,9 @@
 from django.contrib import admin
-from .models import Aluno, Livro, Emprestimo, Editora, Categoria
+from django.contrib.auth.admin import UserAdmin
+from .models import Usuario, Aluno, Livro, Emprestimo, Editora, Categoria
 
 # Registrando os modelos
+admin.site.register(Usuario, UserAdmin)
 admin.site.register(Aluno)
 admin.site.register(Livro)
 admin.site.register(Emprestimo)

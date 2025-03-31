@@ -1,11 +1,27 @@
 # Imports necessários
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import AlunoForm, LivroForm, EditoraForm, CategoriaForm, EmprestimoForm
-from .models import Aluno, Livro, Editora, Categoria, Emprestimo
+from .forms import UsuarioForm, AlunoForm, LivroForm, EditoraForm, CategoriaForm, EmprestimoForm
+from .models import Usuario, Aluno, Livro, Editora, Categoria, Emprestimo
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.http import HttpResponse, HttpRequest
 from django.contrib import messages
+
+# Para cadastro de usuários.
+from django.contrib.auth import login, authenticate
+#from django.contrib.auth.forms import UsuarioForm
+#from .models import Usuario
+
+def cadastrar_usuario(request):
+    if request.method == 'POST':
+        form = UsuarioForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('landing_page')
+    else:
+        form = UsuarioForm()
+    return render(request, 'cadastrar_usuario.html', {'form': form})
 
 # View para a landing page
 def landing_page(request):

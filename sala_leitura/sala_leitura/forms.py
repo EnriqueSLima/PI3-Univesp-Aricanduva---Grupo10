@@ -1,5 +1,13 @@
 from django import forms
-from .models import Aluno, Livro, Editora, Categoria, Emprestimo
+from .models import Usuario, Aluno, Livro, Editora, Categoria, Emprestimo
+from django.contrib.auth.forms import UserCreationForm
+
+class UsuarioForm(UserCreationForm):
+    email = forms.EmailField(required=True)  # Campo obrigatório
+
+    class Meta:
+        model = Usuario
+        fields = ["username", "email", "password1", "password2"]
 
 class AlunoForm(forms.ModelForm):
     class Meta:
