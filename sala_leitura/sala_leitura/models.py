@@ -1,6 +1,12 @@
 from django.db import models
 from django.utils import timezone
 from datetime import timedelta
+from django.contrib.auth.models import AbstractUser
+
+class Usuario(AbstractUser):
+    # Herda todos os campos padrão do User (username, email, password, etc.)
+    def __str__(self):
+        return self.username
 
 class Aluno(models.Model):
     SEXO_CHOICES = [
