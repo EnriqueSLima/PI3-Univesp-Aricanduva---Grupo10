@@ -35,9 +35,15 @@ from dotenv import load_dotenv
 
 load_dotenv()  # Carrega variáveis do .env
 
-SECRET_KEY = os.getenv('SECRET_KEY')
-DEBUG = os.getenv('DEBUG') == 'True'
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
+# Configurações críticas com fallback seguro
+SECRET_KEY = os.getenv('SECRET_KEY', 'fallback-key-32-chars-dev-only')  # Adicione um fallback para desenvolvimento
+
+# DEBUG com tratamento mais robusto
+DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'  # Converte para booleano corretamente
+
+# ALLOWED_HOSTS com fallback e tratamento para string vazia
+allowed_hosts = os.getenv('ALLOWED_HOSTS', '')
+ALLOWED_HOSTS = allowed_hosts.split(',') if allowed_hosts else []
 
 # Application definition
 
@@ -49,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',       # Para APIs
+    'sala_leitura',
 ]
 
 MIDDLEWARE = [
@@ -85,13 +92,19 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': BASE_DIR / 'db.sqlite3',
+#    }
+#}
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -133,3 +146,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Redirecionamentos Login e Logout
+LOGIN_REDIRECT_URL = '/sala_leitura/home/'
+LOGOUT_REDIRECT_URL = '/sala_leitura/'

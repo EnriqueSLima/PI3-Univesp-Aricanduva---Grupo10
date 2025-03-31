@@ -9,7 +9,7 @@ class AlunoForm(forms.ModelForm):
             'nome': forms.TextInput(attrs={'placeholder': 'Digite o nome'}),
             'ra': forms.TextInput(attrs={'placeholder': 'Digite o RA'}),
             'sexo': forms.Select(choices=Aluno.SEXO_CHOICES),  # Para garantir que o campo 'sexo' seja exibido como um select
-            'ativo': forms.Select(choices=Editora.ATIVO_CHOICES),
+            'ativo': forms.Select(choices=Aluno.ATIVO_CHOICES),
         }
 
 class LivroForm(forms.ModelForm):

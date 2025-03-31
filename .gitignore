@@ -8,3 +8,7 @@ __pycache__/
 # Logs e outputs
 *.log
 *.tmp
+
+# Dados da escola.
+csv/
+*.csv
