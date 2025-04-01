@@ -6,11 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.http import HttpResponse, HttpRequest
 from django.contrib import messages
-
-# Para cadastro de usuários.
 from django.contrib.auth import login, authenticate
-#from django.contrib.auth.forms import UsuarioForm
-#from .models import Usuario
 
 def cadastrar_usuario(request):
     if request.method == 'POST':
