@@ -156,7 +156,7 @@ def lista_emprestimos(request):
         'valor': valor
     })
 
-
+# View para cadastros dos itens
 @login_required
 def cadastro(request):
     modelo = request.GET.get('modelo', 'alunos')  # Default para 'alunos' se não especificado

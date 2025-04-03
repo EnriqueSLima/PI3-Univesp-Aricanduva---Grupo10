@@ -1,4 +1,4 @@
-//#endregionFunção para exibir formularios
+//Função para exibir formularios
 function exibirFormulario() {
     const modelo = document.getElementById('modelo').value;
     const formularios = document.querySelectorAll('.formulario-cadastro');
