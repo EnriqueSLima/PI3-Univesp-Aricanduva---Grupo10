@@ -3,28 +3,42 @@ from .models import Usuario, Aluno, Livro, Editora, Categoria, Emprestimo
 from django.contrib.auth.forms import UserCreationForm
 
 class UsuarioForm(UserCreationForm):
-    email = forms.EmailField(required=True)  # Campo obrigatório
+    email = forms.EmailField(required=True)
 
     class Meta:
         model = Usuario
         fields = ["username", "email", "password1", "password2"]
 
-class AlunoForm(forms.ModelForm):
+class BaseModelForm(forms.ModelForm):
+    """Classe base para herança dos outros formulários"""
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super().__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if self.request and hasattr(self.request, 'user'):
+            instance.usuario = self.request.user
+        if commit:
+            instance.save()
+        return instance
+
+class AlunoForm(BaseModelForm):
     class Meta:
         model = Aluno
-        fields = ['nome', 'ra', 'sexo', 'ativo']  # Campos do modelo a serem incluídos no formulário
+        fields = ['nome', 'ra', 'sexo', 'ativo']
         widgets = {
             'nome': forms.TextInput(attrs={'placeholder': 'Digite o nome'}),
             'ra': forms.TextInput(attrs={'placeholder': 'Digite o RA'}),
-            'sexo': forms.Select(choices=Aluno.SEXO_CHOICES),  # Para garantir que o campo 'sexo' seja exibido como um select
+            'sexo': forms.Select(choices=Aluno.SEXO_CHOICES),
             'ativo': forms.Select(choices=Aluno.ATIVO_CHOICES),
         }
 
-class LivroForm(forms.ModelForm):
+class LivroForm(BaseModelForm):
     class Meta:
         model = Livro
         fields = ['tombo', 'registro', 'autor', 'titulo', 'procedencia', 'exemplar', 
-                  'colecao', 'edicao', 'ano', 'vol', 'editora', 'observacao', 'aquisicao']
+                 'colecao', 'edicao', 'ano', 'vol', 'editora', 'observacao', 'aquisicao']
         widgets = {
             'tombo': forms.DateInput(format='%d/%m/%Y', attrs={
                 'type': 'date', 'placeholder': 'Selecione a data do tombo'}),
@@ -43,8 +57,7 @@ class LivroForm(forms.ModelForm):
             'aquisicao': forms.Select(choices=Livro.AQUISICAO_CHOICES),
         }
 
-
-class EditoraForm(forms.ModelForm):
+class EditoraForm(BaseModelForm):
     class Meta:
         model = Editora
         fields = ['nome', 'email', 'fone', 'ativo']
@@ -53,14 +66,13 @@ class EditoraForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'placeholder': 'Digite o email'}),
             'fone': forms.TextInput(attrs={
                 'placeholder': 'Digite DDD seguido do telefone, ex: 11945678345',
-                'pattern': r'\d{10,11}',  # Aceita 10 a 11 dígitos
+                'pattern': r'\d{10,11}',
                 'title': 'Digite o número no formato DDD + telefone, ex: 11945678345'
             }),
             'ativo': forms.Select(choices=Editora.ATIVO_CHOICES),
         }
 
-
-class CategoriaForm(forms.ModelForm):
+class CategoriaForm(BaseModelForm):
     class Meta:
         model = Categoria
         fields = ['tipo']
@@ -68,13 +80,23 @@ class CategoriaForm(forms.ModelForm):
             'tipo': forms.TextInput(attrs={'placeholder': 'Digite a categoria'})
         }
 
-class EmprestimoForm(forms.ModelForm):
+class EmprestimoForm(BaseModelForm):
     class Meta:
         model = Emprestimo
-        fields = ['aluno', 'livro']  # Campos que o usuário irá preencher no formulário (o resto é calculado automaticamente)
+        fields = ['aluno', 'livro']
         widgets = {
-            'aluno': forms.Select(attrs={}),  # Campo para selecionar o aluno
-            'livro': forms.Select(attrs={}),  # Campo para selecionar o livro
-            'ativo': forms.Select(choices=Editora.ATIVO_CHOICES),
-
+            'aluno': forms.Select(attrs={}),
+            'livro': forms.Select(attrs={}),
         }
+
+    def save(self, commit=True):
+        emprestimo = super().save(commit=False)
+        
+        # Define automaticamente o usuário e o status ativo
+        if self.request and hasattr(self.request, 'user'):
+            emprestimo.usuario = self.request.user
+        emprestimo.ativo = True
+        
+        if commit:
+            emprestimo.save()
+        return emprestimo

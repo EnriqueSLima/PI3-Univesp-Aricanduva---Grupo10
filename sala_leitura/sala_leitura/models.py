@@ -20,12 +20,13 @@ class Aluno(models.Model):
         (False, 'Não'),
     ]
 
-    id = models.AutoField(primary_key=True)  # Campo id auto incrementável
-    nome = models.CharField(max_length=255)  # Nome do aluno
-    ra = models.CharField(max_length=20, unique=True)  # RA do aluno, único
-    sexo = models.CharField(max_length=1, choices=SEXO_CHOICES)  # Sexo do aluno
-    ativo = models.BooleanField(default=True, choices= ATIVO_CHOICES)  # Status do aluno (ativo ou não)
-    
+    id = models.AutoField(primary_key=True)
+    nome = models.CharField(max_length=255)
+    ra = models.CharField(max_length=20, unique=True)
+    sexo = models.CharField(max_length=1, choices=SEXO_CHOICES)
+    ativo = models.BooleanField(default=True, choices=ATIVO_CHOICES)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='alunos')  # Novo campo
+
     def __str__(self):
         return self.nome
 
@@ -36,21 +37,22 @@ class Livro(models.Model):
         ('T', 'Troca'),
     ]
     
-    id = models.AutoField(primary_key=True)  # ID automático
-    tombo = models.DateTimeField(null=True, blank=True)  # Tombo como data (sem horas e minutos)
-    registro = models.IntegerField(unique=True)  # Registro como número inteiro
-    autor = models.CharField(max_length=500)  # Autor do livro
-    titulo = models.CharField(max_length=500)  # Título do livro
-    procedencia = models.CharField(max_length=500)  # Procedência do livro
-    exemplar = models.PositiveIntegerField()  # Número do exemplar
-    colecao = models.CharField(max_length=500)  # Coleção do livro
-    edicao = models.CharField(max_length=50)  # Edição do livro
-    ano = models.PositiveIntegerField(null=True, blank=True)  # Ano de publicação
-    vol = models.PositiveIntegerField(null=True, blank=True)  # Volume
-    editora = models.CharField(max_length=500)  # Editora do livro
-    categoria = models.CharField(max_length=500, null=True, blank=True)  # Editora do livro
-    observacao = models.TextField(null=True, blank=True)  # Observações
-    aquisicao = models.CharField(max_length=1, choices=AQUISICAO_CHOICES)  # Tipo de aquisição
+    id = models.AutoField(primary_key=True)
+    tombo = models.DateTimeField(null=True, blank=True)
+    registro = models.IntegerField(unique=True)
+    autor = models.CharField(max_length=500)
+    titulo = models.CharField(max_length=500)
+    procedencia = models.CharField(max_length=500)
+    exemplar = models.PositiveIntegerField()
+    colecao = models.CharField(max_length=500)
+    edicao = models.CharField(max_length=50)
+    ano = models.PositiveIntegerField(null=True, blank=True)
+    vol = models.PositiveIntegerField(null=True, blank=True)
+    editora = models.CharField(max_length=500)
+    categoria = models.CharField(max_length=500, null=True, blank=True)
+    observacao = models.TextField(null=True, blank=True)
+    aquisicao = models.CharField(max_length=1, choices=AQUISICAO_CHOICES)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='livros')  # Novo campo
     
     def __str__(self):
         return f'{self.titulo} ({self.autor})'
@@ -61,18 +63,20 @@ class Editora(models.Model):
         (False, 'Não'),
     ]
 
-    id = models.AutoField(primary_key=True)  # ID automático
-    nome = models.CharField(max_length=500)  # Nome do aluno
+    id = models.AutoField(primary_key=True)
+    nome = models.CharField(max_length=500)
     email = models.CharField(max_length=50)
     fone = models.CharField(max_length=11)
-    ativo = models.BooleanField(default=True,  choices= ATIVO_CHOICES)  # Status do aluno (ativo ou não)
+    ativo = models.BooleanField(default=True, choices=ATIVO_CHOICES)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='editoras')  # Novo campo
 
     def __str__(self):
         return self.nome
 
 class Categoria(models.Model):
-    id = models.AutoField(primary_key=True)  # ID automático
-    tipo = models.CharField(max_length=255)  # Nome do aluno
+    id = models.AutoField(primary_key=True)
+    tipo = models.CharField(max_length=255)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='categorias')  # Novo campo
 
     def __str__(self):
         return self.tipo
@@ -89,14 +93,15 @@ class Emprestimo(models.Model):
     data_prev = models.DateField(default=data_devolucao_default)
     data_devolucao = models.DateField(null=True, blank=True)
     ativo = models.BooleanField(default=True)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='emprestimos')  # Novo campo
 
     def __str__(self):
         return f'{self.aluno.nome} - {self.livro.titulo}'
 
-    # Método para atualizar o status 'ativo' automaticamente
     def salvar(self, *args, **kwargs):
         if self.data_devolucao and self.data_devolucao <= timezone.now():
-            self.ativo = False  # Torna inativo se a data de devolução foi atingida
+            self.ativo = False
         else:
-            self.ativo = True  # Torna ativo se a devolução não aconteceu ainda
-        super(Emprestimo, self).save(*args, **kwargs)  # Salva normalmente
+            self.ativo = True
+        super(Emprestimo, self).save(*args, **kwargs)
+

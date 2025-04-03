@@ -55,10 +55,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',       # Para APIs
+    'corsheaders',
     'sala_leitura',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # Adicione no topo
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -151,3 +153,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Redirecionamentos Login e Logout
 LOGIN_REDIRECT_URL = '/sala_leitura/home/'
 LOGOUT_REDIRECT_URL = '/sala_leitura/'
+
+# Modificações para uso do React:
+# Permita requisições do React (em desenvolvimento)
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000", # URL do seu frontend React
+]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}

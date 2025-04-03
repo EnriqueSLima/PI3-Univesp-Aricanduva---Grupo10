@@ -4,9 +4,11 @@ from .forms import UsuarioForm, AlunoForm, LivroForm, EditoraForm, CategoriaForm
 from .models import Usuario, Aluno, Livro, Editora, Categoria, Emprestimo
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.urls import reverse
 from django.http import HttpResponse, HttpRequest
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
+from urllib.parse import urlencode
 
 def cadastrar_usuario(request):
     if request.method == 'POST':
@@ -27,14 +29,14 @@ def landing_page(request):
 @login_required(login_url='landing_page')
 def home_page(request):
     # Contagem de livros, alunos, categorias e editoras
-    livros_count = Livro.objects.count()
-    alunos_count = Aluno.objects.count()
-    categorias_count = Categoria.objects.count()
-    editoras_count = Editora.objects.count()
+    livros_count = Livro.objects.filter(usuario=request.user).count()
+    alunos_count = Aluno.objects.filter(usuario=request.user).count()
+    categorias_count = Categoria.objects.filter(usuario=request.user).count()
+    editoras_count = Editora.objects.filter(usuario=request.user).count()
     
     # Contagem de empréstimos
-    emprestimos_count = Emprestimo.objects.count()  # Total de empréstimos realizados
-    emprestimos_ativos_count = Emprestimo.objects.filter(ativo=True).count()  # Empréstimos ativos
+    emprestimos_count = Emprestimo.objects.filter(usuario=request.user).count()  # Total de empréstimos realizados
+    emprestimos_ativos_count = Emprestimo.objects.filter(usuario=request.user, ativo=True).count()  # Empréstimos ativos
 
     # Passando as variáveis para o template
     return render(request, 'home_page.html', {
@@ -57,7 +59,7 @@ def consulta(request):
 def lista_livros(request):
     filtro = request.GET.get('filtro')
     valor = request.GET.get('valor')
-    livros = Livro.objects.all()
+    livros = Livro.objects.filter(usuario=request.user)
 
     if filtro and valor:
         if filtro == 'registro':
@@ -81,7 +83,7 @@ def detalhes_livro(request, id):
 def lista_alunos(request):
     filtro = request.GET.get('filtro')
     valor = request.GET.get('valor')
-    alunos = Aluno.objects.all()
+    alunos = Aluno.objects.filter(usuario=request.user)
     is_sexo_filter = False  # Flag para identificar se o filtro é 'sexo'
 
     if filtro and valor:
@@ -99,7 +101,7 @@ def lista_alunos(request):
 @login_required
 def lista_editoras(request):
     busca_nome = request.GET.get('busca_nome')
-    editoras = Editora.objects.all()
+    editoras = Editora.objects.filter(usuario=request.user)
 
     if busca_nome:
         editoras = editoras.filter(nome__icontains=busca_nome)
@@ -110,7 +112,7 @@ def lista_editoras(request):
 @login_required
 def lista_categorias(request):
     busca_nome = request.GET.get('busca_nome')
-    categorias = Categoria.objects.all()
+    categorias = Categoria.objects.filter(usuario=request.user)
 
     if busca_nome:
         categorias = categorias.filter(tipo__icontains=busca_nome)
@@ -124,7 +126,7 @@ def lista_emprestimos(request):
     valor = request.GET.get('valor')
     
     # Inicia a consulta de empréstimos com devolução confirmada
-    historicos = Emprestimo.objects.filter(data_devolucao__isnull=False)
+    historicos = Emprestimo.objects.filter(usuario=request.user, data_devolucao__isnull=False)
 
     if filtro and valor:
         if filtro == 'aluno':
@@ -140,8 +142,8 @@ def lista_emprestimos(request):
                 pass  # Caso não seja uma data válida, não aplica filtro
     
     # Carrega todas as opções de alunos e livros para o filtro
-    alunos = Aluno.objects.all()
-    livros = Livro.objects.all()
+    alunos = Aluno.objects.filter(usuario=request.user)
+    livros = Livro.objects.filter(usuario=request.user)
 
     return render(request, 'lista_emprestimos.html', {
         'historicos': historicos,
@@ -151,43 +153,46 @@ def lista_emprestimos(request):
         'valor': valor
     })
 
-# View para cadastrar
+
 @login_required
 def cadastro(request):
-    modelo = request.GET.get('modelo')  # Recebe o modelo atual
+    modelo = request.GET.get('modelo', 'alunos')  # Default para 'alunos' se não especificado
 
-    # Inicializa formulários vazios
-    form_livros = LivroForm()
-    form_alunos = AlunoForm()
-    form_editoras = EditoraForm()
-    form_categorias = CategoriaForm()
+    # Inicializa formulários vazios com o request, para coletar o id so usuário
+    form_livros = LivroForm(request=request)
+    form_alunos = AlunoForm(request=request)
+    form_editoras = EditoraForm(request=request)
+    form_categorias = CategoriaForm(request=request)
 
     if request.method == 'POST':
         # Verifica qual formulário foi enviado
         if modelo == 'alunos':
-            form_alunos = AlunoForm(request.POST)
+            form_alunos = AlunoForm(request.POST, request=request)
             if form_alunos.is_valid():
                 form_alunos.save()
-                messages.success(request, 'Cadastro realizado com sucesso!')
-                return redirect('cadastro')
+                messages.success(request, 'Aluno cadastrado com sucesso!')
+                return redirect(f"{reverse('cadastro')}?modelo={modelo}")
+                
         elif modelo == 'livros':
-            form_livros = LivroForm(request.POST)
+            form_livros = LivroForm(request.POST, request=request)
             if form_livros.is_valid():
                 form_livros.save()
-                messages.success(request, 'Cadastro realizado com sucesso!')
-                return redirect('cadastro')
+                messages.success(request, 'Livro cadastrado com sucesso!')
+                return redirect(f"{reverse('cadastro')}?modelo={modelo}")
+                
         elif modelo == 'editoras':
-            form_editoras = EditoraForm(request.POST)
+            form_editoras = EditoraForm(request.POST, request=request)
             if form_editoras.is_valid():
                 form_editoras.save()
-                messages.success(request, 'Cadastro realizado com sucesso!')
-                return redirect('cadastro')
+                messages.success(request, 'Editora cadastrada com sucesso!')
+                return redirect(f"{reverse('cadastro')}?modelo={modelo}")
+                
         elif modelo == 'categorias':
-            form_categorias = CategoriaForm(request.POST)
+            form_categorias = CategoriaForm(request.POST, request=request)
             if form_categorias.is_valid():
                 form_categorias.save()
-                messages.success(request, 'Cadastro realizado com sucesso!')
-                return redirect('cadastro')
+                messages.success(request, 'Categoria cadastrada com sucesso!')
+                return redirect(f"{reverse('cadastro')}?modelo={modelo}")
 
     # Passa todos os formulários e o modelo selecionado para o contexto
     context = {
@@ -203,7 +208,7 @@ def cadastro(request):
 @login_required
 def emprestimo(request):
     if request.method == 'POST':
-        form = EmprestimoForm(request.POST)
+        form = EmprestimoForm(request.POST, request=request)
         if form.is_valid():
             form.save()
             messages.success(request, 'Empréstimo realizado com sucesso!')
@@ -212,9 +217,8 @@ def emprestimo(request):
         form = EmprestimoForm()
 
     # Filtra os empréstimos que ainda estão ativos
-    emprestimos_ativos = Emprestimo.objects.filter(ativo=True)
-    emprestimos_hist = Emprestimo.objects.all()
-
+    emprestimos_ativos = Emprestimo.objects.filter(usuario=request.user, ativo=True)
+    emprestimos_hist = Emprestimo.objects.filter(usuario=request.user)
     return render(request, 'emprestimo.html', {
         'form': form,
         'emprestimos': emprestimos_ativos,
@@ -225,7 +229,7 @@ def emprestimo(request):
 @login_required
 def devolver_livro(request, emprestimo_id):
     # Obter o empréstimo com o ID fornecido ou 404 se não existir
-    emprestimo = get_object_or_404(Emprestimo, id=emprestimo_id)
+    emprestimo = get_object_or_404(Emprestimo.objects.filter(usuario=request.user, ativo=True), id=emprestimo_id)
 
     # Define a data_devolucao para a data atual e desativa o empréstimo
     emprestimo.data_devolucao = timezone.now().date()
