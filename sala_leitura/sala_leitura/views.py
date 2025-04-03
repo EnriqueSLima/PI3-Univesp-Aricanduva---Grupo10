@@ -5,10 +5,13 @@ from .models import Usuario, Aluno, Livro, Editora, Categoria, Emprestimo
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.urls import reverse
-from django.http import HttpResponse, HttpRequest
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from urllib.parse import urlencode
+
+# Imports de testes
+from django.http import HttpResponse, HttpRequest
+
 
 def cadastrar_usuario(request):
     if request.method == 'POST':
@@ -166,6 +169,7 @@ def cadastro(request):
 
     if request.method == 'POST':
         # Verifica qual formulário foi enviado
+        # !!!   Necessário Refatorar  !!!
         if modelo == 'alunos':
             form_alunos = AlunoForm(request.POST, request=request)
             if form_alunos.is_valid():
