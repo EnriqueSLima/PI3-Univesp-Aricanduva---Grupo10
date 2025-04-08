@@ -1,36 +1,41 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class='div_flex'>
-        <h3>Lista de Categorías</h3>
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white border-bottom">
+        <h3 class="mb-0">Lista de Categorías</h3>
         <a href="{% url 'consulta' %}">Voltar</a>
     </div>
-    <hr>
-    <!-- Formulário de Busca -->
-    <form method="GET" action="{% url 'lista_categorias' %}" class="form-inline mb-3">
-        <div class='div_filter'>
-            <label for="busca_nome" class="mr-2">Buscar por nome:</label>
-            <input type="text" name="busca_nome" id="busca_nome" class="form-control mr-2" value="{{ request.GET.busca_nome }}">
-            <button type="submit" class="btn btn-primary">Buscar</button>
-        </div>
-    </form>
-    <hr>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Descrição</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for categoria in categorias %}
+    <div class="card-body">
+        <!-- Seu conteúdo aqui -->
+        <hr>
+        <!-- Formulário de Busca -->
+        <form method="GET" action="{% url 'lista_categorias' %}" class="form-inline mb-3">
+            <div class='div_filter'>
+                <label for="busca_nome" class="mr-2">Buscar por nome:</label>
+                <input type="text" name="busca_nome" id="busca_nome" class="form-control mr-2" value="{{ request.GET.busca_nome }}">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </div>
+        </form>
+        <hr>
+        <table class="table table-striped">
+            <thead>
                 <tr>
-                    <td>{{ categoria.tipo }}</td>
+                    <th>Descrição</th>
                 </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="3">Nenhuma categorias encontrada.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for categoria in categorias %}
+                    <tr>
+                        <td>{{ categoria.tipo }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="3">Nenhuma categorias encontrada.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock content %}

@@ -1,41 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class='div_flex'>
-        <h3>Lista de Editoras</h3>
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white border-bottom">
+        <h3 class="mb-0">Lista de Editoras</h3>
         <a href="{% url 'consulta' %}">Voltar</a>
     </div>
-    <hr>
-    <!-- Formulário de Busca -->
-    <form method="GET" action="{% url 'lista_editoras' %}" class="form-inline mb-3">
-        <div class='div_filter'>
-            <label for="busca_nome" class="mr-2">Buscar por nome:</label>
-            <input type="text" name="busca_nome" id="busca_nome" class="form-control mr-2" value="{{ request.GET.busca_nome }}">
-            <button type="submit" class="btn btn-primary">Buscar</button>
-        </div>
-    </form>
-    <hr>
-    <!-- Tabela de Editoras -->
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Fone</th>
-                <th>Email</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for editora in editoras %}
+    <div class="card-body">
+        <!-- Seu conteúdo aqui -->
+        <hr>
+        <!-- Formulário de Busca -->
+        <form method="GET" action="{% url 'lista_editoras' %}" class="form-inline mb-3">
+            <div class='div_filter'>
+                <label for="busca_nome" class="mr-2">Buscar por nome:</label>
+                <input type="text" name="busca_nome" id="busca_nome" class="form-control mr-2" value="{{ request.GET.busca_nome }}">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </div>
+        </form>
+        <hr>
+        <!-- Tabela de Editoras -->
+        <table class="table table-striped">
+            <thead>
                 <tr>
-                    <td>{{ editora.nome }}</td>
-                    <td>{{ editora.fone }}</td>
-                    <td>{{ editora.email }}</td>
+                    <th>Nome</th>
+                    <th>Fone</th>
+                    <th>Email</th>
                 </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="3">Nenhuma editora encontrada.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for editora in editoras %}
+                    <tr>
+                        <td>{{ editora.nome }}</td>
+                        <td>{{ editora.fone }}</td>
+                        <td>{{ editora.email }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="3">Nenhuma editora encontrada.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock content %}

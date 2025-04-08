@@ -1,11 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Entrar</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button class='btn btn-primary' type="submit">Entrar</button>
-  </form>
-  <button class='btn btn-primary'> <a href="{% url 'landing_page' %}">Voltar</a> </button>
+<div class="card border-0 shadow-sm">
+  <div class="card-header bg-white border-bottom">
+      <h3 class="mb-0">Entrar</h3>
+  </div>
+  <div class="card-body">
+      <!-- Seu conteúdo aqui --> 
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class='btn btn-primary' type="submit">Entrar</button>
+      </form>
+      <a href="{% url 'landing_page' %}" class="btn btn-primary">
+        <i class="fas fa me-1"></i>Voltar
+      </a>
+  </div>
+</div>
+
 {% endblock %}

@@ -1,105 +1,253 @@
+:root {
+    --primary-color: #007bff; /* Cor primária azul do Bootstrap */
+    --secondary-color: #6c757d; /* Cor secundária cinza do Bootstrap */
+    --border-color: #dee2e6; /* Cor de borda suave */
+    --text-color: #212529; /* Cor de texto escuro */
+    --background-light: #f8f9fa; /* Fundo claro */
+}
+
 html, body {
-    height: 100%;  /* Garantir que o corpo da página ocupe toda a altura */
-    margin: 0;     /* Remover margens padrão */
+    height: 100%;
+    margin: 0;
     display: flex;
-    flex-direction: column;  /* Organizar o conteúdo em coluna */
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    flex-direction: column;
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; /* Font stack mais moderna */
+    color: var(--text-color);
 }
 
 main {
-    max-width: 1200px; /* Largura máxima para o conteúdo */
-    margin: 0 auto; /* Centraliza horizontalmente */
-    flex: 1;  /* Faz o conteúdo principal ocupar o espaço disponível */
-    width: 100%;  /* Garante que o conteúdo ocupe toda a largura da tela */
-    box-sizing: border-box;  /* Garantir que o padding não afete a largura */
-    padding: 0 16px;  /* Padding para o conteúdo principal */
-    border-right:1px solid lightgray;
-    border-left:1px solid lightgray;
-    background-color: whitesmoke;
-    margin-top: 0;
+    flex: 1;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+    box-sizing: border-box;
+    background-color: white; /* Mudei de whitesmoke para branco puro */
+    border-right: 1px solid var(--border-color);
+    border-left: 1px solid var(--border-color);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05); /* Sombra sutil */
 }
 
 #navbar {
-    padding: 20px;
-    background-color: #f8f9fa;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#modelo {
-    width: 50%;
-}
-.navbar-brand,.nav-item, .nav-link {
-    font-size: large;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+.navbar-brand, .nav-item, .nav-link {
+    font-size: 1rem;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    color: white !important; /* Garante contraste com fundo colorido */
 }
 
-.div_filter {
-    display: flex;
-    align-items: center;
-    max-height: fit-content;
+.nav-link {
+    padding: 0.5rem 1rem !important;
+    transition: background-color 0.3s ease;
 }
 
-.div_flex{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    max-height: fit-content;
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.25rem;
 }
 
-.div_filter select, .div_filter input, .div_filter button {
-    margin: 5px 10px 5px 0; /* Ajuste do espaçamento entre os elementos */
-}
-
-a {
-    padding: 20px;
-    text-decoration: none;  /* Remove o sublinhado */
-    color: inherit;         /* Faz o texto ter a cor do elemento pai */
-}
-
-a:focus, a:hover {
-    outline: none;  /* Remove o contorno ao focar no link */
-    text-decoration: none;  /* Garante que o sublinhado não apareça ao passar o mouse ou focar */
-}
-
-.btn {
-    width: 50%;
-    margin: 10px;
-    background-color: #ced4da;
-    border: 1px solid #ced4da;
-    border-radius: 0.375rem;
-    transition: border-color 0.3s ease;
-    color: black;
-}
-
-.btn:hover {
+/* Botões de acessibilidade */
+.btn-group .btn {
+    width: auto;
+    margin: 0;
+    padding: 0.375rem 0.75rem;
+    background-color: transparent;
+    border-color: rgba(255, 255, 255, 0.5);
     color: white;
+}
+
+.btn-group .btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 input, select, textarea {
     display: block;
-    width: 50%;
+    width: 100%; /* Alterado para 100% para melhor responsividade */
     height: 2.5rem;
     font-size: 1rem;
-    border: 1px solid #ced4da;
+    border: 1px solid var(--border-color);
     border-radius: 0.375rem;
-    transition: border-color 0.3s ease;
+    transition: all 0.3s ease;
+    padding: 0.375rem 0.75rem;
+    margin-bottom: 1rem;
 }
 
 input:focus, select:focus, textarea:focus {
-    border-color: gray;
-    outline: auto;
+    border-color: var(--primary-color);
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+}
+
+.btn {
+    width: auto; /* Removido width fixo */
+    margin: 0.5rem 0.5rem 0.5rem 0;
+    padding: 0.375rem 0.75rem;
+    background-color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
+    border-radius: 0.375rem;
+    transition: all 0.3s ease;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.div_filter, .div_flex {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap; /* Permite quebra de linha em telas pequenas */
+    gap: 0.5rem; /* Substitui margens individuais */
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.div_filter select, 
+.div_filter input, 
+.div_filter button {
+    margin: 0; /* Removido margens individuais */
+    flex: 1 1 auto; /* Cresce e encolhe conforme necessário */
+    min-width: 120px; /* Largura mínima para elementos */
+}
+
+#modelo {
+    width: 100%; /* Alterado para responsividade */
+    max-width: 600px; /* Largura máxima */
+    margin: 0 auto;
 }
 
 footer {
     text-align: center;
-    padding: 20px;
-    background-color: #f8f9fa;
-    margin-top: 40px;
+    padding: 1.5rem;
+    background-color: var(--background-light);
+    margin-top: 2rem;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.9rem;
+    color: var(--secondary-color);
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
+/* Tablets (768px a 1024px) */
+@media (max-width: 1024px) {
     main {
-        padding: 10px;
+        padding: 0 12px;
+    }
+    
+    .navbar-brand {
+        font-size: 0.9rem;
+    }
+    
+    .div_filter, .div_flex {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .div_filter select, 
+    .div_filter input, 
+    .div_filter button {
+        width: 100%;
+        margin-bottom: 0.5rem;
     }
 }
+
+/* Smartphones (até 767px) */
+@media (max-width: 767px) {
+    html {
+        font-size: 14px; /* Reduz ligeiramente o tamanho da fonte */
+    }
+    
+    main {
+        padding: 0 8px;
+        border: none;
+    }
+    
+    #navbar {
+        padding: 0.5rem;
+    }
+    
+    .navbar-toggler {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .nav-item {
+        margin: 0.25rem 0;
+    }
+    
+    .btn-group {
+        margin-top: 0.5rem;
+        width: 100%;
+        justify-content: center;
+    }
+    
+    footer {
+        padding: 1rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Smartphones pequenos (até 480px) */
+@media (max-width: 480px) {
+    html {
+        font-size: 13px;
+    }
+    
+    .btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+    }
+    
+    input, select, textarea {
+        height: 2.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Foco visível para acessibilidade */
+a:focus, button:focus, input:focus, select:focus, textarea:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Contraste para modo alto contraste */
+@media (prefers-contrast: more) {
+    :root {
+        --text-color: #000;
+        --border-color: #000;
+    }
+    
+    body {
+        background: #fff !important;
+        color: #000 !important;
+    }
+    
+    a, button, input, select, textarea {
+        border: 2px solid #000 !important;
+    }
+}
+
+/* Estilos para quando o modo escuro estiver ativado */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text-color: #f8f9fa;
+        --background-light: #343a40;
+        --border-color: #495057;
+    }
+    
+    body {
+        background-color: #212529;
+        color: var(--text-color);
+    }
+    
+    main {
+        background-color: #2c3034;
+        border-color: var(--border-color);
+    }
+    
+    input, select, textarea {
+        background-color: #495057;
+        color: var(--text-color);
+        border-color: #6c757d;
+    }
+}
+

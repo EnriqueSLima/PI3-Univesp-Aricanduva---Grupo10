@@ -1,59 +1,64 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class='div_flex'>
-        <h2>Lista de Alunos</h2>
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white border-bottom">
+        <h3 class="mb-0">Lista de Alunos</h3>
         <a href="{% url 'consulta' %}">Voltar</a>
     </div>
-    <hr>
-    <form method="GET" action="{% url 'lista_alunos' %}" class="form-inline mb-3">
-        <div class='div_filter'>
-            <input type="hidden" name="modelo" value="alunos">
-
-            <label for="filtro" class="mr-2">Filtros:</label>
-            <select name="filtro" id="filtro" class="form-control mr-2" onchange="this.form.submit()">
-                <option value="">Selecione...</option>
-                <option value="nome" {% if request.GET.filtro == 'nome' %}selected{% endif %}>Nome</option>
-                <option value="ra" {% if request.GET.filtro == 'ra' %}selected{% endif %}>RA</option>
-                <option value="sexo" {% if request.GET.filtro == 'sexo' %}selected{% endif %}>Sexo</option>
-            </select>
-
-            {% if is_sexo_filter %}
-                <select name="valor" id="valor" class="form-control mr-2">
+    <div class="card-body">
+        <!-- Seu conteúdo aqui -->
+        <hr>
+        <form method="GET" action="{% url 'lista_alunos' %}" class="form-inline mb-3">
+            <div class='div_filter'>
+                <input type="hidden" name="modelo" value="alunos">
+    
+                <label for="filtro" class="mr-2">Filtros:</label>
+                <select name="filtro" id="filtro" class="form-control mr-2" onchange="this.form.submit()">
                     <option value="">Selecione...</option>
-                    <option value="M" {% if request.GET.valor == 'M' %}selected{% endif %}>M</option>
-                    <option value="F" {% if request.GET.valor == 'F' %}selected{% endif %}>F</option>
-                    <option value="O" {% if request.GET.valor == 'O' %}selected{% endif %}>O</option>
+                    <option value="nome" {% if request.GET.filtro == 'nome' %}selected{% endif %}>Nome</option>
+                    <option value="ra" {% if request.GET.filtro == 'ra' %}selected{% endif %}>RA</option>
+                    <option value="sexo" {% if request.GET.filtro == 'sexo' %}selected{% endif %}>Sexo</option>
                 </select>
-            {% else %}
-                <input type="text" name="valor" id="valor" class="form-control mr-2" value="{{ request.GET.valor }}">
-            {% endif %}
-
-            <button type="submit" class="btn btn-primary">Aplicar Filtro</button>
-        </div>
-    </form>
-    <hr>
-    <!-- Tabela de Alunos -->
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>RA</th>
-                <th>Sexo</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for aluno in alunos %}
+    
+                {% if is_sexo_filter %}
+                    <select name="valor" id="valor" class="form-control mr-2">
+                        <option value="">Selecione...</option>
+                        <option value="M" {% if request.GET.valor == 'M' %}selected{% endif %}>M</option>
+                        <option value="F" {% if request.GET.valor == 'F' %}selected{% endif %}>F</option>
+                        <option value="O" {% if request.GET.valor == 'O' %}selected{% endif %}>O</option>
+                    </select>
+                {% else %}
+                    <input type="text" name="valor" id="valor" class="form-control mr-2" value="{{ request.GET.valor }}">
+                {% endif %}
+    
+                <button type="submit" class="btn btn-primary">Aplicar Filtro</button>
+            </div>
+        </form>
+        <hr>
+        <!-- Tabela de Alunos -->
+        <table class="table table-striped">
+            <thead>
                 <tr>
-                    <td>{{ aluno.nome }}</td>
-                    <td>{{ aluno.ra }}</td>
-                    <td>{{ aluno.sexo }}</td>
+                    <th>Nome</th>
+                    <th>RA</th>
+                    <th>Sexo</th>
                 </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="3">Nenhum aluno encontrado.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for aluno in alunos %}
+                    <tr>
+                        <td>{{ aluno.nome }}</td>
+                        <td>{{ aluno.ra }}</td>
+                        <td>{{ aluno.sexo }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="3">Nenhum aluno encontrado.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock content %}

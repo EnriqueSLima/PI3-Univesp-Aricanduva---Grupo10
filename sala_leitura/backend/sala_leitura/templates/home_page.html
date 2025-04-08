@@ -1,71 +1,76 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class='div_flex'>
-        <h1>Dashboard - Olá, {{ user.username }}!</h1>
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white border-bottom">
+        <h3 class="mb-0">Dashboard - Olá, {{ user.username }}!</h3>
     </div>
-    <hr>
-    <div class="container mt-4">       
-        <div class="row">
-            <!-- Card para a quantidade de livros -->
-            <div class="col-md-4 col-sm-6 col-12 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Livros Cadastrados</h5>
-                        <p class="card-text">{{ livros_count }}</p>
+    <div class="card-body">
+        <!-- Seu conteúdo aqui -->
+        <hr>
+        <div class="container mt-4">       
+            <div class="row">
+                <!-- Card para a quantidade de livros -->
+                <div class="col-md-4 col-sm-6 col-12 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Livros Cadastrados</h5>
+                            <p class="card-text">{{ livros_count }}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Card para a quantidade de alunos -->
-            <div class="col-md-4 col-sm-6 col-12 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Alunos Cadstrados</h5>
-                        <p class="card-text">{{ alunos_count }}</p>
+                
+                <!-- Card para a quantidade de alunos -->
+                <div class="col-md-4 col-sm-6 col-12 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Alunos Cadstrados</h5>
+                            <p class="card-text">{{ alunos_count }}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Card para os empréstimos realizados -->
-            <div class="col-md-4 col-sm-6 col-12 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Empréstimos Realizados</h5>
-                        <p class="card-text">{{ emprestimos_count }}</p>
+    
+                <!-- Card para os empréstimos realizados -->
+                <div class="col-md-4 col-sm-6 col-12 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Empréstimos Realizados</h5>
+                            <p class="card-text">{{ emprestimos_count }}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Card para as categorias mais emprestadas -->
-            <div class="col-md-4 col-sm-6 col-12 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Categorias Cadastradas</h5>
-                        <p class="card-text">{{ categorias_count }}</p>
+    
+                <!-- Card para as categorias mais emprestadas -->
+                <div class="col-md-4 col-sm-6 col-12 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Categorias Cadastradas</h5>
+                            <p class="card-text">{{ categorias_count }}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Card para a quantidade de editoras -->
-            <div class="col-md-4 col-sm-6 col-12 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Editoras Cadastradas</h5>
-                        <p class="card-text">{{ editoras_count }}</p>
+    
+                <!-- Card para a quantidade de editoras -->
+                <div class="col-md-4 col-sm-6 col-12 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Editoras Cadastradas</h5>
+                            <p class="card-text">{{ editoras_count }}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Card para os empréstimos ativos -->
-            <div class="col-md-4 col-sm-6 col-12 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Empréstimos Ativos</h5>
-                        <p class="card-text">{{ emprestimos_ativos_count }}</p>
+    
+                <!-- Card para os empréstimos ativos -->
+                <div class="col-md-4 col-sm-6 col-12 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Empréstimos Ativos</h5>
+                            <p class="card-text">{{ emprestimos_ativos_count }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock content %}
