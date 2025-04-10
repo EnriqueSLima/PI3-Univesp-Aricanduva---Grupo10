@@ -1,31 +1,6 @@
 {% block content %}
 <div class="card border-0 shadow-sm">
-    <div class="card-header bg-white border-bottom">
-        <h3 class="mb-0">Lista de Livros</h3>
-        <a href="{% url 'consulta' %}">Voltar</a>
-
-    </div>
     <div class="card-body">
-        <!-- Seu conteúdo aqui -->
-        <!-- Formulário de Filtro -->
-        <form method="GET" action="{% url 'lista_livros' %}">
-            <div class='div_filter'>
-                <label for="filtro" class="mr-2">Filtros:</label>
-                <select name="filtro" id="filtro">
-                    <option value="">Selecione...</option>
-                    <option value="registro" {% if request.GET.filtro == 'registro' %}selected{% endif %}>Registro</option>
-                    <option value="autor" {% if request.GET.filtro == 'autor' %}selected{% endif %}>Autor</option>
-                    <option value="titulo" {% if request.GET.filtro == 'titulo' %}selected{% endif %}>Título</option>
-                    <option value="editora" {% if request.GET.filtro == 'editora' %}selected{% endif %}>Editora</option>
-                    <!-- Adicione outras opções conforme necessário -->
-                </select>
-    
-                <input type="text" name="valor" id="valor" value="{{ request.GET.valor }}">
-    
-                <button type="submit" class="btn btn-primary">Aplicar Filtro</button>
-            </div>
-        </form>
-        <hr>
         <!-- Tabela de Livros -->
         <table class="table table-striped">
             <thead>

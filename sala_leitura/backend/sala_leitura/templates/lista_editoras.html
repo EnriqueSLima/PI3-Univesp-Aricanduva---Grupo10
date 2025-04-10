@@ -1,20 +1,6 @@
 {% block content %}
 <div class="card border-0 shadow-sm">
-    <div class="card-header bg-white border-bottom">
-        <h3 class="mb-0">Lista de Editoras</h3>
-        <a href="{% url 'consulta' %}">Voltar</a>
-    </div>
     <div class="card-body">
-        <!-- Seu conteúdo aqui -->
-        <!-- Formulário de Busca -->
-        <form method="GET" action="{% url 'lista_editoras' %}">
-            <div class='div_filter'>
-                <label for="busca_nome" class="mr-2">Buscar por nome:</label>
-                <input type="text" name="busca_nome" id="busca_nome" class="form-control mr-2" value="{{ request.GET.busca_nome }}">
-                <button type="submit" class="btn btn-primary">Buscar</button>
-            </div>
-        </form>
-        <hr>
         <!-- Tabela de Editoras -->
         <table class="table table-striped">
             <thead>
