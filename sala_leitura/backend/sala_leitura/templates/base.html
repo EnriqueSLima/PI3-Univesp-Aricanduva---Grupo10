@@ -18,6 +18,7 @@
     {% block header %}
     <div id='page-head'>
         <!-- Barra de navegação -->
+         <nav></nav>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id='navbar'>
             <div class="container">
                 <img src="{% static 'sala_leitura/img/logo_sala_leitura.jpeg' %}" width="70" height="70" class="d-inline-block align-top me-2" alt="Logotipo">
@@ -32,13 +33,13 @@
                     <ul class="navbar-nav me-auto">
                         {% if user.is_authenticated %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'consulta' %}">
-                                    <i class="fas fa-search me-1"></i>Consultas
+                                <a class="nav-link" href="{% url 'cadastro' %}">
+                                    <i class="fas fa-book me-1"></i>Cadastros
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'cadastro' %}">
-                                    <i class="fas fa-book me-1"></i>Cadastros
+                                <a class="nav-link" href="{% url 'consulta' %}">
+                                    <i class="fas fa-search me-1"></i>Consultas
                                 </a>
                             </li>
                             <li class="nav-item">

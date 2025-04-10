@@ -1,5 +1,3 @@
-{% extends 'base.html' %}
-
 {% block content %}
 <div class="card border-0 shadow-sm">
     <div class="card-header bg-white border-bottom">
@@ -8,13 +6,12 @@
     </div>
     <div class="card-body">
         <!-- Seu conteúdo aqui -->
-        <hr>
         <form method="GET" action="{% url 'lista_alunos' %}" class="form-inline mb-3">
             <div class='div_filter'>
                 <input type="hidden" name="modelo" value="alunos">
     
                 <label for="filtro" class="mr-2">Filtros:</label>
-                <select name="filtro" id="filtro" class="form-control mr-2" onchange="this.form.submit()">
+                <select name="filtro" id="filtro" onchange="this.form.submit()">
                     <option value="">Selecione...</option>
                     <option value="nome" {% if request.GET.filtro == 'nome' %}selected{% endif %}>Nome</option>
                     <option value="ra" {% if request.GET.filtro == 'ra' %}selected{% endif %}>RA</option>
@@ -22,7 +19,7 @@
                 </select>
     
                 {% if is_sexo_filter %}
-                    <select name="valor" id="valor" class="form-control mr-2">
+                    <select name="valor" id="valor">
                         <option value="">Selecione...</option>
                         <option value="M" {% if request.GET.valor == 'M' %}selected{% endif %}>M</option>
                         <option value="F" {% if request.GET.valor == 'F' %}selected{% endif %}>F</option>
@@ -35,7 +32,6 @@
                 <button type="submit" class="btn btn-primary">Aplicar Filtro</button>
             </div>
         </form>
-        <hr>
         <!-- Tabela de Alunos -->
         <table class="table table-striped">
             <thead>

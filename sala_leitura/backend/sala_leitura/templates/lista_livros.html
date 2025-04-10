@@ -1,5 +1,3 @@
-{% extends 'base.html' %}
-
 {% block content %}
 <div class="card border-0 shadow-sm">
     <div class="card-header bg-white border-bottom">
@@ -9,12 +7,11 @@
     </div>
     <div class="card-body">
         <!-- Seu conteúdo aqui -->
-        <hr>
         <!-- Formulário de Filtro -->
-        <form method="GET" action="{% url 'lista_livros' %}" class="form-inline mb-3">
+        <form method="GET" action="{% url 'lista_livros' %}">
             <div class='div_filter'>
                 <label for="filtro" class="mr-2">Filtros:</label>
-                <select name="filtro" id="filtro" class="form-control mr-2">
+                <select name="filtro" id="filtro">
                     <option value="">Selecione...</option>
                     <option value="registro" {% if request.GET.filtro == 'registro' %}selected{% endif %}>Registro</option>
                     <option value="autor" {% if request.GET.filtro == 'autor' %}selected{% endif %}>Autor</option>
@@ -23,7 +20,7 @@
                     <!-- Adicione outras opções conforme necessário -->
                 </select>
     
-                <input type="text" name="valor" id="valor" class="form-control mr-2" value="{{ request.GET.valor }}">
+                <input type="text" name="valor" id="valor" value="{{ request.GET.valor }}">
     
                 <button type="submit" class="btn btn-primary">Aplicar Filtro</button>
             </div>

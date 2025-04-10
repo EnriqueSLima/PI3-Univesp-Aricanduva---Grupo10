@@ -1,42 +1,36 @@
-{% extends 'base.html' %}
-
 {% block content %}
 <div class="card border-0 shadow-sm">
     <div class="card-header bg-white border-bottom">
         <h3 class="mb-0">Histórico de Empréstimos</h3>
-        <a href="{% url 'consulta' %}">Voltar</a>
-        <a href="{% url 'consulta' %}" class="btn btn-primary">
-            <i class="fas fa me-1"></i> Voltar
-          </a>
+        <div>
+            <a href="{% url 'consulta' %}" class="btn btn-primary">Voltar</a>
+        </div>
     </div>
-    <div class="card-body">
+    <div class="card-body"> 
         <!-- Seu conteúdo aqui -->
-        <hr>
+
         <!-- Formulário de Filtro -->
-        <form method="GET" action="{% url 'lista_emprestimos' %}" class="form-inline mb-3">
+        <form method="GET" action="{% url 'lista_emprestimos' %}">
             <div class='div_filter'>
                 <label for="filtro" class="mr-2">Filtros:</label>
-                <select name="filtro" id="filtro" class="form-control mr-2">
+                <select name="filtro" id="filtro">
                     <option value="">Selecione...</option>
                     <option value="aluno" {% if request.GET.filtro == 'aluno' %}selected{% endif %}>Aluno</option>
                     <option value="titulo" {% if request.GET.filtro == 'titulo' %}selected{% endif %}>Título</option>
                     <option value="data_devolucao" {% if request.GET.filtro == 'data_devolucao' %}selected{% endif %}>Data de Devolução</option>
                 </select>
-            
-                <input type="text" name="valor" id="valor" class="form-control mr-2" value="{{ request.GET.valor }}">
-            
+                <input type="text" name="valor" id="valor" value="{{ request.GET.valor }}">
                 <button type="submit" class="btn btn-primary">Aplicar Filtro</button>
             </div>
         </form>
-        <hr>
+
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Aluno</th>
-                    <th>Título do Livro</th>
-                    <th>Data de Empréstimo</th>
-                    <th>Data de Prev</th>
-                    <th>Data Devolução</th>
+                    <th>Livro</th>
+                    <th>Data</th>
+                    <th>Devolução</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,7 +39,6 @@
                         <td>{{ historico.aluno.nome }}</td>
                         <td>{{ historico.livro.titulo }}</td>
                         <td>{{ historico.data_emprestimo|date:"d/m/Y" }}</td>
-                        <td>{{ historico.data_prev|date:"d/m/Y" }}</td>
                         <td>{{ historico.data_devolucao|date:"d/m/Y" }}</td>
                     </tr>
                 {% empty %}

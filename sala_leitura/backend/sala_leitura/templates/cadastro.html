@@ -12,10 +12,9 @@
     </div>
     <div class="card-body">
         <!-- Seu conteúdo aqui -->
-        <hr>
         <form class="select">
-            <label for="modelo">Escolha o que deseja cadastrar:</label><br>
-            <select id="modelo" name="modelo" class="form-control mr-2" onchange="exibirFormulario()">
+            <label for="modelo">Escolha o que deseja cadastrar:</label>
+            <select id="modelo" name="modelo" onchange="exibirFormulario()">
                 <option value="">Selecione...</option>
                 <option value="livros">Livros</option>
                 <option value="alunos">Alunos</option>
@@ -23,11 +22,8 @@
                 <option value="categorias">Categorías</option>
             </select>
         </form>
-        <hr>
         <!-- Formulários de Cadastro -->
         <div id="form-livros"  class="formulario-cadastro" style="display:none;">
-            <h1>Livros</h1>
-    
             <form method="post" action="?modelo=livros">
                 {% csrf_token %}
                 {{ form_livros.as_p }}  <!-- Exibe o formulário de livros aqui -->
@@ -35,8 +31,6 @@
             </form>
         </div>
         <div id="form-alunos"  class="formulario-cadastro" style="display:none;">
-            <h1>Alunos</h1>
-    
             <form method="post" action="?modelo=alunos"> 
                 {% csrf_token %}
                 {{ form_alunos.as_p }}  <!-- Exibe o formulário de alunos aqui -->
@@ -44,17 +38,13 @@
             </form>
         </div>
         <div id="form-editoras" class="formulario-cadastro" style="display:none;">
-            <h1>Editoras</h1>
-    
             <form method="post" action="?modelo=editoras">
                 {% csrf_token %}
                 {{ form_editoras.as_p }}  <!-- Exibe o formulário de editoras aqui -->
                 <button type="submit" class="btn btn-primary" alt='Salvar'>Salvar</button>
             </form>
         </div>
-        <div id="form-categorias" class="formulario-cadastro" style="display:none;">
-            <h1>Categorias</h1>
-    
+        <div id="form-categorias" class="formulario-cadastro" style="display:none;">   
             <form method="post" action="?modelo=categorias">
                 {% csrf_token %}
                 {{ form_categorias.as_p }}  <!-- Exibe o formulário de categorias aqui -->

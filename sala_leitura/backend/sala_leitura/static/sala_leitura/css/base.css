@@ -111,12 +111,6 @@ input:focus, select:focus, textarea:focus {
     min-width: 120px; /* Largura mínima para elementos */
 }
 
-#modelo {
-    width: 100%; /* Alterado para responsividade */
-    max-width: 600px; /* Largura máxima */
-    margin: 0 auto;
-}
-
 footer {
     text-align: center;
     padding: 1.5rem;

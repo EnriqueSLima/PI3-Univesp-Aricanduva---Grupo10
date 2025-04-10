@@ -62,8 +62,8 @@
 }
 
 #aumentar-fonte, #diminuir-fonte, #alto-contraste {
-    font-size: 18px;
-    padding: 10px;
+/*     font-size: 18px;
+    padding: 10px; */
     background: none;
     border: none;
 }

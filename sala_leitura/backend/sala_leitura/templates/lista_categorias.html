@@ -1,5 +1,3 @@
-{% extends 'base.html' %}
-
 {% block content %}
 <div class="card border-0 shadow-sm">
     <div class="card-header bg-white border-bottom">
@@ -8,16 +6,14 @@
     </div>
     <div class="card-body">
         <!-- Seu conteúdo aqui -->
-        <hr>
         <!-- Formulário de Busca -->
-        <form method="GET" action="{% url 'lista_categorias' %}" class="form-inline mb-3">
+        <form method="GET" action="{% url 'lista_categorias' %}">
             <div class='div_filter'>
                 <label for="busca_nome" class="mr-2">Buscar por nome:</label>
-                <input type="text" name="busca_nome" id="busca_nome" class="form-control mr-2" value="{{ request.GET.busca_nome }}">
+                <input type="text" name="busca_nome" id="busca_nome" value="{{ request.GET.busca_nome }}">
                 <button type="submit" class="btn btn-primary">Buscar</button>
             </div>
         </form>
-        <hr>
         <table class="table table-striped">
             <thead>
                 <tr>
