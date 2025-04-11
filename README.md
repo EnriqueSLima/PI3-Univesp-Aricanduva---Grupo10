@@ -16,10 +16,9 @@
 
     pip install -r requirements.txt
 
+
 TODO:
 
 * Escolher as cores padrão e logotipo do app.
-* Adaptar o front-end para interface móvel.
-* Aplicar e redestribuir API.
 * Gerar interface de análise de dados.
 
