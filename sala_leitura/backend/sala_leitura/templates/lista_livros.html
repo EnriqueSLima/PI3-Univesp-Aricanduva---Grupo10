@@ -1,41 +1,48 @@
-{% block content %}
-<div class="card border-0 shadow-sm">
-    <div class="card-body">
-        <!-- Tabela de Livros -->
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Registro</th>
-                    <th>Autor</th>
-                    <th>Título</th>
-                    <th>Exemplar</th>
-                    <th>Edição</th>
-                    <th>Ano</th>
-                    <th>Vol</th>
-                    <th>Editora</th>
-                    <th>Detalhe</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for livro in livros %}
-                    <tr>
-                        <td>{{ livro.registro }}</td>
-                        <td>{{ livro.autor }}</td>
-                        <td>{{ livro.titulo }}</td>
-                        <td>{{ livro.exemplar }}</td>
-                        <td>{{ livro.edicao }}</td>
-                        <td>{{ livro.ano }}</td>
-                        <td>{{ livro.vol }}</td>
-                        <td>{{ livro.editora }}</td>
-                        <td><a href="{% url 'detalhes_livro' livro.id %}">Detalhes</a></td>
-                    </tr>
-                {% empty %}
-                    <tr>
-                        <td colspan="11">Nenhum livro encontrado.</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<div class="row">
+    {% for livro in livros %}
+    <div class="col-12 col-md-6 col-lg-4 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="card-title mb-0">{{ livro.titulo }}</h5>
+                <small class="text-muted">Registro: {{ livro.registro }}</small>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <p class="mb-1"><strong>Autor:</strong></p>
+                        <p class="mb-1"><strong>Exemplar:</strong></p>
+                        <p class="mb-1"><strong>Edição:</strong></p>
+                    </div>
+                    <div class="col-6">
+                        <p class="mb-1">{{ livro.autor }}</p>
+                        <p class="mb-1">{{ livro.exemplar }}</p>
+                        <p class="mb-1">{{ livro.edicao }}</p>
+                    </div>
+                </div>
+                
+                <hr class="my-2">
+                
+                <div class="row">
+                    <div class="col-6">
+                        <p class="mb-1"><strong>Ano:</strong></p>
+                        <p class="mb-1"><strong>Volume:</strong></p>
+                        <p class="mb-1"><strong>Editora:</strong></p>
+                    </div>
+                    <div class="col-6">
+                        <p class="mb-1">{{ livro.ano }}</p>
+                        <p class="mb-1">{{ livro.vol }}</p>
+                        <p class="mb-1">{{ livro.editora }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-white">
+                <a href="{% url 'detalhes_livro' livro.id %}" class="btn btn-sm btn-outline-primary">Detalhes</a>
+            </div>
+        </div>
     </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info">Nenhum livro encontrado.</div>
+    </div>
+    {% endfor %}
 </div>
-{% endblock content %}

@@ -12,17 +12,16 @@
     </div>
     <div class="card-body">
         <form class="select">
-            <label for="model">Escolha o que deseja consultar:</label>
-            <select id="model" name="model" class="form-control" onchange="exibirLista()">
+            <label for="modelo">Escolha o que deseja consultar:</label>
+            <select id="modelo" name="modelo" class="form-control" onchange="exibirLista()">
                 <option value="">Selecione...</option>
+                <option value="emprestimos" {% if modelo == 'emprestimos' %}selected{% endif %}>Empréstimos</option>
                 <option value="livros" {% if modelo == 'livros' %}selected{% endif %}>Livros</option>
                 <option value="alunos" {% if modelo == 'alunos' %}selected{% endif %}>Alunos</option>
                 <option value="editoras" {% if modelo == 'editoras' %}selected{% endif %}>Editoras</option>
                 <option value="categorias" {% if modelo == 'categorias' %}selected{% endif %}>Categorías</option>
-                <option value="emprestimos" {% if modelo == 'emprestimos' %}selected{% endif %}>Empréstimos</option>
             </select>
         </form>
-
         <!-- Listas de Consulta -->
         <div id="list-livros" class="listagem mt-3" style="display:{% if modelo == 'livros' %}block{% else %}none{% endif %};">
             {% include 'lista_livros.html' %}

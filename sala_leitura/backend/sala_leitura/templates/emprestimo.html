@@ -30,32 +30,41 @@
         <div id="emprestimos-ativos" style="display: none;">
             <h2>Empréstimos Ativos</h2>
             <hr>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Aluno</th>
-                        <th>Livro</th>
-                        <th>Data</th>
-                        <th>Status</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for emprestimo in emprestimos %}
-                        <tr>
-                            <td>{{ emprestimo.aluno.nome }}</td>
-                            <td>{{ emprestimo.livro.titulo }}</td>
-                            <td>{{ emprestimo.data_emprestimo }}</td>
-                            <td>{% if emprestimo.ativo %}Ativo{% else %}Inativo{% endif %}</td>
-                            <td>
-                                {% if emprestimo.ativo %}
-                                    <a href="{% url 'devolver_livro' emprestimo.id %}">Devolver</a>
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <div class="row">
+                {% for emprestimo in emprestimos %}
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-header bg-white">
+                            <h5 class="card-title mb-0">{{  emprestimo.livro.titulo }}</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6">
+                                    <p class="mb-1"><strong>Aluno:</strong></p>
+                                    <p class="mb-1"><strong>Status:</strong></p>
+                                    <p class="mb-1"><strong>Data:</strong></p>
+                                </div>
+                                <div class="col-6">
+                                    <p class="mb-1">{{ emprestimo.aluno.nome }}</p>
+                                    <p class="mb-1">{% if emprestimo.ativo %}Ativo{% else %}Inativo{% endif %}</p>
+                                    <p class="mb-1">{{ emprestimo.data_emprestimo }}</p>
+                                </div>
+                                <div class="card-footer bg-white">
+                                    {% if emprestimo.ativo %}
+                                        <a href="{% url 'devolver_livro' emprestimo.id %}" class="btn btn-sm btn-outline-primary">Devolver</a>
+                                    {% endif %}  
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-info">Nenhum aluno encontrado.</div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>
