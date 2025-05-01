@@ -265,3 +265,59 @@ a:focus, button:focus, input:focus, select:focus, textarea:focus {
         border-color: #6c757d;
     }
 }
+
+/*  ESTILOS PARA PÁGINA DE CADASTRO */
+
+/* Estilo do container das abas */
+.aba-container {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.abas {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px;
+}
+
+/* Estilo dos botões das abas */
+.aba-btn {
+    padding: 10px 20px;
+    background-color: #f1f1f1;
+    border: none;
+    border-radius: 5px 5px 0 0;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.aba-btn:hover {
+    background-color: #ddd;
+}
+
+/* Estilo da aba ativa */
+.aba-btn.ativa {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+/* Estilo dos formulários */
+.formulario-cadastro {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 0 0 5px 5px;
+    background-color: #f9f9f9;
+}
+
+.formulario-cadastro {
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.formulario-cadastro[style*="display: block"] {
+    opacity: 1;
+    height: auto;
+}

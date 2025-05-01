@@ -1,15 +1,30 @@
-function exibirLista() {
-    // Esconde todas as listas
+
+function exibirLista(modelo) {
+    // Esconde todas as listas e remove classe 'ativa' das abas
     document.querySelectorAll('.listagem').forEach(div => {
         div.style.display = 'none';
     });
+    document.querySelectorAll('.aba-btn').forEach(btn => {
+        btn.classList.remove('ativa');
+    });
     
-    // Mostra a lista selecionada
-    const modelo = document.getElementById('modelo').value;
+    // Mostra a lista selecionada e marca a aba como ativa
     if (modelo) {
-        document.getElementById('list-' + modelo).style.display = 'block';
+        const listaSelecionada = document.getElementById('list-' + modelo);
+        const abaSelecionada = document.getElementById('aba-' + modelo);
+        
+        if (listaSelecionada) {
+            listaSelecionada.style.display = 'block';
+        }
+        if (abaSelecionada) {
+            abaSelecionada.classList.add('ativa');
+        }
+        
         // Atualiza a URL sem recarregar a página
         window.history.pushState({}, '', `?modelo=${modelo}`);
+        
+        // Opcional: Carregar dados via AJAX
+        // carregarDados(modelo);
     }
 }
 
@@ -17,18 +32,16 @@ function exibirLista() {
 document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
     const modelo = urlParams.get('modelo');
-    if (modelo) {
-        document.getElementById('modelo').value = modelo;
-        exibirLista();
-    }
+    
+    // Define um modelo padrão se nenhum estiver na URL
+    const modeloInicial = modelo || 'livros';
+    
+    exibirLista(modeloInicial);
 });
 
-function filtrarLista() {
-    const atributo = document.getElementById('atributo').value;
-    const termo = document.getElementById('termo').value;  // assumindo que tem um input para o termo
-    
-    if (atributo) {
-        // Redirecionar ou fazer requisição AJAX com os parâmetros
-        window.location.href = `?modelo={{ modelo }}&atributo=${atributo}&termo=${termo}`;
-    }
-}
+// Opcional: Lidar com o botão voltar/avançar do navegador
+window.addEventListener('popstate', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const modelo = urlParams.get('modelo') || 'livros';
+    exibirLista(modelo);
+});

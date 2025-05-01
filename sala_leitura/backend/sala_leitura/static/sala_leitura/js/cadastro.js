@@ -1,33 +1,28 @@
-//Função para exibir formularios
-function exibirFormulario() {
-    const modelo_cad = document.getElementById('modelo').value;
+// Função para exibir formulários
+
+function exibirFormulario(modelo) {
     const formularios = document.querySelectorAll('.formulario-cadastro');
+    const abas = document.querySelectorAll('.aba-btn');
     
-    // Esconde todos os formulários
-    formularios.forEach(formulario => formulario.style.display = 'none');
+    // Esconde todos os formulários e remove classe 'ativa' das abas
+    formularios.forEach(form => form.style.display = 'none');
+    abas.forEach(aba => aba.classList.remove('ativa'));
     
-    // Exibe o formulário correspondente ao valor selecionado, se houver
-    if (modelo_cad) {
-        const formSelecionado = document.getElementById(`form-${modelo_cad}`);
+    // Exibe o formulário correspondente e marca a aba como ativa
+    if (modelo) {
+        const formSelecionado = document.getElementById(`form-${modelo}`);
+        const abaSelecionada = document.getElementById(`aba-${modelo}`);
+        
         if (formSelecionado) {
             formSelecionado.style.display = 'block';
+        }
+        if (abaSelecionada) {
+            abaSelecionada.classList.add('ativa');
         }
     }
 }
 
-//Função para exibir formularios
-//function exibirLista() {
-//    const model_list = document.getElementById('model').value;
-//    const listas = document.querySelectorAll('.listagem');
-//    
-//    // Esconde todos os formulários
-//    listas.forEach(lista => lista.style.display = 'none');
-//    
-//    // Exibe o formulário correspondente ao valor selecionado, se houver
-//    if (model_list) {
-//        const listSelecionado = document.getElementById(`list-${model_list}`);
-//        if (listSelecionado) {
-//            listSelecionado.style.display = 'block';
-//        }
-//    }
-//}
+// Opcional: Mostrar a primeira aba por padrão ao carregar a página
+document.addEventListener('DOMContentLoaded', function() {
+    exibirFormulario('livros'); // Ou qualquer outro padrão que desejar
+});
