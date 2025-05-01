@@ -16,9 +16,3 @@
 
     pip install -r requirements.txt
 
-
-TODO:
-
-* Escolher as cores padrão e logotipo do app.
-* Gerar interface de análise de dados.
-
