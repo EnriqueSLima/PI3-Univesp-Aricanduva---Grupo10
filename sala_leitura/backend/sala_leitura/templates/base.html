@@ -47,10 +47,21 @@
                                     <i class="fas fa-exchange-alt me-1"></i>Empréstimos
                                 </a>
                             </li>
+                            <li>
+                                
+                            </li>
                         {% endif %}
                     </ul>
                     <div class="d-flex">
-                        
+                            {% if user.is_authenticated %}
+                                <form action="{% url 'logout' %}" method="post" class="ms-2">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">
+                                        Sair
+                                        <i class="fas fa-sign-out-alt me-2"></i>
+                                    </button>
+                                </form>
+                            {% endif %}
                             <div class="btn-group ms-2">
                                 <button id="aumentar-fonte" class="btn btn-outline-light" onclick="ajustarFonte('aumentar')">
                                     <i class="fas fa-font">+</i>
@@ -62,15 +73,6 @@
                                     <i class="fas fa-adjust"></i>
                                 </button>
                             </div>
-                        {% if user.is_authenticated %}
-                            <form action="{% url 'logout' %}" method="post" class="ms-2">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-danger">
-                                    Sair
-                                    <i class="fas fa-sign-out-alt me-2"></i>
-                                </button>
-                            </form>
-                        {% endif %}
                     </div>
                 </div>
             </div>

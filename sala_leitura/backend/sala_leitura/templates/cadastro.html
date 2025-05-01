@@ -11,17 +11,16 @@
         <h3 class="mb-0">Cadastros</h3>
     </div>
     <div class="card-body">
-        <!-- Seu conteúdo aqui -->
-        <form class="select">
-            <label for="modelo">Escolha o que deseja cadastrar:</label>
-            <select id="modelo" name="modelo" onchange="exibirFormulario()">
-                <option value="">Selecione...</option>
-                <option value="livros">Livros</option>
-                <option value="alunos">Alunos</option>
-                <option value="editoras">Editoras</option>
-                <option value="categorias">Categorías</option>
-            </select>
-        </form>
+        <!-- Abas de seleção -->
+        <div class="aba-container">
+            <div class="abas">
+                <button class="aba-btn" onclick="exibirFormulario('livros')" id="aba-livros">Livros</button>
+                <button class="aba-btn" onclick="exibirFormulario('alunos')" id="aba-alunos">Alunos</button>
+                <button class="aba-btn" onclick="exibirFormulario('editoras')" id="aba-editoras">Editoras</button>
+                <button class="aba-btn" onclick="exibirFormulario('categorias')" id="aba-categorias">Categorías</button>
+            </div>
+        </div>
+
         <!-- Formulários de Cadastro -->
         <div id="form-livros"  class="formulario-cadastro" style="display:none;">
             <form method="post" action="?modelo=livros">

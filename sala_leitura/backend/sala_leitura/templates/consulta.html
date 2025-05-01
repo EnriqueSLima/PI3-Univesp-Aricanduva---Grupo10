@@ -11,32 +11,29 @@
         <h3 class="mb-0">Consultas</h3>
     </div>
     <div class="card-body">
-        <form class="select">
-            <label for="modelo">Escolha o que deseja consultar:</label>
-            <select id="modelo" name="modelo" class="form-control" onchange="exibirLista()">
-                <option value="">Selecione...</option>
-                <option value="emprestimos" {% if modelo == 'emprestimos' %}selected{% endif %}>Empréstimos</option>
-                <option value="livros" {% if modelo == 'livros' %}selected{% endif %}>Livros</option>
-                <option value="alunos" {% if modelo == 'alunos' %}selected{% endif %}>Alunos</option>
-                <option value="editoras" {% if modelo == 'editoras' %}selected{% endif %}>Editoras</option>
-                <option value="categorias" {% if modelo == 'categorias' %}selected{% endif %}>Categorías</option>
-            </select>
-        </form>
-        <!-- Listas de Consulta -->
-        <div id="list-livros" class="listagem mt-3" style="display:{% if modelo == 'livros' %}block{% else %}none{% endif %};">
-            {% include 'lista_livros.html' %}
-        </div>
-        <div id="list-alunos" class="listagem mt-3" style="display:{% if modelo == 'alunos' %}block{% else %}none{% endif %};">
-            {% include 'lista_alunos.html' %}
-        </div>
-        <div id="list-editoras" class="listagem mt-3" style="display:{% if modelo == 'editoras' %}block{% else %}none{% endif %};">
-            {% include 'lista_editoras.html' %}
-        </div>
-        <div id="list-categorias" class="listagem mt-3" style="display:{% if modelo == 'categorias' %}block{% else %}none{% endif %};">
-            {% include 'lista_categorias.html' %}
-        </div>
-        <div id="list-emprestimos" class="listagem mt-3" style="display:{% if modelo == 'emprestimos' %}block{% else %}none{% endif %};">
-            {% include 'lista_emprestimos.html' %}
+        <!-- Abas de seleção -->
+        <div class="aba-container">
+            <div class="abas">
+                <button class="aba-btn" onclick="exibirLista('livros')" id="aba-livros">Livros</button>
+                <button class="aba-btn" onclick="exibirLista('alunos')" id="aba-alunos">Alunos</button>
+                <button class="aba-btn" onclick="exibirLista('editoras')" id="aba-editoras">Editoras</button>
+                <button class="aba-btn" onclick="exibirLista('categorias')" id="aba-categorias">Categorías</button>
+            </div>
+            <!-- Listagem dos itens cadastrados -->
+            <div class="listagens">
+                <div id="list-livros" class="listagem" style="display:none;">
+                    {% include "lista_livros.html" %}
+                </div>
+                <div id="list-alunos" class="listagem" style="display:none;">
+                    {% include "lista_alunos.html" %}
+                </div>
+                <div id="list-editoras" class="listagem" style="display:none;">
+                    {% include "lista_editoras.html" %}
+                </div>
+                <div id="list-categorias" class="listagem" style="display:none;">
+                    {% include "lista_categorias.html" %}
+                </div>
+            </div>
         </div>
     </div>
 </div>
