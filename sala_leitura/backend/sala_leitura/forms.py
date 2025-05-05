@@ -1,5 +1,5 @@
 from django import forms
-from .models import Usuario, Aluno, Livro, Editora, Categoria, Emprestimo
+from .models import Usuario, Aluno, Livro, Editora, Emprestimo
 from django.contrib.auth.forms import UserCreationForm
 
 class UsuarioForm(UserCreationForm):
@@ -61,7 +61,7 @@ class LivroForm(BaseModelForm):
 class EditoraForm(BaseModelForm):
     class Meta:
         model = Editora
-        fields = ['nome', 'email', 'fone', 'ativo']
+        fields = ['nome', 'email', 'fone']
         widgets = {
             'nome': forms.TextInput(attrs={'placeholder': 'Digite o Nome'}),
             'email': forms.EmailInput(attrs={'placeholder': 'Digite o Email'}),
