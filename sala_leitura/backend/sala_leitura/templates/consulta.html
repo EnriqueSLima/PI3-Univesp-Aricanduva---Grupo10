@@ -17,7 +17,6 @@
                 <button class="aba-btn" onclick="exibirLista('livros')" id="aba-livros">Livros</button>
                 <button class="aba-btn" onclick="exibirLista('alunos')" id="aba-alunos">Alunos</button>
                 <button class="aba-btn" onclick="exibirLista('editoras')" id="aba-editoras">Editoras</button>
-                <button class="aba-btn" onclick="exibirLista('categorias')" id="aba-categorias">Categorías</button>
             </div>
             <!-- Listagem dos itens cadastrados -->
             <div class="listagens">
@@ -29,9 +28,6 @@
                 </div>
                 <div id="list-editoras" class="listagem" style="display:none;">
                     {% include "lista_editoras.html" %}
-                </div>
-                <div id="list-categorias" class="listagem" style="display:none;">
-                    {% include "lista_categorias.html" %}
                 </div>
             </div>
         </div>

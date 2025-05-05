@@ -17,7 +17,6 @@
                 <button class="aba-btn" onclick="exibirFormulario('livros')" id="aba-livros">Livros</button>
                 <button class="aba-btn" onclick="exibirFormulario('alunos')" id="aba-alunos">Alunos</button>
                 <button class="aba-btn" onclick="exibirFormulario('editoras')" id="aba-editoras">Editoras</button>
-                <button class="aba-btn" onclick="exibirFormulario('categorias')" id="aba-categorias">Categorías</button>
             </div>
         </div>
 
@@ -40,13 +39,6 @@
             <form method="post" action="?modelo=editoras">
                 {% csrf_token %}
                 {{ form_editoras.as_p }}  <!-- Exibe o formulário de editoras aqui -->
-                <button type="submit" class="btn btn-primary" alt='Salvar'>Salvar</button>
-            </form>
-        </div>
-        <div id="form-categorias" class="formulario-cadastro" style="display:none;">   
-            <form method="post" action="?modelo=categorias">
-                {% csrf_token %}
-                {{ form_categorias.as_p }}  <!-- Exibe o formulário de categorias aqui -->
                 <button type="submit" class="btn btn-primary" alt='Salvar'>Salvar</button>
             </form>
         </div>
