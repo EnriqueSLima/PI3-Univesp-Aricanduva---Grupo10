@@ -30,7 +30,6 @@ def home_page(request):
     # Contagem de livros, alunos, categorias e editoras
     livros_count = Livro.objects.filter(usuario=request.user).count()
     alunos_count = Aluno.objects.filter(usuario=request.user).count()
-    categorias_count = Categoria.objects.filter(usuario=request.user).count()
     editoras_count = Editora.objects.filter(usuario=request.user).count()
     
     # Contagem de empréstimos
@@ -41,7 +40,6 @@ def home_page(request):
     return render(request, 'home_page.html', {
         'livros_count': livros_count,
         'alunos_count': alunos_count,
-        'categorias_count': categorias_count,
         'editoras_count': editoras_count,
         'emprestimos_count': emprestimos_count,
         'emprestimos_ativos_count': emprestimos_ativos_count
@@ -168,3 +166,13 @@ def devolver_livro(request, emprestimo_id):
 def detalhes_livro(request, id):
     livro = get_object_or_404(Livro, id=id)
     return render(request, 'detalhes_livro.html', {'livro': livro})
+
+# View para os detalhes do(a) aluno(a)
+def detalhes_aluno(request, id):
+    aluno = get_object_or_404(Aluno, id=id)
+    return render(request, 'detalhes_aluno.html', {'aluno': aluno})
+
+# View para os detalhes da editora
+def detalhes_editora(request, id):
+    editora = get_object_or_404(Editora, id=id)
+    return render(request, 'detalhes_editora.html', {'editora': editora})
