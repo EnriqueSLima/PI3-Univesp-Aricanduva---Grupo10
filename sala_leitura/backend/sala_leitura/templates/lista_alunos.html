@@ -9,22 +9,25 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-6">
-                        <p class="mb-1"><strong>Nome:</strong></p>
                         <p class="mb-1"><strong>Registro:</strong></p>
+                        <p class="mb-1"><strong>Nasc:</strong></p>
                         <p class="mb-1"><strong>Sexo:</strong></p>
                     </div>
                     <div class="col-6">
-                        <p class="mb-1">{{ aluno.nome }}</p>
                         <p class="mb-1">{{ aluno.ra }}</p>
+                        <p class="mb-1">{{ aluno.data_nasc|date:"d/m/Y" }}</p>
                         <p class="mb-1">{{ aluno.sexo }}</p>
                     </div>
                 </div>
+            </div>
+            <div class="card-footer bg-white">
+                <a href="{% url 'detalhes_aluno' aluno.id %}" class="btn btn-sm btn-outline-primary">Detalhes</a>
             </div>
         </div>
     </div>
     {% empty %}
     <div class="col-12">
-        <div class="alert alert-info">Nenhum aluno encontrado.</div>
+        <div class="alert alert-info">Nenhum Aluno encontrado(a).</div>
     </div>
     {% endfor %}
 </div>

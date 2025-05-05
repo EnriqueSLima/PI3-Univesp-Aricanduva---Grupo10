@@ -7,7 +7,7 @@
     </div>
     <div class="card-body">
         <!-- Seu conteúdo aqui -->
-        <p><strong>Tombo:</strong> {{ livro.tombo }}</p>
+        <p><strong>Tombo:</strong> {{ livro.tombo|date:"d/m/Y" }}</p>
         <p><strong>Registro:</strong> {{ livro.registro }}</p>
         <p><strong>Autor:</strong> {{ livro.autor }}</p>
         <p><strong>Título:</strong> {{ livro.titulo }}</p>
@@ -20,6 +20,8 @@
         <p><strong>Aquisição:</strong> {{ livro.aquisicao }}</p>
         <p><strong>Obs:</strong> {{ livro.observacao }}</p>
         <a href="{% url 'consulta' %}" class='btn btn-primary'>Voltar</a>
+        <a href="{% url 'consulta' %}" class='btn btn-primary'>Editar</a>
+        <a href="{% url 'consulta' %}" class='btn btn-primary'>Excluir</a>
     </div>
 </div>
 {% endblock content %}
