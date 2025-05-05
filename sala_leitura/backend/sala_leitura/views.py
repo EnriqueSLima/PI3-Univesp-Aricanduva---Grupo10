@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
+from django.urls import reverse, reverse_lazy
+from urllib.parse import urlencode
 from django.utils import timezone
-from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
-from urllib.parse import urlencode
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpRequest
+
 from .models import Usuario, Aluno, Livro, Editora, Emprestimo
 from .forms import UsuarioForm, AlunoForm, LivroForm, EditoraForm, EmprestimoForm
 

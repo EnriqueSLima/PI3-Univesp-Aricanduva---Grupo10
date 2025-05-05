@@ -20,8 +20,8 @@
         <p><strong>Aquisição:</strong> {{ livro.aquisicao }}</p>
         <p><strong>Obs:</strong> {{ livro.observacao }}</p>
         <a href="{% url 'consulta' %}" class='btn btn-primary'>Voltar</a>
-        <a href="{% url 'consulta' %}" class='btn btn-primary'>Editar</a>
-        <a href="{% url 'consulta' %}" class='btn btn-primary'>Excluir</a>
+        <a href="{% url 'consulta' %}" class='btn btn-warning'>Editar</a>
+        <a href="{% url 'consulta' %}" class='btn btn-danger'>Excluir</a>
     </div>
 </div>
 {% endblock content %}
