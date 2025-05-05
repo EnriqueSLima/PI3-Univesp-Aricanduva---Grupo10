@@ -1,17 +1,13 @@
-# Imports necessários
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import UsuarioForm, AlunoForm, LivroForm, EditoraForm, CategoriaForm, EmprestimoForm
-from .models import Usuario, Aluno, Livro, Editora, Categoria, Emprestimo
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from urllib.parse import urlencode
-
-# Imports de testes
 from django.http import HttpResponse, HttpRequest
-
+from .models import Usuario, Aluno, Livro, Editora, Emprestimo
+from .forms import UsuarioForm, AlunoForm, LivroForm, EditoraForm, EmprestimoForm
 
 def cadastrar_usuario(request):
     if request.method == 'POST':
@@ -61,7 +57,6 @@ def consulta(request):
     livros = Livro.objects.filter(usuario=request.user)
     alunos = Aluno.objects.filter(usuario=request.user)
     editoras = Editora.objects.filter(usuario=request.user)
-    categorias = Categoria.objects.filter(usuario=request.user)
     emprestimos = Emprestimo.objects.filter(usuario=request.user)
     historicos = Emprestimo.objects.filter(usuario=request.user, data_devolucao__isnull=False)
     # Filtros
@@ -74,8 +69,6 @@ def consulta(request):
             alunos = alunos.filter(nome__icontains=busca_nome)
         elif modelo == 'editoras':
             editoras = editoras.filter(nome__icontains=busca_nome)
-        elif modelo == 'categorias':
-            categorias = categorias.filter(tipo__icontains=busca_nome)
         elif modelo == 'emprestimos':
             emprestimos = emprestimos.filter(livro__titulo__icontains=busca_nome)
         elif modelo == 'historicos':
@@ -86,7 +79,6 @@ def consulta(request):
         'livros': livros,
         'alunos': alunos,
         'editoras': editoras,
-        'categorias': categorias,
         'emprestimos': emprestimos,
         'historicos' : historicos,
         'request': request  # Passa o request para os templates
@@ -103,7 +95,6 @@ def cadastro(request):
     form_livros = LivroForm(request=request)
     form_alunos = AlunoForm(request=request)
     form_editoras = EditoraForm(request=request)
-    form_categorias = CategoriaForm(request=request)
 
     if request.method == 'POST':
         # Verifica qual formulário foi enviado
@@ -129,19 +120,11 @@ def cadastro(request):
                 messages.success(request, 'Editora cadastrada com sucesso!')
                 return redirect(f"{reverse('cadastro')}?modelo={modelo}")
                 
-        elif modelo == 'categorias':
-            form_categorias = CategoriaForm(request.POST, request=request)
-            if form_categorias.is_valid():
-                form_categorias.save()
-                messages.success(request, 'Categoria cadastrada com sucesso!')
-                return redirect(f"{reverse('cadastro')}?modelo={modelo}")
-
     # Passa todos os formulários e o modelo selecionado para o contexto
     context = {
         'form_livros': form_livros,
         'form_alunos': form_alunos,
         'form_editoras': form_editoras,
-        'form_categorias': form_categorias,
         'modelo': modelo
     }
     return render(request, 'cadastro.html', context)
