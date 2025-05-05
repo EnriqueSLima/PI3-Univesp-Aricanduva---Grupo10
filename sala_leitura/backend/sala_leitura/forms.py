@@ -10,7 +10,7 @@ class UsuarioForm(UserCreationForm):
         fields = ["username", "email", "password1", "password2"]
 
 class BaseModelForm(forms.ModelForm):
-    """Classe base para herança dos outros formulários"""
+    # Classe Base para herança de usuário nos outros formulários
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
         super().__init__(*args, **kwargs)
@@ -26,35 +26,36 @@ class BaseModelForm(forms.ModelForm):
 class AlunoForm(BaseModelForm):
     class Meta:
         model = Aluno
-        fields = ['nome', 'ra', 'sexo', 'ativo']
+        fields = ['nome', 'data_nasc', 'sexo', 'ra']
         widgets = {
-            'nome': forms.TextInput(attrs={'placeholder': 'Digite o nome'}),
-            'ra': forms.TextInput(attrs={'placeholder': 'Digite o RA'}),
+            'nome': forms.TextInput(attrs={'placeholder': 'Digite o Nome'}),
+            'data_nasc': forms.DateInput(format='%d/%m/%Y', attrs={
+                'type': 'date', 'placeholder': 'Selecione a Data de Nacimento.'}),
             'sexo': forms.Select(choices=Aluno.SEXO_CHOICES),
-            'ativo': forms.Select(choices=Aluno.ATIVO_CHOICES),
+            'ra': forms.TextInput(attrs={'placeholder': 'Digite o RA'}),
         }
 
 class LivroForm(BaseModelForm):
     class Meta:
         model = Livro
-        fields = ['tombo', 'registro', 'autor', 'titulo', 'procedencia', 'exemplar', 
-                 'colecao', 'edicao', 'ano', 'vol', 'editora', 'observacao', 'aquisicao']
+        fields = ['tombo', 'registro', 'autor', 'titulo', 'ano', 
+                 'edicao', 'vol', 'editora', 'categoria', 
+                 'exemplar', 'aquisicao', 'observacao']
         widgets = {
             'tombo': forms.DateInput(format='%d/%m/%Y', attrs={
-                'type': 'date', 'placeholder': 'Selecione a data do tombo'}),
+                'type': 'date', 'placeholder': 'Selecione a data do Tombo'}),
             'registro': forms.NumberInput(attrs={
-                'placeholder': 'Digite o registro', 'min': '1'}),
-            'autor': forms.TextInput(attrs={'placeholder': 'Digite o(a) autor(a)'}),
-            'titulo': forms.TextInput(attrs={'placeholder': 'Digite o título'}),
-            'procedencia': forms.TextInput(attrs={'placeholder': 'Digite a procedência'}),
-            'exemplar': forms.NumberInput(attrs={'placeholder': 'Digite o exemplar', 'min': '1'}),
-            'colecao': forms.TextInput(attrs={'placeholder': 'Digite a coleção'}),
-            'edicao': forms.TextInput(attrs={'placeholder': 'Digite a edição'}),
-            'ano': forms.NumberInput(attrs={'placeholder': 'Digite o ano', 'min': '1000', 'max': '2100'}),
-            'vol': forms.NumberInput(attrs={'placeholder': 'Digite o volume', 'min': '1'}),
-            'editora': forms.TextInput(attrs={'placeholder': 'Digite a editora'}),
-            'observacao': forms.Textarea(attrs={'placeholder': 'Digite as observações', 'rows': 3}),
+                'placeholder': 'Digite o Registro', 'min': '1'}),
+            'autor': forms.TextInput(attrs={'placeholder': 'Digite o(a) Autor(a)'}),
+            'titulo': forms.TextInput(attrs={'placeholder': 'Digite o Título'}),
+            'ano': forms.NumberInput(attrs={'placeholder': 'Digite o Ano', 'min': '1900', 'max': '2100'}),
+            'edicao': forms.TextInput(attrs={'placeholder': 'Digite a Edição'}),
+            'vol': forms.NumberInput(attrs={'placeholder': 'Digite o Volume', 'min': '1'}),
+            'editora': forms.TextInput(attrs={'placeholder': 'Digite a Editora'}),
+            'categoria': forms.TextInput(attrs={'placeholder': 'Digite a Categoria'}),
+            'exemplar': forms.NumberInput(attrs={'placeholder': 'Quantidade de exemplares', 'min': '1'}),
             'aquisicao': forms.Select(choices=Livro.AQUISICAO_CHOICES),
+            'observacao': forms.Textarea(attrs={'placeholder': 'Observações', 'rows': 3}),
         }
 
 class EditoraForm(BaseModelForm):
@@ -62,22 +63,13 @@ class EditoraForm(BaseModelForm):
         model = Editora
         fields = ['nome', 'email', 'fone', 'ativo']
         widgets = {
-            'nome': forms.TextInput(attrs={'placeholder': 'Digite o nome'}),
-            'email': forms.EmailInput(attrs={'placeholder': 'Digite o email'}),
+            'nome': forms.TextInput(attrs={'placeholder': 'Digite o Nome'}),
+            'email': forms.EmailInput(attrs={'placeholder': 'Digite o Email'}),
             'fone': forms.TextInput(attrs={
                 'placeholder': 'Digite DDD seguido do telefone, ex: 11945678345',
                 'pattern': r'\d{10,11}',
                 'title': 'Digite o número no formato DDD + telefone, ex: 11945678345'
             }),
-            'ativo': forms.Select(choices=Editora.ATIVO_CHOICES),
-        }
-
-class CategoriaForm(BaseModelForm):
-    class Meta:
-        model = Categoria
-        fields = ['tipo']
-        widgets = {
-            'tipo': forms.TextInput(attrs={'placeholder': 'Digite a categoria'})
         }
 
 class EmprestimoForm(BaseModelForm):
