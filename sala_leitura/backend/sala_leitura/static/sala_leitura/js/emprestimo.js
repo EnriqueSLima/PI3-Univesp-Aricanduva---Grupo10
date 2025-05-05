@@ -16,3 +16,8 @@ function mostrarHistoricoEmprestimos() {
     document.getElementById("novo-emprestimo-form").style.display = "none";
     document.getElementById("historico-emprestimos").style.display = "block";
 }
+
+// Opcional: Mostrar a primeira aba por padrão ao carregar a página
+document.addEventListener('DOMContentLoaded', function() {
+    mostrarNovoEmprestimo(); // Ou qualquer outro padrão que desejar
+});

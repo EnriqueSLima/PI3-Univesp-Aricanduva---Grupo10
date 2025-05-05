@@ -15,15 +15,13 @@
         <!-- Abas de seleção -->
         <div class="aba-container">
             <div class="abas">
-                <button class="aba-btn" onclick="mostrarEmprestimosAtivos()">Empréstimos Ativos</button>
                 <button class="aba-btn" onclick="mostrarNovoEmprestimo()">Novo Empréstimo</button>
+                <button class="aba-btn" onclick="mostrarEmprestimosAtivos()">Empréstimos Ativos</button>
                 <button class="aba-btn" onclick="mostrarHistoricoEmprestimos()">Histórico Empréstimos</button>
             </div>
         </div>
                 
         <div id="novo-emprestimo-form" style="display: none;">
-            <h2>Novo Empréstimo</h2>
-            <hr>
             <form method="post" action="{% url 'emprestimo' %}">
                 {% csrf_token %}
                 {{ form.as_p }}
@@ -32,8 +30,6 @@
         </div>
     
         <div id="emprestimos-ativos" style="display: none;">
-            <h2>Empréstimos Ativos</h2>
-            <hr>
             <div class="row">
                 {% for emprestimo in emprestimos %}
                 <div class="col-12 col-md-6 col-lg-4 mb-4">
@@ -65,14 +61,12 @@
                 </div>
                 {% empty %}
                 <div class="col-12">
-                    <div class="alert alert-info">Nenhum empréstimo ativo.</div>
+                    <div class="alert alert-info">Nenhum Empréstimo ativo.</div>
                 </div>
                 {% endfor %}
             </div>
         </div>
         <div id="historico-emprestimos" style="display: none;" >
-            <h2>Histórico de Empréstimos</h2>
-            <hr>
             {% include "lista_emprestimos.html" %}
         </div>
     </div>
