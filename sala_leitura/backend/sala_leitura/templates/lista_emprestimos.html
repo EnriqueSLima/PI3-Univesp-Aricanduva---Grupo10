@@ -1,4 +1,19 @@
 {% block content %}
+<form id="filtroForm" class="row g-3">
+    <div class="col-md-3">
+        <select name="sexo" class="form-select">
+            <option value="titulo">Título</option>
+            <option value="aluno">Aluno</option>
+            <option value="data">Data</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <input type="text" class="form-control" placeholder="Digite sua busca...">
+    </div>
+    <div class="col-md-3">
+        <button type="submit"style="margin: 0" class="btn btn-primary w-100">Filtrar</button>
+    </div>
+</form>
 <div class="row">
     {% for historico in historicos %}
     <div class="col-12 col-md-6 col-lg-4 mb-4">

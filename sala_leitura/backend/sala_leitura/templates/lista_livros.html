@@ -1,3 +1,21 @@
+{% block content %}
+<form id="filtroForm" class="row g-3">
+    <div class="col-md-3">
+        <select name="sexo" class="form-select">
+            <option value="titulo">Título</option>
+            <option value="registro">Registro</option>
+            <option value="autor">Autor</option>
+            <option value="editora">Editora</option>
+            <option value="ano">Ano</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <input type="text" class="form-control" placeholder="Digite sua busca...">
+    </div>
+    <div class="col-md-3">
+        <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+    </div>
+</form>
 <div class="row">
     {% for livro in livros %}
     <div class="col-12 col-md-6 col-lg-4 mb-4">
@@ -46,3 +64,4 @@
     </div>
     {% endfor %}
 </div>
+{% endblock content %}
