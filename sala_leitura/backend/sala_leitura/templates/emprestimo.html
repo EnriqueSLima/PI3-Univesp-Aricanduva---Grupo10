@@ -30,42 +30,9 @@
         </div>
     
         <div id="emprestimos-ativos" style="display: none;">
-            <div class="row">
-                {% for emprestimo in emprestimos %}
-                <div class="col-12 col-md-6 col-lg-4 mb-4">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-header bg-white">
-                            <h5 class="card-title mb-0">{{  emprestimo.livro.titulo }}</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-6">
-                                    <p class="mb-1"><strong>Aluno:</strong></p>
-                                    <p class="mb-1"><strong>Status:</strong></p>
-                                    <p class="mb-1"><strong>Data:</strong></p>
-                                </div>
-                                <div class="col-6">
-                                    <p class="mb-1">{{ emprestimo.aluno.nome }}</p>
-                                    <p class="mb-1">{% if emprestimo.ativo %}Ativo{% else %}Inativo{% endif %}</p>
-                                    <p class="mb-1">{{ emprestimo.data_emprestimo }}</p>
-                                </div>
-                                <div class="card-footer bg-white">
-                                    {% if emprestimo.ativo %}
-                                        <a href="{% url 'devolver_livro' emprestimo.id %}" class="btn btn-sm btn-outline-primary">Devolver</a>
-                                    {% endif %}  
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% empty %}
-                <div class="col-12">
-                    <div class="alert alert-info">Nenhum Empréstimo ativo.</div>
-                </div>
-                {% endfor %}
-            </div>
+            {% include "lista_emprestimos_ativos.html" %}
         </div>
+        
         <div id="historico-emprestimos" style="display: none;" >
             {% include "lista_emprestimos.html" %}
         </div>

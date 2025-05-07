@@ -1,19 +1,27 @@
 {% block content %}
-<form id="filtroForm" class="row g-3">
+<!-- Formulário de filtros -->
+<form method="GET" class="row g-3 mb-4">
+    <input type="hidden" name="tab" value="historicos">
     <div class="col-md-3">
-        <select name="sexo" class="form-select">
-            <option value="titulo">Título</option>
-            <option value="aluno">Aluno</option>
-            <option value="data">Data</option>
+        <select name="campo" class="form-select">
+            <option value="">Todos os campos</option>
+            <option value="livro" {% if request.GET.campo == 'livro' %}selected{% endif %}>Livro</option>
+            <option value="aluno" {% if request.GET.campo == 'aluno' %}selected{% endif %}>Aluno</option>
+            <option value="data_emprestimo" {% if request.GET.campo == 'data_emprestimo' %}selected{% endif %}>Data Empréstimo</option>
+            <option value="data_devolucao" {% if request.GET.campo == 'data_devolucao' %}selected{% endif %}>Data Devolução</option>
         </select>
     </div>
     <div class="col-md-3">
-        <input type="text" class="form-control" placeholder="Digite sua busca...">
+        <input type="text" name="busca" class="form-control" placeholder="Digite sua busca..." value="{{ request.GET.busca }}">
     </div>
     <div class="col-md-3">
         <button type="submit" class="btn btn-primary w-100">Filtrar</button>
     </div>
+    <div class="col-md-3">
+        <a href="{% url 'emprestimo' %}?tab=historicos" class="btn btn-secondary w-100">Limpar filtros</a>
+    </div>
 </form>
+
 <div class="row">
     {% for historico in historicos %}
     <div class="col-12 col-md-6 col-lg-4 mb-4">
@@ -26,8 +34,8 @@
                 <div class="row">
                     <div class="col-6">
                         <p class="mb-1"><strong>Aluno:</strong></p>
-                        <p class="mb-1"><strong>Data:</strong></p>
-                        <p class="mb-1"><strong>Devolução:</strong></p>
+                        <p class="mb-1"><strong>Data Empréstimo:</strong></p>
+                        <p class="mb-1"><strong>Data Devolução:</strong></p>
                     </div>
                     <div class="col-6">
                         <p class="mb-1">{{ historico.aluno.nome }}</p>

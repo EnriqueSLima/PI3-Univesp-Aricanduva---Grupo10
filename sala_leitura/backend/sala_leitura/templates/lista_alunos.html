@@ -1,19 +1,26 @@
 {% block content %}
-<form id="filtroForm" class="row g-3">
+<!-- Formulário de filtros -->
+<form id="filtroForm" method="GET" class="row g-3">
+    <input type="hidden" name="modelo" value="alunos">
     <div class="col-md-3">
-        <select name="sexo" class="form-select">
-            <option value="nome">Nome</option>
-            <option value="ra">RA</option>
-            <option value="sexo">Sexo</option>
+        <select name="campo" class="form-select">
+            <option value="">Todos os campos</option>
+            <option value="nome" {% if request.GET.campo == 'nome' %}selected{% endif %}>Nome</option>
+            <option value="ra" {% if request.GET.campo == 'ra' %}selected{% endif %}>RA</option>
+            <option value="sexo" {% if request.GET.campo == 'sexo' %}selected{% endif %}>Sexo</option>
         </select>
     </div>
     <div class="col-md-3">
-        <input type="text" class="form-control" placeholder="Digite sua busca...">
+        <input type="text" name="busca" class="form-control" placeholder="Digite sua busca..." value="{{ request.GET.busca }}">
     </div>
     <div class="col-md-3">
         <button type="submit" class="btn btn-primary w-100">Filtrar</button>
     </div>
+    <div class="col-md-3">
+        <a href="{% url 'consulta' %}?modelo=alunos" class="btn btn-secondary w-100">Limpar filtros</a>
+    </div>
 </form>
+
 <div class="row">
     {% for aluno in alunos %}
     <div class="col-12 col-md-6 col-lg-4 mb-4">

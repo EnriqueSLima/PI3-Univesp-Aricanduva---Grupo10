@@ -1,0 +1,59 @@
+{% block content %}
+<!-- Formulário de filtros -->
+<form method="GET" class="row g-3 mb-4">
+    <input type="hidden" name="tab" value="ativos">
+    <div class="col-md-3">
+        <select name="campo_ativo" class="form-select">
+            <option value="">Todos os campos</option>
+            <option value="livro" {% if request.GET.campo_ativo == 'livro' %}selected{% endif %}>Livro</option>
+            <option value="aluno" {% if request.GET.campo_ativo == 'aluno' %}selected{% endif %}>Aluno</option>
+            <option value="data_emprestimo" {% if request.GET.campo_ativo == 'data_emprestimo' %}selected{% endif %}>Data Empréstimo</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <input type="text" name="busca_ativo" class="form-control" placeholder="Digite sua busca..." value="{{ request.GET.busca_ativo }}">
+    </div>
+    <div class="col-md-3">
+        <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+    </div>
+    <div class="col-md-3">
+        <a href="{% url 'emprestimo' %}?tab=ativos" class="btn btn-secondary w-100">Limpar filtros</a>
+    </div>
+</form>
+
+<div class="row">
+    {% for emprestimo in emprestimos %}
+    <div class="col-12 col-md-6 col-lg-4 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="card-title mb-0">{{  emprestimo.livro.titulo }}</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <p class="mb-1"><strong>Aluno:</strong></p>
+                        <p class="mb-1"><strong>Status:</strong></p>
+                        <p class="mb-1"><strong>Data:</strong></p>
+                    </div>
+                    <div class="col-6">
+                        <p class="mb-1">{{ emprestimo.aluno.nome }}</p>
+                        <p class="mb-1">{% if emprestimo.ativo %}Ativo{% else %}Inativo{% endif %}</p>
+                        <p class="mb-1">{{ emprestimo.data_emprestimo }}</p>
+                    </div>
+                    <div class="card-footer bg-white">
+                        {% if emprestimo.ativo %}
+                            <a href="{% url 'devolver_livro' emprestimo.id %}" class="btn btn-sm btn-outline-primary">Devolver</a>
+                        {% endif %}  
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info">Nenhum Empréstimo ativo.</div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}
