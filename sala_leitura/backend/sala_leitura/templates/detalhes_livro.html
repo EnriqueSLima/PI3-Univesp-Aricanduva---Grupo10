@@ -6,7 +6,6 @@
         <h3 class="mb-0">Detalhes do Livro</h3>
     </div>
     <div class="card-body">
-        <!-- Seu conteúdo aqui -->
         <p><strong>Tombo:</strong> {{ livro.tombo|date:"d/m/Y" }}</p>
         <p><strong>Registro:</strong> {{ livro.registro }}</p>
         <p><strong>Autor:</strong> {{ livro.autor }}</p>
@@ -19,9 +18,32 @@
         <p><strong>Exemplar(es):</strong> {{ livro.exemplar }}</p>
         <p><strong>Aquisição:</strong> {{ livro.aquisicao }}</p>
         <p><strong>Obs:</strong> {{ livro.observacao }}</p>
+        
         <a href="{% url 'consulta' %}" class='btn btn-primary'>Voltar</a>
-        <a href="{% url 'consulta' %}" class='btn btn-warning'>Editar</a>
-        <a href="{% url 'consulta' %}" class='btn btn-danger'>Excluir</a>
+        <a href="{% url 'editar_livro' livro.id %}" class='btn btn-warning'>Editar</a>
+        <button class='btn btn-danger' data-bs-toggle="modal" data-bs-target="#confirmarExclusao">Excluir</button>
+    </div>
+</div>
+
+<!-- Modal de Confirmação de Exclusão -->
+<div class="modal fade" id="confirmarExclusao" tabindex="-1" aria-labelledby="confirmarExclusaoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmarExclusaoLabel">Confirmar Exclusão</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Tem certeza que deseja excluir o livro "{{ livro.titulo }}"?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form method="post" action="{% url 'excluir_livro' livro.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock content %}

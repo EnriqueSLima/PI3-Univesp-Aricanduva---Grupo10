@@ -7,8 +7,8 @@
             <option value="">Todos os campos</option>
             <option value="livro" {% if request.GET.campo == 'livro' %}selected{% endif %}>Livro</option>
             <option value="aluno" {% if request.GET.campo == 'aluno' %}selected{% endif %}>Aluno</option>
-            <option value="data_emprestimo" {% if request.GET.campo == 'data_emprestimo' %}selected{% endif %}>Data Empréstimo</option>
-            <option value="data_devolucao" {% if request.GET.campo == 'data_devolucao' %}selected{% endif %}>Data Devolução</option>
+            <option value="data_emprestimo" {% if request.GET.campo == 'data_emprestimo' %}selected{% endif %}>Empréstimo</option>
+            <option value="data_devolucao" {% if request.GET.campo == 'data_devolucao' %}selected{% endif %}>Devolução</option>
         </select>
     </div>
     <div class="col-md-3">
@@ -34,8 +34,8 @@
                 <div class="row">
                     <div class="col-6">
                         <p class="mb-1"><strong>Aluno:</strong></p>
-                        <p class="mb-1"><strong>Data Empréstimo:</strong></p>
-                        <p class="mb-1"><strong>Data Devolução:</strong></p>
+                        <p class="mb-1"><strong>Empréstimo:</strong></p>
+                        <p class="mb-1"><strong>Devolução:</strong></p>
                     </div>
                     <div class="col-6">
                         <p class="mb-1">{{ historico.aluno.nome }}</p>

@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from urllib.parse import urlencode
@@ -5,13 +6,15 @@ from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpRequest
-from django.db.models import Q
 
 from .models import Usuario, Aluno, Livro, Editora, Emprestimo
 from .forms import UsuarioForm, AlunoForm, LivroForm, EditoraForm, EmprestimoForm
 
-# View para home_page
+# VIEW PARA LANDING-PAGE
+def landing_page(request):
+    return render(request, 'landing_page.html')
+
+# VIEW DE CADASTRO DE USUÁRIOS
 def cadastrar_usuario(request):
     if request.method == 'POST':
         form = UsuarioForm(request.POST)
@@ -23,11 +26,9 @@ def cadastrar_usuario(request):
         form = UsuarioForm()
     return render(request, 'cadastrar_usuario.html', {'form': form})
 
-# View para a landing page
-def landing_page(request):
-    return render(request, 'landing_page.html')
+# USUÁRIO PRECISA ESTAR LOGADO PARA ACESSAR AS PROXIMAS VIEWS
 
-# View para a home_page
+# VIEW PARA HOME_PAGE
 @login_required(login_url='landing_page')
 def home_page(request):
     # Contagem de livros, alunos, categorias e editoras
@@ -48,7 +49,7 @@ def home_page(request):
         'emprestimos_ativos_count': emprestimos_ativos_count
     })
 
-# View para cadastros dos itens
+# VIEW PARA CADASTROS
 @login_required
 def cadastro(request):
     modelo = request.GET.get('modelo', 'alunos')  # Default para 'alunos' se não especificado
@@ -60,7 +61,7 @@ def cadastro(request):
 
     if request.method == 'POST':
         # Verifica qual formulário foi enviado
-        # !!!   Necessário Refatorar  !!!
+        # !Necessário Refatorar  
         if modelo == 'alunos':
             form_alunos = AlunoForm(request.POST, request=request)
             if form_alunos.is_valid():
@@ -91,7 +92,7 @@ def cadastro(request):
     }
     return render(request, 'cadastro.html', context)
 
-# View para a consultas
+# VIEW PARA CONSULTAS
 @login_required
 def consulta(request):
     modelo = request.GET.get('modelo', 'livros')
@@ -123,7 +124,9 @@ def consulta(request):
     
     return render(request, 'consulta.html', context)
 
-# Funções auxiliares para filtros
+# FUNÇÕES AUXILIARES PARA FILTROS DE CONSULTA
+# FILTRAR LIVROS
+@login_required
 def filtrar_livros(queryset, campo, busca):
     if campo == 'titulo':
         return queryset.filter(titulo__icontains=busca)
@@ -145,6 +148,8 @@ def filtrar_livros(queryset, campo, busca):
             Q(ano__icontains=busca)
         )
 
+# FILTRAR ALUNOS
+@login_required
 def filtrar_alunos(queryset, campo, busca):
     if campo == 'nome':
         return queryset.filter(nome__icontains=busca)
@@ -158,7 +163,9 @@ def filtrar_alunos(queryset, campo, busca):
             Q(ra__icontains=busca) |
             Q(sexo__icontains=busca)
         )
-    
+
+# FILTRAR EDITORAS
+@login_required
 def filtrar_editoras(queryset, campo, busca):
     if campo == 'nome':
         return queryset.filter(nome__icontains=busca)
@@ -172,11 +179,10 @@ def filtrar_editoras(queryset, campo, busca):
             # ... outros campos
         )
 
-# View para emprestimos
-
+# VIEW PARA EMPRÉSTIMOS
 @login_required
 def emprestimo(request):
-    # Lógica para POST (novo empréstimo)
+    # Gerar um novo empréstimo
     if request.method == 'POST':
         form = EmprestimoForm(request.POST, request=request)
         if form.is_valid():
@@ -204,7 +210,7 @@ def emprestimo(request):
     if busca_ativo:
         emprestimos_ativos = filtrar_emprestimos(emprestimos_ativos, campo_ativo, busca_ativo)
     
-    # Parâmetros de filtro para histórico
+    # Parâmetros de filtro para histórico (vêm da URL)
     campo_hist = request.GET.get('campo', '')
     busca_hist = request.GET.get('busca', '')
     
@@ -220,6 +226,22 @@ def emprestimo(request):
         'request': request
     })
 
+# FUNÇÃO AUXILIAR DEVOLVER EMPRÉSTIMO ATIVO
+@login_required
+def devolver_livro(request, emprestimo_id): #! Aplicar o modal de confirmação
+    # Obter o empréstimo com o ID fornecido ou 404 se não existir
+    emprestimo = get_object_or_404(Emprestimo.objects.filter(usuario=request.user, ativo=True), id=emprestimo_id)
+
+    # Define a data_devolucao para a data atual e desativa o empréstimo
+    emprestimo.data_devolucao = timezone.now().date()
+    emprestimo.ativo = False
+    emprestimo.save()
+    messages.success(request, 'Devolução realizada com sucesso!')
+
+    return redirect('emprestimo')
+
+# FUNÇÃO AUXILIAR PARA FILTRAR HISTÓRICO DE EMPRÉSTIMOS
+@login_required
 def filtrar_emprestimos(queryset, campo, busca):
     if campo == 'livro':
         return queryset.filter(livro__titulo__icontains=busca)
@@ -238,31 +260,95 @@ def filtrar_emprestimos(queryset, campo, busca):
             Q(data_devolucao__icontains=busca)
         )
 
-# Função para devolver livro
+# VIEW PARA DETALHES DO LIVRO
 @login_required
-def devolver_livro(request, emprestimo_id):
-    # Obter o empréstimo com o ID fornecido ou 404 se não existir
-    emprestimo = get_object_or_404(Emprestimo.objects.filter(usuario=request.user, ativo=True), id=emprestimo_id)
-
-    # Define a data_devolucao para a data atual e desativa o empréstimo
-    emprestimo.data_devolucao = timezone.now().date()
-    emprestimo.ativo = False
-    emprestimo.save()
-    messages.success(request, 'Devolução realizada com sucesso!')
-
-    return redirect('emprestimo')
-
-# View para os detalhes do livro
 def detalhes_livro(request, id):
     livro = get_object_or_404(Livro, id=id)
     return render(request, 'detalhes_livro.html', {'livro': livro})
 
-# View para os detalhes do(a) aluno(a)
+# VIEW PARA EDITAR LIVRO
+@login_required
+def editar_livro(request, id):
+    livro = get_object_or_404(Livro, id=id)
+    if request.method == 'POST':
+        form = LivroForm(request.POST, instance=livro)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Livro atualizado com sucesso!')
+            return redirect('detalhes_livro', id=id)
+    else:
+        form = LivroForm(instance=livro)
+    return render(request, 'editar_livro.html', {'form': form, 'livro': livro})
+
+# VIEW PARA EXCLUIR LIVRO
+@login_required
+def excluir_livro(request, pk):
+    livro = get_object_or_404(Livro, pk=pk)
+    if request.method == 'POST':
+        livro.delete()
+        messages.success(request, 'Livro excluído com sucesso!')
+        return redirect('consulta')  # Redireciona para a página de consulta #! Alterar redirecionamento para consulta de livros
+    # Esta parte não será alcançada devido ao modal, mas é bom ter
+    return redirect('detalhes_livro', pk=livro.pk)
+
+# VIEW PARA DETALHES DO(A) ALUNO
+@login_required
 def detalhes_aluno(request, id):
     aluno = get_object_or_404(Aluno, id=id)
     return render(request, 'detalhes_aluno.html', {'aluno': aluno})
 
-# View para os detalhes da editora
+#! VIEW PARA EDITAR ALUNO
+@login_required
+def editar_aluno(request, id):
+    aluno = get_object_or_404(Aluno, id=id)
+    if request.method == 'POST':
+        form = AlunoForm(request.POST, instance=aluno)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Aluno(a) atualizado(a) com sucesso!')
+            return redirect('detalhes_aluno', id=id)
+    else:
+        form = AlunoForm(instance=aluno)
+    return render(request, 'editar_aluno.html', {'form': form, 'aluno': aluno})
+
+#! VIEW PARA EXCLUIR ALUNO
+@login_required
+def excluir_aluno(request, pk):
+    aluno = get_object_or_404(Aluno, pk=pk)
+    if request.method == 'POST':
+        aluno.delete()
+        messages.success(request, 'Aluno excluído com sucesso!')
+        return redirect('consulta')  # Redireciona para a página de consulta #! Alterar redirecionamento para consulta de alunos
+    # Esta parte não será alcançada devido ao modal, mas é bom ter
+    return redirect('detalhes_aluno', pk=aluno.pk)
+
+#VIEW PARA DETALHES DA EDITORA
+@login_required
 def detalhes_editora(request, id):
     editora = get_object_or_404(Editora, id=id)
     return render(request, 'detalhes_editora.html', {'editora': editora})
+
+#! VIEW PARA EDITAR EDITORA
+@login_required
+def editar_editora(request, id):
+    editora = get_object_or_404(Editora, id=id)
+    if request.method == 'POST':
+        form = EditoraForm(request.POST, instance=editora)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Editora atualizada com sucesso!')
+            return redirect('detalhes_editora', id=id) 
+    else:
+        form = EditoraForm(instance=editora)
+    return render(request, 'editar_editora.html', {'form': form, 'editora': editora})
+
+#! VIEW PARA EXCLUIR EDITORA
+@login_required
+def excluir_editora(request, pk):
+    editora = get_object_or_404(Editora, pk=pk)
+    if request.method == 'POST':
+        editora.delete()
+        messages.success(request, 'Editora excluída com sucesso!')
+        return redirect('consulta')  # Redireciona para a página de consulta #! Alterar redirecionamento para consulta de editoras
+    # Esta parte não será alcançada devido ao modal, mas é bom ter
+    return redirect('detalhes_editora', pk=editora.pk)
