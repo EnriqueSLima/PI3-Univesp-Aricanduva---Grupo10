@@ -11,10 +11,10 @@
         {% csrf_token %}
         {{ form.as_p }}
         <button class='btn btn-primary' type="submit">Entrar</button>
+        <a href="{% url 'landing_page' %}" class="btn btn-primary">
+          <i class="fas fa me-1"></i>Voltar
+        </a>
       </form>
-      <a href="{% url 'landing_page' %}" class="btn btn-primary">
-        <i class="fas fa me-1"></i>Voltar
-      </a>
   </div>
 </div>
 

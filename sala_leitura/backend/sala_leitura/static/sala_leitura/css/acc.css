@@ -45,7 +45,7 @@
 /* Navbar em alto contraste */
 .alto-contraste #navbar,
 .alto-contraste #page-footer {
-    background-color: #333 !important; /* Alterar para uma cor mais escura, se necessário */
+    background-color: black !important; /* Alterar para uma cor mais escura, se necessário */
 }
 
 .alto-contraste .navbar-brand,
