@@ -11,8 +11,9 @@ html, body {
     margin: 0;
     display: flex;
     flex-direction: column;
-    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; /* Font stack mais moderna */
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif; /* Font stack mais moderna */
     color: var(--text-color);
+    background-color: whitesmoke;
 }
 
 main {
@@ -22,7 +23,7 @@ main {
     margin: 0 auto;
     padding: 0 16px;
     box-sizing: border-box;
-    background-color: white; /* Mudei de whitesmoke para branco puro */
+    background-color: whitesmoke; /* Mudei de whitesmoke para branco puro */
     border-right: 1px solid var(--border-color);
     border-left: 1px solid var(--border-color);
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.05); /* Sombra sutil */
@@ -35,7 +36,7 @@ main {
 
 .navbar-brand, .nav-item, .nav-link {
     font-size: 1rem;
-    font-family: 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
     color: white !important; /* Garante contraste com fundo colorido */
 }
 
@@ -55,6 +56,19 @@ main {
     text-overflow: ellipsis;
 }
 
+/* ESTILOS PARA BOTOẼS */
+.btn {
+    width: auto; /* Removido width fixo */
+    padding: 0.375rem 0.75rem;
+    background-color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
+    border-radius: 0.375rem;
+    transition: all 0.3s ease;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
 /* Botões de acessibilidade */
 .btn-group .btn {
     width: auto;
@@ -69,6 +83,7 @@ main {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
+/* ESTILOS PARA ELEMENTOS GERAIS */
 input, select, textarea {
     display: block;
     width: 100%; /* Alterado para 100% para melhor responsividade */
@@ -87,17 +102,18 @@ input:focus, select:focus, textarea:focus {
     box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
 }
 
-.btn {
-    width: auto; /* Removido width fixo */
-    margin: 0.5rem 0.5rem 0.5rem 0;
-    padding: 0.375rem 0.75rem;
-    background-color: var(--secondary-color);
-    border: 1px solid var(--secondary-color);
-    border-radius: 0.375rem;
-    transition: all 0.3s ease;
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
+/* Foco visível para acessibilidade */
+a:focus, button:focus, input:focus, select:focus, textarea:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 1px;
+}
+
+/*  ESTILOS PARA AS DIV'S */
+
+
+.listagens {
+    padding: 0.5rem;
+    background-color: lightyellow;
 }
 
 .div_filter, .div_flex {
@@ -117,6 +133,82 @@ input:focus, select:focus, textarea:focus {
     min-width: 120px; /* Largura mínima para elementos */
 }
 
+/*  ESTILOS PARA ALERTAS */
+.alert-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.alert-overlay {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    z-index: 900; /* valor alto para ficar acima de outros elementos */
+    max-width: 350px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.alert-overlay.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/*  ESTILOS PARA ABAS E SEUS ELEMENTOS */
+
+/* Estilo do container das abas */
+.aba-container {
+    width: 100%;
+}
+
+.abas {
+    display: flex;
+}
+
+/* Estilo dos botões das abas */
+.aba-btn {
+    padding: 10px 20px;
+    background-color: #f1f1f1;
+    border: none;
+    border-radius: 5px 5px 0 0;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.aba-btn:hover {
+    background-color: #ddd;
+}
+
+/* Estilo da aba ativa */
+.aba-btn.ativa {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+/* Estilo dos formulários */
+.formulario-cadastro {
+    padding: 10px;
+    border-radius: 0 0 5px 5px;
+    background-color: inherit;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.formulario-cadastro[style*="display: block"] {
+    opacity: 1;
+    height: auto;
+}
+
+/*  ESTILOS PARA O FOOTER */
 footer {
     text-align: center;
     padding: 1.5rem;
@@ -126,6 +218,8 @@ footer {
     font-size: 0.9rem;
     color: var(--secondary-color);
 }
+
+/*  ESTILOS PARA RESPONSIVIDADE DE TELAS */
 
 /* Tablets (768px a 1024px) */
 @media (max-width: 1024px) {
@@ -146,7 +240,7 @@ footer {
     .div_filter input, 
     .div_filter button {
         width: 100%;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0px;
     }
 }
 
@@ -174,6 +268,9 @@ footer {
         margin: 0.25rem 0;
     }
     
+    .btn {
+        margin-top: 0.2rem;
+    }
     .btn-group {
         margin-top: 0.5rem;
         width: 100%;
@@ -182,21 +279,6 @@ footer {
     
     footer {
         padding: 1rem;
-        font-size: 0.8rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .card {
-        font-size: 0.9rem;
-    }
-    
-    .card-header, .card-footer {
-        padding: 0.75rem;
-    }
-    
-    .btn {
-        padding: 0.25rem 0.5rem;
         font-size: 0.8rem;
     }
 }
@@ -218,11 +300,7 @@ footer {
     }
 }
 
-/* Foco visível para acessibilidade */
-a:focus, button:focus, input:focus, select:focus, textarea:focus {
-    outline: 2px solid var(--primary-color);
-    outline-offset: 2px;
-}
+/*  ESTILOS PARA ACESSIBILIDADE */
 
 /* Contraste para modo alto contraste */
 @media (prefers-contrast: more) {
@@ -264,60 +342,4 @@ a:focus, button:focus, input:focus, select:focus, textarea:focus {
         color: var(--text-color);
         border-color: #6c757d;
     }
-}
-
-/*  ESTILOS PARA PÁGINA DE CADASTRO */
-
-/* Estilo do container das abas */
-.aba-container {
-    width: 100%;
-    margin-bottom: 20px;
-}
-
-.abas {
-    display: flex;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 15px;
-}
-
-/* Estilo dos botões das abas */
-.aba-btn {
-    padding: 10px 20px;
-    background-color: #f1f1f1;
-    border: none;
-    border-radius: 5px 5px 0 0;
-    margin-right: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.aba-btn:hover {
-    background-color: #ddd;
-}
-
-/* Estilo da aba ativa */
-.aba-btn.ativa {
-    background-color: #4CAF50;
-    color: white;
-    font-weight: bold;
-}
-
-/* Estilo dos formulários */
-.formulario-cadastro {
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 0 0 5px 5px;
-    background-color: #f9f9f9;
-}
-
-.formulario-cadastro {
-    transition: opacity 0.3s ease;
-    opacity: 0;
-    height: 0;
-    overflow: hidden;
-}
-
-.formulario-cadastro[style*="display: block"] {
-    opacity: 1;
-    height: auto;
 }

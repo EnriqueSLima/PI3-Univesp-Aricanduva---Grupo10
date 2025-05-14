@@ -52,7 +52,7 @@ def home_page(request):
 # VIEW PARA CADASTROS
 @login_required
 def cadastro(request):
-    modelo = request.GET.get('modelo', 'alunos')  # Default para 'alunos' se não especificado
+    modelo = request.GET.get('modelo', 'livros')  # Default para 'livros' se não especificado
 
     # Inicializa formulários vazios com o request, para coletar o id so usuário
     form_livros = LivroForm(request=request)

@@ -1,6 +1,6 @@
 {% block content %}
 <!-- Formulário de filtros -->
-<form id="filtroForm" method="GET" class="row g-3">
+<form id="filtroForm" method="GET" class="row">
     <input type="hidden" name="modelo" value="editoras">
     <div class="col-md-3">
         <select name="campo" class="form-select">
@@ -13,10 +13,12 @@
         <input type="text" name="busca" class="form-control" placeholder="Digite sua busca..." value="{{ request.GET.busca }}">
     </div>
     <div class="col-md-3">
-        <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+        <button type="submit" class="btn btn-primary w-100">
+            <i class="fas fa-search me-1"></i> Filtrar</button>
     </div>
     <div class="col-md-3">
-        <a href="{% url 'consulta' %}?modelo=editoras" class="btn btn-secondary w-100">Limpar filtros</a>
+        <a href="{% url 'consulta' %}?modelo=editoras" class="btn btn-secondary w-100">
+            <i class="fas fa-circle-xmark"></i> Limpar filtros</a>
     </div>
 </form>
 
@@ -30,19 +32,18 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-3">
-                        <p class="mb-1"><strong>Nome:</strong></p>
                         <p class="mb-1"><strong>Email:</strong></p>
                         <p class="mb-1"><strong>Fone:</strong></p>
                     </div>
                     <div class="col-9">
-                        <p class="mb-1">{{ editora.nome }}</p>
                         <p class="mb-1">{{ editora.email }}</p>
                         <p class="mb-1">{{ editora.fone }}</p>
                     </div>
                 </div>
             </div>
             <div class="card-footer bg-white">
-                <a href="{% url 'detalhes_editora' editora.id %}" class="btn btn-sm btn-outline-primary">Detalhes</a>
+                <a href="{% url 'detalhes_editora' editora.id %}" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-circle-info"></i> Detalhes <!-- Nova versão (FA6) --> </a>
             </div>
         </div>
     </div>

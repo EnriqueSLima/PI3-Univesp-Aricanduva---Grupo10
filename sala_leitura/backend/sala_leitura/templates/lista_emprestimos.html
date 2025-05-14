@@ -1,6 +1,6 @@
 {% block content %}
 <!-- Formulário de filtros -->
-<form method="GET" class="row g-3 mb-4">
+<form method="GET" class="row mb-4">
     <input type="hidden" name="tab" value="historicos">
     <div class="col-md-3">
         <select name="campo" class="form-select">
@@ -15,10 +15,12 @@
         <input type="text" name="busca" class="form-control" placeholder="Digite sua busca..." value="{{ request.GET.busca }}">
     </div>
     <div class="col-md-3">
-        <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+        <button type="submit" class="btn btn-primary w-100">
+            <i class="fas fa-search me-1"></i> Filtrar</button>
     </div>
     <div class="col-md-3">
-        <a href="{% url 'emprestimo' %}?tab=historicos" class="btn btn-secondary w-100">Limpar filtros</a>
+        <a href="{% url 'emprestimo' %}?tab=historicos" class="btn btn-secondary w-100">
+            <i class="fas fa-circle-xmark"></i> Limpar filtros</a>
     </div>
 </form>
 

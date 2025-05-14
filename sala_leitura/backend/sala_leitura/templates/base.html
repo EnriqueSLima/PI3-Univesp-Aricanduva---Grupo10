@@ -10,6 +10,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'sala_leitura/css/base.css' %}">
     <link rel="stylesheet" href="{% static 'sala_leitura/css/acc.css' %}">
+    <script src="{% static 'sala_leitura/js/base.js' %}"></script>
     <script src="{% static 'sala_leitura/js/acc.js' %}"></script>
     {% block title %}{% endblock %}
     {% block head %}{% endblock %}
@@ -18,12 +19,10 @@
     {% block header %}
     <div id='page-head'>
         <!-- Barra de navegação -->
-         <nav></nav>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id='navbar'>
             <div class="container">
                 <img src="{% static 'sala_leitura/img/logo_sala_leitura.jpeg' %}" width="70" height="70" class="d-inline-block align-top me-2" alt="Logotipo">
-                <a class="navbar-brand" href="{% url 'home_page' %}"> Sala de Leitura </a>
-                
+                <a class="navbar-brand"> Sala de Leitura </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -32,6 +31,11 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
                         {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'home_page' %}">
+                                    <i class="fas fa-home me-1"></i> Home
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'cadastro' %}">
                                     <i class="fas fa-book me-1"></i>Cadastros
@@ -53,35 +57,35 @@
                         {% endif %}
                     </ul>
                     <div class="d-flex">
-                            {% if user.is_authenticated %}
-                                <form action="{% url 'logout' %}" method="post" class="ms-2">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-danger">
-                                        Sair
-                                        <i class="fas fa-sign-out-alt me-2"></i>
-                                    </button>
-                                </form>
-                            {% endif %}
-                            <div class="btn-group ms-2">
-                                <button id="aumentar-fonte" class="btn btn-outline-light" onclick="ajustarFonte('aumentar')">
-                                    <i class="fas fa-font">+</i>
+                        {% if user.is_authenticated %}
+                            <form action="{% url 'logout' %}" method="post" class="ms-2">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">
+                                    Sair
+                                    <i class="fas fa-sign-out-alt me-2"></i>
                                 </button>
-                                <button id="diminuir-fonte" class="btn btn-outline-light" onclick="ajustarFonte('diminuir')">
-                                    <i class="fas fa-font">-</i>
-                                </button>
-                                <button id="alto-contraste" class="btn btn-outline-light" onclick="mudarContraste()">
-                                    <i class="fas fa-adjust"></i>
-                                </button>
-                            </div>
+                            </form>
+                        {% endif %}  
                     </div>
                 </div>
+            </div>
+            <div class="btn-group ms-2">
+                <button id="aumentar-fonte" class="btn btn-outline-light" onclick="ajustarFonte('aumentar')">
+                    <i class="fas fa-font">+</i>
+                </button>
+                <button id="diminuir-fonte" class="btn btn-outline-light" onclick="ajustarFonte('diminuir')">
+                    <i class="fas fa-font">-</i>
+                </button>
+                <button id="alto-contraste" class="btn btn-outline-light" onclick="mudarContraste()">
+                    <i class="fas fa-adjust"></i>
+                </button>
             </div>
         </nav>
         <!-- Mensagens de retorno para o usuário -->
         <div class="container">
             {% if messages %}
                 {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show mt-3" role="alert">
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade alert-overlay" role="alert">
                     <div class="d-flex align-items-center">
                         {% if message.tags == 'success' %}
                             <i class="fas fa-check-circle me-2"></i>
@@ -102,7 +106,7 @@
     </div>
     {% endblock %}
     <!-- Conteúdo principal -->
-    <main class="container my-4">       
+    <main class="container">       
         <div class="row justify-content-center">
             <div class="col-12 col-lg-10">
                 {% block content %}
@@ -116,7 +120,7 @@
             <div class="row">
                 <div class="col-md-12 ">
                     <h5></h5> 
-                    <p class="mb-0">Sala de Leitura - Desenvolvido com Django e Bootstrap &copy; 2024 Todos os direitos reservados</p>     
+                    <p class="mb-0">Sala de Leitura - Desenvolvido com Django e Bootstrap &copy; 2025 Todos os direitos reservados</p>     
                 </div>
             </div>
         </div>

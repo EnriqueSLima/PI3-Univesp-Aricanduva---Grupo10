@@ -19,28 +19,32 @@
                 <button class="aba-btn" onclick="exibirFormulario('editoras')" id="aba-editoras">Editoras</button>
             </div>
         </div>
-
-        <!-- Formulários de Cadastro -->
-        <div id="form-livros"  class="formulario-cadastro" style="display:none;">
-            <form method="post" action="?modelo=livros">
-                {% csrf_token %}
-                {{ form_livros.as_p }}  <!-- Exibe o formulário de livros aqui -->
-                <button type="submit" class="btn btn-primary" alt='Salvar'>Salvar</button>
-            </form>
-        </div>
-        <div id="form-alunos"  class="formulario-cadastro" style="display:none;">
-            <form method="post" action="?modelo=alunos"> 
-                {% csrf_token %}
-                {{ form_alunos.as_p }}  <!-- Exibe o formulário de alunos aqui -->
-                <button type="submit" class="btn btn-primary" alt='Salvar'>Salvar</button>
-            </form>
-        </div>
-        <div id="form-editoras" class="formulario-cadastro" style="display:none;">
-            <form method="post" action="?modelo=editoras">
-                {% csrf_token %}
-                {{ form_editoras.as_p }}  <!-- Exibe o formulário de editoras aqui -->
-                <button type="submit" class="btn btn-primary" alt='Salvar'>Salvar</button>
-            </form>
+        <div class='listagens' > 
+            <!-- Formulários de Cadastro -->
+            <div id="form-livros"  class="formulario-cadastro" style="display:none;">
+                <form method="post" action="?modelo=livros">
+                    {% csrf_token %}
+                    {{ form_livros.as_p }}  <!-- Exibe o formulário de livros aqui -->
+                    <button type="submit" class="btn btn-success" alt='Salvar'>
+                        <i class="fas fa-circle-check"></i> Salvar</button>
+                </form>
+            </div>
+            <div id="form-alunos"  class="formulario-cadastro" style="display:none;">
+                <form method="post" action="?modelo=alunos"> 
+                    {% csrf_token %}
+                    {{ form_alunos.as_p }}  <!-- Exibe o formulário de alunos aqui -->
+                    <button type="submit" class="btn btn-success" alt='Salvar'>
+                        <i class="fas fa-circle-check"></i> Salvar</button>
+                </form>
+            </div>
+            <div id="form-editoras" class="formulario-cadastro" style="display:none;">
+                <form method="post" action="?modelo=editoras">
+                    {% csrf_token %}
+                    {{ form_editoras.as_p }}  <!-- Exibe o formulário de editoras aqui -->
+                    <button type="submit" class="btn btn-success" alt='Salvar'>
+                        <i class="fas fa-circle-check"></i> Salvar</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

@@ -15,26 +15,27 @@
         <!-- Abas de seleção -->
         <div class="aba-container">
             <div class="abas">
-                <button class="aba-btn" onclick="mostrarNovoEmprestimo()">Novo Empréstimo</button>
-                <button class="aba-btn" onclick="mostrarEmprestimosAtivos()">Empréstimos Ativos</button>
-                <button class="aba-btn" onclick="mostrarHistoricoEmprestimos()">Histórico Empréstimos</button>
+                <button class="aba-btn" onclick="mostrarNovoEmprestimo()"> Novo </button>
+                <button class="aba-btn" onclick="mostrarEmprestimosAtivos()"> Ativo </button>
+                <button class="aba-btn" onclick="mostrarHistoricoEmprestimos()"> Histórico </button>
             </div>
         </div>
-                
-        <div id="novo-emprestimo-form" style="display: none;">
-            <form method="post" action="{% url 'emprestimo' %}">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button class='btn btn-primary' type="submit">Gerar Empréstimo</button>
-            </form>
-        </div>
-    
-        <div id="emprestimos-ativos" style="display: none;">
-            {% include "lista_emprestimos_ativos.html" %}
-        </div>
+        <div class='listagens'>
+            <div id="novo-emprestimo-form" style="display: none;">
+                <form method="post" action="{% url 'emprestimo' %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class='btn btn-primary' type="submit">Gerar Empréstimo</button>
+                </form>
+            </div>
         
-        <div id="historico-emprestimos" style="display: none;" >
-            {% include "lista_emprestimos.html" %}
+            <div id="emprestimos-ativos" style="display: none;">
+                {% include "lista_emprestimos_ativos.html" %}
+            </div>
+
+            <div id="historico-emprestimos" style="display: none;" >
+                {% include "lista_emprestimos.html" %}
+            </div>
         </div>
     </div>
 </div>
