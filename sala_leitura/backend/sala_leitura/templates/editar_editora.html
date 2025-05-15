@@ -3,14 +3,16 @@
 {% block content %}
 <div class="card border-0 shadow-sm">
     <div class="card-header bg-white border-bottom">
-        <h3 class="mb-0">Editar Aluno(a)</h3>
+        <h3 class="mb-0">Editar Editora</h3>
     </div>
     <div class="card-body">
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
-            <a href="{% url 'detalhes_editora' editora.id %}" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-check"></i> Salvar Alterações</button>
+            <a href="{% url 'detalhes_editora' editora.id %}" class="btn btn-danger">
+                <i class="fas fa-xmark"></i> Cancelar</a>
         </form>
     </div>
 </div>

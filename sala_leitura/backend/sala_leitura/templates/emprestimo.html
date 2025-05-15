@@ -20,12 +20,15 @@
                 <button class="aba-btn" onclick="mostrarHistoricoEmprestimos()"> Histórico </button>
             </div>
         </div>
+        <!-- Listagens do itens cadastrados -->
         <div class='listagens'>
             <div id="novo-emprestimo-form" style="display: none;">
+            <!-- Formulário para novo empréstimo -->
                 <form method="post" action="{% url 'emprestimo' %}">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <button class='btn btn-primary' type="submit">Gerar Empréstimo</button>
+                    <button class='btn btn-success' type="submit">
+                        <i class="fas fa-circle-check"></i> Gerar Empréstimo</button>
                 </form>
             </div>
         

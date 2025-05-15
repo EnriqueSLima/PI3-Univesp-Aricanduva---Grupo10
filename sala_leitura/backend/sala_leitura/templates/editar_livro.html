@@ -9,8 +9,10 @@
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
-            <a href="{% url 'detalhes_livro' livro.id %}" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-check"></i> Salvar Alterações</button>
+            <a href="{% url 'detalhes_livro' livro.id %}" class="btn btn-danger">
+                <i class="fas fa-xmark"></i> Cancelar</a>
         </form>
     </div>
 </div>

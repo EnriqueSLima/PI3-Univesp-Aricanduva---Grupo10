@@ -9,9 +9,12 @@
         <p><strong>Nome:</strong> {{ editora.nome }}</p>
         <p><strong>Email:</strong> {{ editora.email }}</p>
         <p><strong>Telefone:</strong> {{ editora.fone }}</p>
-        <a href="{% url 'consulta' %}" class='btn btn-primary'>Voltar</a>
-        <a href="{% url 'editar_editora' editora.id %}" class='btn btn-warning'>Editar</a>
-        <button class='btn btn-danger' data-bs-toggle="modal" data-bs-target="#confirmarExclusao">Excluir</button>
+        <a href="{% url 'consulta' %}" class='btn btn-primary'>
+            <i class="fas fa-arrow-left"></i> Voltar</a>
+        <a href="{% url 'editar_editora' editora.id %}" class='btn btn-warning'>
+            <i class="fas fa-pen"></i> Editar</a>
+        <button class='btn btn-danger' data-bs-toggle="modal" data-bs-target="#confirmarExclusao">
+            <i class="fas fa-trash"></i> Excluir</button>
     </div>
 </div>
 
