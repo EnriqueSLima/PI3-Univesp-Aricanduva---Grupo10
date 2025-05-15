@@ -6,7 +6,7 @@ function exibirFormulario(modelo) {
     
     // Esconde todos os formulários e remove classe 'ativa' das abas
     formularios.forEach(form => form.style.display = 'none');
-    abas.forEach(aba => aba.classList.remove('ativa'));
+    abas.forEach(aba => aba.classList.remove('active'));
     
     // Exibe o formulário correspondente e marca a aba como ativa
     if (modelo) {
@@ -17,7 +17,7 @@ function exibirFormulario(modelo) {
             formSelecionado.style.display = 'block';
         }
         if (abaSelecionada) {
-            abaSelecionada.classList.add('ativa');
+            abaSelecionada.classList.add('active');
         }
     }
 }

@@ -4,6 +4,14 @@
     --border-color: #dee2e6; /* Cor de borda suave */
     --text-color: #212529; /* Cor de texto escuro */
     --background-light: #f8f9fa; /* Fundo claro */
+    --pergaminho: #F0E6D2; /* Para fundos claros */
+    --couro: #A67C52; 
+    --sepia: #704214;
+    --grafite: #3A3A3A;
+    --destaque-btn: #5F6B4E;
+    --texto-enfase: #8C4A3C;
+    --azul-desbt: #D3E0EA;
+    --verde-palido: #D8E2D1;
 }
 
 html, body {
@@ -12,26 +20,27 @@ html, body {
     display: flex;
     flex-direction: column;
     font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif; /* Font stack mais moderna */
-    color: var(--text-color);
-    background-color: whitesmoke;
+    color: var(--grafite);
+    background-color: var(--background-light);
 }
 
 main {
     flex: 1;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 16px;
     box-sizing: border-box;
-    background-color: whitesmoke; /* Mudei de whitesmoke para branco puro */
-    border-right: 1px solid var(--border-color);
-    border-left: 1px solid var(--border-color);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05); /* Sombra sutil */
+    background-color: var(--pergaminho); /* Mudei de whitesmoke para branco puro */
+    border-right: 2px solid var(--border-color);
+    border-left: 2px solid var(--border-color);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.2); /* Sombra sutil */
 }
 
 #navbar {
     padding: 0.75rem 1rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: var(--couro) !important;
 }
 
 .navbar-brand, .nav-item, .nav-link {
@@ -50,18 +59,12 @@ main {
     border-radius: 0.25rem;
 }
 
-.card-title {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
 /* ESTILOS PARA BOTOẼS */
 .btn {
     width: auto; /* Removido width fixo */
     padding: 0.375rem 0.75rem;
-    background-color: var(--secondary-color);
-    border: 1px solid var(--secondary-color);
+    background-color: var(--destaque-btn);
+    border: 1px solid var(--border-color);
     border-radius: 0.375rem;
     transition: all 0.3s ease;
     color: white;
@@ -75,12 +78,8 @@ main {
     margin: 0;
     padding: 0.375rem 0.75rem;
     background-color: transparent;
-    border-color: rgba(255, 255, 255, 0.5);
+    border-color: var(--border-color);
     color: white;
-}
-
-.btn-group .btn:hover {
-    background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* ESTILOS PARA ELEMENTOS GERAIS */
@@ -94,10 +93,11 @@ input, select, textarea {
     transition: all 0.3s ease;
     padding: 0.375rem 0.75rem;
     margin-bottom: 1rem;
+    background-color: var(--background-light);
 }
 
 input:focus, select:focus, textarea:focus {
-    border-color: var(--primary-color);
+    border-color: var(--destaque-btn);
     outline: 0;
     box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
 }
@@ -109,11 +109,16 @@ a:focus, button:focus, input:focus, select:focus, textarea:focus {
 }
 
 /*  ESTILOS PARA AS DIV'S */
-
+.card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
+}
 
 .listagens {
     padding: 0.5rem;
-    background-color: lightyellow;
+    background-color: var(--verde-palido);
 }
 
 .div_filter, .div_flex {
@@ -173,7 +178,7 @@ a:focus, button:focus, input:focus, select:focus, textarea:focus {
 /* Estilo dos botões das abas */
 .aba-btn {
     padding: 10px 20px;
-    background-color: #f1f1f1;
+    background-color: var(--verde-palido);
     border: none;
     border-radius: 5px 5px 0 0;
     margin-right: 5px;
@@ -182,14 +187,7 @@ a:focus, button:focus, input:focus, select:focus, textarea:focus {
 }
 
 .aba-btn:hover {
-    background-color: #ddd;
-}
-
-/* Estilo da aba ativa */
-.aba-btn.ativa {
-    background-color: #4CAF50;
-    color: white;
-    font-weight: bold;
+    background-color: var(--destaque-btn);
 }
 
 /* Estilo dos formulários */
@@ -212,8 +210,7 @@ a:focus, button:focus, input:focus, select:focus, textarea:focus {
 footer {
     text-align: center;
     padding: 1.5rem;
-    background-color: var(--background-light);
-    margin-top: 2rem;
+    background-color: var(--couro);
     border-top: 1px solid var(--border-color);
     font-size: 0.9rem;
     color: var(--secondary-color);

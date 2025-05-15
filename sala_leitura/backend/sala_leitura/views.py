@@ -121,12 +121,10 @@ def consulta(request):
         **dados,
         'request': request
     }
-    
     return render(request, 'consulta.html', context)
 
 # FUNÇÕES AUXILIARES PARA FILTROS DE CONSULTA
 # FILTRAR LIVROS
-@login_required
 def filtrar_livros(queryset, campo, busca):
     if campo == 'titulo':
         return queryset.filter(titulo__icontains=busca)
@@ -135,7 +133,7 @@ def filtrar_livros(queryset, campo, busca):
     elif campo == 'autor':
         return queryset.filter(autor__icontains=busca)
     elif campo == 'editora':
-        return queryset.filter(editora__nome__icontains=busca)
+        return queryset.filter(editora__icontains=busca)
     elif campo == 'ano':
         return queryset.filter(ano__icontains=busca)
     else:
@@ -144,12 +142,11 @@ def filtrar_livros(queryset, campo, busca):
             Q(titulo__icontains=busca) |
             Q(registro__icontains=busca) |
             Q(autor__icontains=busca) |
-            Q(editora__nome__icontains=busca) |
+            Q(editora__icontains=busca) |
             Q(ano__icontains=busca)
         )
 
 # FILTRAR ALUNOS
-@login_required
 def filtrar_alunos(queryset, campo, busca):
     if campo == 'nome':
         return queryset.filter(nome__icontains=busca)
@@ -165,7 +162,6 @@ def filtrar_alunos(queryset, campo, busca):
         )
 
 # FILTRAR EDITORAS
-@login_required
 def filtrar_editoras(queryset, campo, busca):
     if campo == 'nome':
         return queryset.filter(nome__icontains=busca)
@@ -241,7 +237,6 @@ def devolver_livro(request, emprestimo_id): #! Aplicar o modal de confirmação
     return redirect('emprestimo')
 
 # FUNÇÃO AUXILIAR PARA FILTRAR HISTÓRICO DE EMPRÉSTIMOS
-@login_required
 def filtrar_emprestimos(queryset, campo, busca):
     if campo == 'livro':
         return queryset.filter(livro__titulo__icontains=busca)
