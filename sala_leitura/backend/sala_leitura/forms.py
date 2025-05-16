@@ -38,12 +38,10 @@ class AlunoForm(BaseModelForm):
 class LivroForm(BaseModelForm):
     class Meta:
         model = Livro
-        fields = ['tombo', 'registro', 'autor', 'titulo', 'ano', 
+        fields = ['registro', 'autor', 'titulo', 'ano', 
                 'edicao', 'vol', 'editora', 'categoria', 
                 'exemplar', 'aquisicao', 'observacao']
         widgets = {
-            'tombo': forms.DateInput(format='%d/%m/%Y', attrs={
-                'type': 'date', 'placeholder': 'Selecione a data do Tombo'}),
             'registro': forms.NumberInput(attrs={
                 'placeholder': 'Digite o Registro', 'min': '1'}),
             'autor': forms.TextInput(attrs={'placeholder': 'Digite o(a) Autor(a)'}),
