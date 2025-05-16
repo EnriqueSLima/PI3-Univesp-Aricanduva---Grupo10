@@ -21,7 +21,7 @@ class Aluno(models.Model):
     sexo = models.CharField(max_length=1, choices=SEXO_CHOICES)
     ra = models.CharField(max_length=20, unique=True)
     # Relaciona o cadastro a um único usuário.
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='alunos')  # Novo campo
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='alunos')
 
     def __str__(self):
         return self.nome
@@ -34,7 +34,6 @@ class Livro(models.Model):
     ]
     
     id = models.AutoField(primary_key=True)
-    tombo = models.DateField(null=True, blank=True)
     registro = models.IntegerField(unique=True)
     autor = models.CharField(max_length=50)
     titulo = models.CharField(max_length=100)
@@ -58,7 +57,7 @@ class Editora(models.Model):
     email = models.CharField(max_length=50)
     fone = models.CharField(max_length=15)
     # Relaciona o cadastro a um único usuário.
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='editoras')  # Novo campo
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='editoras')
 
     def __str__(self):
         return self.nome
@@ -76,7 +75,7 @@ class Emprestimo(models.Model):
     data_devolucao = models.DateField(null=True, blank=True)
     ativo = models.BooleanField(default=True)
     # Relaciona o cadastro a um único usuário.
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='emprestimos')  # Novo campo
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='emprestimos')
 
     def __str__(self):
         return f'{self.aluno.nome} - {self.livro.titulo}'
