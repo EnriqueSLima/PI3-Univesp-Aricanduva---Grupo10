@@ -39,8 +39,8 @@ class LivroForm(BaseModelForm):
     class Meta:
         model = Livro
         fields = ['tombo', 'registro', 'autor', 'titulo', 'ano', 
-                 'edicao', 'vol', 'editora', 'categoria', 
-                 'exemplar', 'aquisicao', 'observacao']
+                'edicao', 'vol', 'editora', 'categoria', 
+                'exemplar', 'aquisicao', 'observacao']
         widgets = {
             'tombo': forms.DateInput(format='%d/%m/%Y', attrs={
                 'type': 'date', 'placeholder': 'Selecione a data do Tombo'}),

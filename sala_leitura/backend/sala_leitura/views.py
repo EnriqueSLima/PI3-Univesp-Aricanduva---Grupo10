@@ -178,6 +178,8 @@ def filtrar_editoras(queryset, campo, busca):
 # VIEW PARA EMPRÉSTIMOS
 @login_required
 def emprestimo(request):
+    modelo = request.GET.get('modelo', 'novo')
+
     # Gerar um novo empréstimo
     if request.method == 'POST':
         form = EmprestimoForm(request.POST, request=request)
@@ -224,7 +226,7 @@ def emprestimo(request):
 
 # FUNÇÃO AUXILIAR DEVOLVER EMPRÉSTIMO ATIVO
 @login_required
-def devolver_livro(request, emprestimo_id): #! Aplicar o modal de confirmação
+def devolver_livro(request, emprestimo_id):
     # Obter o empréstimo com o ID fornecido ou 404 se não existir
     emprestimo = get_object_or_404(Emprestimo.objects.filter(usuario=request.user, ativo=True), id=emprestimo_id)
 
@@ -282,7 +284,7 @@ def excluir_livro(request, pk):
     if request.method == 'POST':
         livro.delete()
         messages.success(request, 'Livro excluído com sucesso!')
-        return redirect('consulta')  # Redireciona para a página de consulta #! Alterar redirecionamento para consulta de livros
+        return redirect('consulta')  # Redireciona para a página de consulta
     # Esta parte não será alcançada devido ao modal, mas é bom ter
     return redirect('detalhes_livro', pk=livro.pk)
 
@@ -292,7 +294,7 @@ def detalhes_aluno(request, id):
     aluno = get_object_or_404(Aluno, id=id)
     return render(request, 'detalhes_aluno.html', {'aluno': aluno})
 
-#! VIEW PARA EDITAR ALUNO
+# VIEW PARA EDITAR ALUNO
 @login_required
 def editar_aluno(request, id):
     aluno = get_object_or_404(Aluno, id=id)
@@ -306,24 +308,24 @@ def editar_aluno(request, id):
         form = AlunoForm(instance=aluno)
     return render(request, 'editar_aluno.html', {'form': form, 'aluno': aluno})
 
-#! VIEW PARA EXCLUIR ALUNO
+# VIEW PARA EXCLUIR ALUNO
 @login_required
 def excluir_aluno(request, pk):
     aluno = get_object_or_404(Aluno, pk=pk)
     if request.method == 'POST':
         aluno.delete()
         messages.success(request, 'Aluno excluído com sucesso!')
-        return redirect('consulta')  # Redireciona para a página de consulta #! Alterar redirecionamento para consulta de alunos
+        return redirect('consulta')  # Redireciona para a página de consulta
     # Esta parte não será alcançada devido ao modal, mas é bom ter
     return redirect('detalhes_aluno', pk=aluno.pk)
 
-#VIEW PARA DETALHES DA EDITORA
+# VIEW PARA DETALHES DA EDITORA
 @login_required
 def detalhes_editora(request, id):
     editora = get_object_or_404(Editora, id=id)
     return render(request, 'detalhes_editora.html', {'editora': editora})
 
-#! VIEW PARA EDITAR EDITORA
+# VIEW PARA EDITAR EDITORA
 @login_required
 def editar_editora(request, id):
     editora = get_object_or_404(Editora, id=id)
@@ -337,13 +339,13 @@ def editar_editora(request, id):
         form = EditoraForm(instance=editora)
     return render(request, 'editar_editora.html', {'form': form, 'editora': editora})
 
-#! VIEW PARA EXCLUIR EDITORA
+# VIEW PARA EXCLUIR EDITORA
 @login_required
 def excluir_editora(request, pk):
     editora = get_object_or_404(Editora, pk=pk)
     if request.method == 'POST':
         editora.delete()
         messages.success(request, 'Editora excluída com sucesso!')
-        return redirect('consulta')  # Redireciona para a página de consulta #! Alterar redirecionamento para consulta de editoras
+        return redirect('consulta')  # Redireciona para a página de consulta
     # Esta parte não será alcançada devido ao modal, mas é bom ter
     return redirect('detalhes_editora', pk=editora.pk)

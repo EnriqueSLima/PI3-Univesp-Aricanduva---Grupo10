@@ -17,7 +17,7 @@ class Aluno(models.Model):
 
     id = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=50)
-    data_nasc = models.DateTimeField(null=True, blank=True)
+    data_nasc = models.DateField(null=True, blank=True)
     sexo = models.CharField(max_length=1, choices=SEXO_CHOICES)
     ra = models.CharField(max_length=20, unique=True)
     # Relaciona o cadastro a um único usuário.
@@ -34,7 +34,7 @@ class Livro(models.Model):
     ]
     
     id = models.AutoField(primary_key=True)
-    tombo = models.DateTimeField(null=True, blank=True)
+    tombo = models.DateField(null=True, blank=True)
     registro = models.IntegerField(unique=True)
     autor = models.CharField(max_length=50)
     titulo = models.CharField(max_length=100)
