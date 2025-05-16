@@ -15,14 +15,14 @@
         <!-- Abas de seleção -->
         <div class="aba-container">
             <div class="abas">
-                <button class="aba-btn" onclick="mostrarNovoEmprestimo()"> Novo </button>
-                <button class="aba-btn" onclick="mostrarEmprestimosAtivos()"> Ativo </button>
-                <button class="aba-btn" onclick="mostrarHistoricoEmprestimos()"> Histórico </button>
+                <button class="aba-btn" onclick="exibirAbaEmprestimo('novo')"  id="aba-novo"> Novo </button>
+                <button class="aba-btn" onclick="exibirAbaEmprestimo('ativos')"  id="aba-ativos"> Ativo </button>
+                <button class="aba-btn" onclick="exibirAbaEmprestimo('historicos')"  id="aba-historicos"> Histórico </button>
             </div>
         </div>
         <!-- Listagens do itens cadastrados -->
-        <div class='listagens'>
-            <div id="novo-emprestimo-form" style="display: none;">
+        <div class='listagens active'>
+            <div id="form-novo"class="formulario-emprestimo" style="display: none;">
             <!-- Formulário para novo empréstimo -->
                 <form method="post" action="{% url 'emprestimo' %}">
                     {% csrf_token %}
@@ -32,11 +32,11 @@
                 </form>
             </div>
         
-            <div id="emprestimos-ativos" style="display: none;">
+            <div id="form-ativos" class="formulario-emprestimo" style="display: none;">
                 {% include "lista_emprestimos_ativos.html" %}
             </div>
 
-            <div id="historico-emprestimos" style="display: none;" >
+            <div id="form-historicos" class="formulario-emprestimo" style="display: none;" >
                 {% include "lista_emprestimos.html" %}
             </div>
         </div>

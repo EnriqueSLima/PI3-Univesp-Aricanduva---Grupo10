@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <title>Página Inicial</title>
+    <script src="{% static 'sala_leitura/js/home_page.js' %}"></script>
+{% endblock head %}
 
 {% block content %}
 <div class="card border-0 shadow-sm">
@@ -6,60 +12,36 @@
         <h3 class="mb-0">Dashboard - Olá, {{ user.username }}!</h3>
     </div>
     <div class="card-body">
-        <!-- Seu conteúdo aqui -->
-        <div class="container mt-4">       
-            <div class="row">
-                <!-- Card para a quantidade de livros -->
-                <div class="col-md-4 col-sm-6 col-12 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">Livros Cadastrados</h5>
-                            <p class="card-text">{{ livros_count }}</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Card para a quantidade de alunos -->
-                <div class="col-md-4 col-sm-6 col-12 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">Alunos Cadstrados</h5>
-                            <p class="card-text">{{ alunos_count }}</p>
-                        </div>
-                    </div>
-                </div>
-    
-                <!-- Card para os empréstimos realizados -->
-                <div class="col-md-4 col-sm-6 col-12 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">Empréstimos Realizados</h5>
-                            <p class="card-text">{{ emprestimos_count }}</p>
-                        </div>
-                    </div>
-                </div>
-    
-                <!-- Card para a quantidade de editoras -->
-                <div class="col-md-4 col-sm-6 col-12 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">Editoras Cadastradas</h5>
-                            <p class="card-text">{{ editoras_count }}</p>
-                        </div>
-                    </div>
-                </div>
-    
-                <!-- Card para os empréstimos ativos -->
-                <div class="col-md-4 col-sm-6 col-12 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">Empréstimos Ativos</h5>
-                            <p class="card-text">{{ emprestimos_ativos_count }}</p>
-                        </div>
-                    </div>
-                </div>
+        <!-- Abas de seleção -->
+        <div class="aba-container">
+            <div class="abas">
+                <button class="aba-btn" onclick="exibirAbaDados('livros')" id="aba-livros">Livros</button>
+                <button class="aba-btn" onclick="exibirAbaDados('alunos')" id="aba-alunos">Alunos</button>
+                <button class="aba-btn" onclick="exibirAbaDados('editoras')" id="aba-editoras">Editoras</button>
+                <button class="aba-btn" onclick="exibirAbaDados('emprestimos')" id="aba-emprestimos">Emprestimos</button>
             </div>
         </div>
+        <!-- Listagens do itens cadastrados -->
+        <div class='listagens active'>
+
+            <div id="data-livros" class="formulario-dados" style="display: none;">
+                {% include "data_livros.html" %}
+            </div>
+
+            <div id="data-alunos" class="formulario-dados" style="display: none;" >
+                {% include "data_alunos.html" %}
+            </div>
+
+            <div id="data-editoras" class="formulario-dados" style="display: none;">
+                {% include "data_editoras.html" %}
+            </div>
+
+            <div id="data-emprestimos" class="formulario-dados" style="display: none;" >
+                {% include "data_emprestimos.html" %}
+            </div>
+
+        </div>
+    </div>
     </div>
 </div>
 {% endblock content %}

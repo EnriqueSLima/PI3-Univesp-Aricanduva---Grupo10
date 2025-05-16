@@ -1,3 +1,5 @@
+// Função que mostra as abas de consulta
+
 function exibirLista(modelo) {
     // Esconder todas as listagens
     document.querySelectorAll('.listagem').forEach(function(item) {

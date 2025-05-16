@@ -40,7 +40,7 @@ main {
 #navbar {
     padding: 0.75rem 1rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: var(--couro) !important;
+    background-color: var(--sepia) !important;
 }
 
 .navbar-brand, .nav-item, .nav-link {
@@ -118,7 +118,12 @@ a:focus, button:focus, input:focus, select:focus, textarea:focus {
 
 .listagens {
     padding: 0.5rem;
+    background-color: inherit;
+}
+
+.listagens.active {
     background-color: var(--verde-palido);
+    border: 1px solid var(--destaque-btn);
 }
 
 .div_filter, .div_flex {
@@ -165,8 +170,6 @@ a:focus, button:focus, input:focus, select:focus, textarea:focus {
 }
 
 /*  ESTILOS PARA ABAS E SEUS ELEMENTOS */
-
-/* Estilo do container das abas */
 .aba-container {
     width: 100%;
 }
@@ -175,22 +178,29 @@ a:focus, button:focus, input:focus, select:focus, textarea:focus {
     display: flex;
 }
 
-/* Estilo dos botões das abas */
 .aba-btn {
-    padding: 10px 20px;
-    background-color: var(--verde-palido);
+    padding: 8px 16px;
     border: none;
-    border-radius: 5px 5px 0 0;
-    margin-right: 5px;
+    background-color: var(--background-light);
+    color: var(--grafite);
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
+    margin-right: 5px;
+    border-radius: 4px 4px 0 0;
 }
 
 .aba-btn:hover {
-    background-color: var(--destaque-btn);
+    background-color: var(--azul-desbt);
 }
 
-/* Estilo dos formulários */
+.aba-btn.active {
+    background-color: var(--verde-palido);
+    border: 1px solid var(--destaque-btn);
+    border-bottom: 0px;
+    font-weight: bold;
+}
+
+/* ESTILOS PARA FORMULÁRIOS */
 .formulario-cadastro {
     padding: 10px;
     border-radius: 0 0 5px 5px;
@@ -210,7 +220,7 @@ a:focus, button:focus, input:focus, select:focus, textarea:focus {
 footer {
     text-align: center;
     padding: 1.5rem;
-    background-color: var(--couro);
+    background-color: var(--sepia);
     border-top: 1px solid var(--border-color);
     font-size: 0.9rem;
     color: var(--secondary-color);
@@ -238,6 +248,9 @@ footer {
     .div_filter button {
         width: 100%;
         margin-bottom: 0px;
+    }
+    .aba-btn {
+        width: 80%;
     }
 }
 

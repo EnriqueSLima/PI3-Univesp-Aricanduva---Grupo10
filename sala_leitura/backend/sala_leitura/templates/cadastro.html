@@ -20,9 +20,9 @@
             </div>
         </div>
         <!-- Listagens do itens cadastrados -->
-        <div class='listagens' > 
+        <div class='listagens active'> 
             <!-- Formulários de Cadastro -->
-            <div id="form-livros"  class="formulario-cadastro" style="display:none;">
+            <div id="form-livros"  class="formulario-cadastro" style="display:none ">
                 <form method="post" action="?modelo=livros">
                     {% csrf_token %}
                     {{ form_livros.as_p }}  <!-- Exibe o formulário de livros aqui -->

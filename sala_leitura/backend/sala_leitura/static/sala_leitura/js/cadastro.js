@@ -1,4 +1,4 @@
-// Função para exibir formulários
+// Função para exibir formulários de cadastro
 
 function exibirFormulario(modelo) {
     const formularios = document.querySelectorAll('.formulario-cadastro');
