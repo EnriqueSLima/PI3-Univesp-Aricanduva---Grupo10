@@ -1,187 +1,118 @@
 from django.test import TestCase
 from django.utils import timezone
 from datetime import timedelta
-from .models import Aluno, Livro, Editora, Categoria, Emprestimo
+from django.core.exceptions import ValidationError
+from django.contrib.auth import get_user_model
+from .models import Usuario, Aluno, Livro, Editora, Emprestimo
 
-class TestModels(TestCase):
+class LivroModelTest(TestCase):
 
-    def test_aluno_creation(self):
-        aluno = Aluno.objects.create(
-            nome="João da Silva",
-            ra="123456789",
-            sexo="M",
-            ativo=True
+    def setUp(self):
+        # Cria um usuário para testes
+        self.usuario = Usuario.objects.create_user(
+            username='testuser',
+            password='testpass123'
         )
-        self.assertEqual(aluno.nome, "João da Silva")
-        self.assertEqual(aluno.ra, "123456789")
-        self.assertEqual(aluno.sexo, "M")
-        self.assertTrue(aluno.ativo)
-        self.assertIsInstance(aluno, Aluno)
-
-    def test_livro_creation(self):
+    # --- TESTE QUE DEVE PASSAR --- #
+    def test_criacao_livro_valido(self):
         livro = Livro.objects.create(
-            registro=123456,
-            autor="Autor Teste",
-            titulo="Livro de Teste",
-            procedencia="Compra",
-            exemplar=1,
-            colecao="Coleção Teste",
+            registro=123,
+            autor="Machado de Assis",
+            titulo="Dom Casmurro",
+            ano=1899,
             edicao="1ª Edição",
-            ano=2024,
-            vol=1,
-            editora="Editora Teste",
-            categoria="Ficção",
-            aquisicao="C"
-        )
-        self.assertEqual(livro.registro, 123456)
-        self.assertEqual(livro.titulo, "Livro de Teste")
-        self.assertEqual(livro.autor, "Autor Teste")
-        self.assertEqual(livro.procedencia, "Compra")
-        self.assertEqual(livro.aquisicao, "C")
-        self.assertIsInstance(livro, Livro)
-
-    def test_editora_creation(self):
-        editora = Editora.objects.create(
-            nome="Editora Teste",
-            email="contato@editora.com",
-            fone="12345678901",
-            ativo=True
-        )
-        self.assertEqual(editora.nome, "Editora Teste")
-        self.assertEqual(editora.email, "contato@editora.com")
-        self.assertEqual(editora.fone, "12345678901")
-        self.assertTrue(editora.ativo)
-        self.assertIsInstance(editora, Editora)
-
-    def test_categoria_creation(self):
-        categoria = Categoria.objects.create(
-            tipo="Ficção"
-        )
-        self.assertEqual(categoria.tipo, "Ficção")
-        self.assertIsInstance(categoria, Categoria)
-
-    def test_emprestimo_creation(self):
-        aluno = Aluno.objects.create(
-            nome="Maria Oliveira",
-            ra="987654321",
-            sexo="F",
-            ativo=True
-        )
-        livro = Livro.objects.create(
-            registro=654321,
-            autor="Outro Autor",
-            titulo="Outro Livro",
-            procedencia="Doação",
-            exemplar=2,
-            colecao="Coleção A",
-            edicao="2ª Edição",
-            ano=2023,
-            vol=2,
             editora="Editora A",
-            categoria="Drama",
-            aquisicao="D"
+            exemplar=1,
+            aquisicao='C',  # Compra
+            usuario=self.usuario  # Associa ao usuário criado no setUp
         )
-        emprestimo = Emprestimo.objects.create(
-            aluno=aluno,
-            livro=livro,
-            data_emprestimo=timezone.now(),
-            data_prev=timezone.now() + timedelta(days=7),
-            ativo=True
-        )
-        self.assertEqual(emprestimo.aluno, aluno)
-        self.assertEqual(emprestimo.livro, livro)
-        self.assertIsNotNone(emprestimo.data_emprestimo)
-        self.assertIsNotNone(emprestimo.data_prev)
-        self.assertTrue(emprestimo.ativo)
-
-    def test_emprestimo_status_on_devolucao(self):
-        aluno = Aluno.objects.create(
-            nome="Carlos Souza",
-            ra="111223344",
-            sexo="M",
-            ativo=True
-        )
-        livro = Livro.objects.create(
-            registro=111222,
-            autor="Autor X",
-            titulo="Livro X",
-            procedencia="Troca",
-            exemplar=3,
-            colecao="Coleção X",
-            edicao="3ª Edição",
-            ano=2022,
-            vol=3,
+        # Verifica se o livro foi criado corretamente
+        self.assertEqual(livro.titulo, "Dom Casmurro")
+        self.assertEqual(livro.aquisicao, 'C')  # Checa a escolha (Compra)
+        self.assertEqual(livro.usuario.username, 'testuser')  # Checa o usuário
+    # --- TESTE QUE DEVE FALHAR --- #
+    def test_registro_duplicado_falha(self):
+        # Cria um livro com registro 123
+        Livro.objects.create(
+            registro=123,
+            autor="Autor 1",
+            titulo="Livro 1",
+            edicao="1ª Edição",
             editora="Editora X",
-            categoria="Suspense",
-            aquisicao="T"
+            exemplar=1,
+            aquisicao='D',  # Doação
+            usuario=self.usuario
         )
-        # Empréstimo com data de devolução no passado
-        emprestimo = Emprestimo.objects.create(
-            aluno=aluno,
-            livro=livro,
-            data_emprestimo=timezone.now() - timedelta(days=10),
-            data_prev=timezone.now() - timedelta(days=3),
-            data_devolucao=timezone.now() - timedelta(days=1),  # Devolução no passado
-            ativo=True
-        )
-        # Verificar se o status do empréstimo foi alterado para inativo
-        emprestimo.save()  # Necessário para que o método `salvar()` seja chamado
-        self.assertFalse(emprestimo.ativo)
-
-    def test_emprestimo_status_on_active(self):
-        aluno = Aluno.objects.create(
-            nome="Ana Costa",
-            ra="2233445566",
-            sexo="F",
-            ativo=True
-        )
-        livro = Livro.objects.create(
-            registro=223344,
-            autor="Autor Y",
-            titulo="Livro Y",
-            procedencia="Compra",
-            exemplar=4,
-            colecao="Coleção Y",
-            edicao="4ª Edição",
-            ano=2021,
-            vol=4,
-            editora="Editora Y",
-            categoria="Mistério",
-            aquisicao="C"
-        )
-        # Empréstimo com data de devolução ainda não registrada
-        emprestimo = Emprestimo.objects.create(
-            aluno=aluno,
-            livro=livro,
-            data_emprestimo=timezone.now(),
-            data_prev=timezone.now() + timedelta(days=7),
-            ativo=True
-        )
-        self.assertTrue(emprestimo.ativo)
-
-    def test_invalid_ra_on_aluno(self):
-        aluno = Aluno.objects.create(
-            nome="Ricardo Silva",
-            ra="12345",  # RA inválido, menos de 20 caracteres
-            sexo="M",
-            ativo=True
-        )
-        with self.assertRaises(Exception):
-            aluno.full_clean()  # Espera-se que um erro de validação ocorra
-
-    def test_unique_ra(self):
-        aluno1 = Aluno.objects.create(
-            nome="Lucas Lima",
-            ra="54321",
-            sexo="M",
-            ativo=True
-        )
-        with self.assertRaises(Exception):
-            aluno2 = Aluno.objects.create(
-                nome="Ana Oliveira",
-                ra="54321",  # RA duplicado
-                sexo="F",
-                ativo=True
+        # Tenta criar outro livro com o MESMO registro (deve falhar)
+        with self.assertRaises(Exception):  # Captura qualquer exceção
+            Livro.objects.create(
+                registro=123,  # Registro duplicado!
+                autor="Autor 2",
+                titulo="Livro 2",
+                edicao="2ª Edição",
+                editora="Editora Y",
+                exemplar=2,
+                aquisicao='T',  # Troca
+                usuario=self.usuario
             )
-            aluno2.full_clean()  # Deve lançar erro de duplicação de RA
 
+class AlunoModelTest(TestCase):
+    def setUp(self):
+        self.usuario = Usuario.objects.create_user(username='professor', password='testpass123')
+
+    # --- TESTES QUE DEVEM PASSAR --- #
+    def test_criacao_aluno_valido(self):
+        aluno = Aluno.objects.create(
+            nome="João Silva",
+            data_nasc="2010-05-15",
+            sexo='M',
+            ra="20230001",
+            usuario=self.usuario
+        )
+        self.assertEqual(aluno.__str__(), "João Silva")  # Testa __str__
+        self.assertEqual(aluno.sexo, 'M')  # Checa choice
+
+    # --- TESTES QUE DEVEM FALHAR --- #
+    def test_ra_duplicado_falha(self):
+        Aluno.objects.create(
+            nome="Aluno 1", ra="20230001", sexo='F', usuario=self.usuario
+        )
+        with self.assertRaises(Exception):  # RA duplicado
+            Aluno.objects.create(
+                nome="Aluno 2", ra="20230001", sexo='M', usuario=self.usuario
+            )
+
+    def test_sexo_invalido_falha(self):
+        with self.assertRaises(ValidationError):
+            aluno = Aluno(
+                nome="Aluno 3", ra="20230002", sexo='X', usuario=self.usuario  # Sexo inválido
+            )
+            aluno.full_clean()  # Força validação do modelo
+
+class EmprestimoModelTest(TestCase):
+    def setUp(self):
+        self.usuario = Usuario.objects.create_user(username='bibliotecario', password='testpass123')
+        self.aluno = Aluno.objects.create(
+            nome="Maria Oliveira", ra="20230002", sexo='F', usuario=self.usuario
+        )
+        self.livro = Livro.objects.create(
+            registro=123, autor="Autor X", titulo="Livro Y", edicao="1ª",
+            editora="Editora Z", exemplar=1, aquisicao='C', usuario=self.usuario
+        )
+
+    # --- TESTES QUE DEVEM PASSAR --- #
+    def test_criacao_emprestimo_valido(self):
+        emprestimo = Emprestimo.objects.create(
+            aluno=self.aluno,
+            livro=self.livro,
+            usuario=self.usuario
+        )
+        self.assertTrue(emprestimo.ativo)  # Deve estar ativo ao criar
+
+    # --- TESTES QUE DEVEM FALHAR --- #
+    def test_emprestimo_sem_livro_falha(self):
+        with self.assertRaises(Exception):  # Livro é obrigatório
+            Emprestimo.objects.create(
+                aluno=self.aluno,
+                usuario=self.usuario
+            )
