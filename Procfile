@@ -1,2 +1,2 @@
-web: gunicorn sala_leitura.wsgi --log-file -
-release: cd sala_leitura/backend && python manage.py migrate
+web: gunicorn core.wsgi --log-file -
+release: cd backend && python manage.py migrate
