@@ -46,37 +46,6 @@ class Command(BaseCommand):
         
         self.stdout.write(self.style.SUCCESS(f'Importação de alunos concluída!'))
 
-#    def importar_livros(self, usuario):
-#        caminho_csv = '../../csv/livros_exemplo.csv'  # Ajuste o caminho
-#        
-#        with open(caminho_csv, mode='r', encoding='utf-8') as arquivo:
-#            leitor = csv.DictReader(arquivo)
-#            
-#            for linha in leitor:
-#                try:
-#                    # Tratar campos numéricos vazios
-#                    ano = int(linha['ano']) if linha['ano'] else None
-#                    vol = int(linha['vol']) if linha['vol'] else None
-#                    
-#                    Livro.objects.create(
-#                        registro=linha['registro'],
-#                        autor=linha['autor'],
-#                        titulo=linha['titulo'],
-#                        ano=ano,
-#                        edicao=linha['edicao'],
-#                        vol=vol,
-#                        editora=linha['editora'],
-#                        categoria=linha['categoria'],
-#                        exemplar=int(linha['exemplar']),
-#                        aquisicao=linha['aquisicao'],
-#                        observacao=linha['observacao'],
-#                        usuario=usuario
-#                    )
-#                except Exception as e:
-#                    self.stdout.write(self.style.WARNING(f"Erro ao importar livro {linha['titulo']}: {str(e)}"))
-#        
-#        self.stdout.write(self.style.SUCCESS(f'Importação de livros concluída!'))
-
     def importar_livros(self, usuario):
         caminho_csv = '../../csv/livros_exemplo.csv'  # Ajuste o caminho
         
