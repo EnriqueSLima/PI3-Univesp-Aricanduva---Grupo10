@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 
-{% block content %}
+{% load static %}
 
+{% block content %}
 <div class="card border-0 shadow-sm">
     <div class="card-header bg-white border-bottom">
         <h3 class="mb-0">Bem-vindo à Sala de Leitura</h3>
@@ -9,12 +10,16 @@
     <div class="card-body">
         <!-- Seu conteúdo aqui -->
         <p class="lead">Gerencie seus empréstimos de livros de forma fácil e rápida.</p>
-        <hr class="my-4">
         <p>Explore nossos livros disponíveis e faça seus empréstimos.</p>
-        <a class="btn btn-primary btn-lg" href="{% url 'login' %}" role="button">Entrar</a>
-        <a class="btn btn-primary btn-lg" href="{% url 'signin' %}" role="button">Cadastrar</a>
+        <hr class="my-4">
+        <img src="{% static 'sala_leitura/img/livros_landing.jpg' %}"  width='70%' height='50%' alt="Estante de Livros">
+        <hr class="my-4">
+        <a class="btn btn-primary btn-lg" href="{% url 'login' %}" role="button">
+            <i class="fas fa-user me-1"></i> Entrar</a>
+        <a class="btn btn-primary btn-lg" href="{% url 'signin' %}" role="button">
+            <i class="fas fa-user-plus me-1"></i> Cadastrar</a>
     </div>
 </div>
 
-{% endblock %}
+{% endblock content %}
 
