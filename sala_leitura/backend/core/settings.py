@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import django_heroku
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -30,7 +32,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 #ALLOWED_HOSTS = []
 
 # *** Configuração para o ambiente ***
-import os
 from dotenv import load_dotenv
 
 load_dotenv()  # Carrega variáveis do .env
@@ -39,7 +40,7 @@ load_dotenv()  # Carrega variáveis do .env
 SECRET_KEY = os.getenv('SECRET_KEY', 'fallback-key-32-chars-dev-only')  # Adicione um fallback para desenvolvimento
 
 # DEBUG com tratamento mais robusto
-DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'  # Converte para booleano corretamente
+DEBUG = os.getenv('DEBUG', 'False').lower() == 'false'  # Converte para booleano corretamente
 
 # ALLOWED_HOSTS com fallback e tratamento para string vazia
 allowed_hosts = os.getenv('ALLOWED_HOSTS', '')
@@ -61,6 +62,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -100,10 +102,17 @@ WSGI_APPLICATION = 'core.wsgi.application'
 #    }
 #}
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#    }
+#}
+
+# Banco de dados (Heroku injeta DATABASE_URL)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
     }
 }
 
@@ -144,6 +153,13 @@ USE_TZ = True
 
 STATIC_URL = 'backend/static/'
 
+# Arquivos estáticos (Whitenoise)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Ativa configurações Heroku
+django_heroku.settings(locals())
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -153,12 +169,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/sala_leitura/home/'
 LOGOUT_REDIRECT_URL = '/sala_leitura/'
 
-# Modificações para uso do React:
-# Permita requisições do React (em desenvolvimento)
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000", # URL do seu frontend React
-]
-
+# API REST
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
