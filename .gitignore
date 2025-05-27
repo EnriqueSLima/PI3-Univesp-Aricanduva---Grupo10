@@ -12,3 +12,7 @@ __pycache__/
 # Dados da escola.
 csv/
 *.csv
+
+# BD em desenvolvimento
+.db
+.sqlite3

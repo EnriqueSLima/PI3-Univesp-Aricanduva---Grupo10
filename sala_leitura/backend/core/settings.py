@@ -10,30 +10,28 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-import os
-from pathlib import Path
-import django_heroku
-
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
-
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-# *** Configuração padrão do Django ***
-
+## *** Configuração padrão do Django ***
+#
 ## SECURITY WARNING: keep the secret key used in production secret!
 #SECRET_KEY = 'django-insecure-+3#%w-w277+qlbys5nl$86q#o#s%j$07#8cpn3(bh_mtbtm!mg'
 #
 ## SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
 #
+#
 #ALLOWED_HOSTS = []
 
-# *** Configuração para o ambiente ***
+#import os
+#from pathlib import Path
+#import django_heroku
 #from dotenv import load_dotenv
+#import dj_database_url
+#
+## Build paths inside the project like this: BASE_DIR / 'subdir'.
+#BASE_DIR = Path(__file__).resolve().parent.parent.parent
 #
 #load_dotenv()  # Carrega variáveis do .env
 #
@@ -47,31 +45,43 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 #allowed_hosts = os.getenv('ALLOWED_HOSTS', '')
 #ALLOWED_HOSTS = allowed_hosts.split(',') if allowed_hosts else []
 
-
+import os
+from pathlib import Path
+#import django_heroku
 from dotenv import load_dotenv
 import dj_database_url
 
-# Carrega variáveis do .env
-load_dotenv()
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / '.env')  # Especifica o caminho completo para o arquivo .env
 
-# Configuração de segurança com fallback
-SECRET_KEY = os.getenv('SECRET_KEY', 'fallback-dev-key-32-chars-minimum-123456')
+# DEBUG deve ser False por padrão em produção
+DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'  # Corrigido para pegar 'true' corretamente
 
-# DEBUG com tratamento inteligente
-DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', '1', 't')
+# Configurações de segurança
+SECRET_KEY = os.getenv('SECRET_KEY')
+if not SECRET_KEY and DEBUG:
+    SECRET_KEY = 'django-insecure-dev-key-only'  # Apenas para desenvolvimento
 
-# ALLOWED_HOSTS com tratamento robusto
-allowed_hosts = os.getenv('ALLOWED_HOSTS', '')
-ALLOWED_HOSTS = [host.strip() for host in allowed_hosts.split(',') if host.strip()] or ['*'] if DEBUG else []
+# Configuração de hosts permitidos
+ALLOWED_HOSTS = [
+    host.strip() for host in os.getenv('ALLOWED_HOSTS', '').split(',') 
+    if host.strip()
+] or ['*'] if DEBUG else []
 
-# Configuração do banco de dados
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL', f'sqlite:///{BASE_DIR}/db.sqlite3'),
-    )
-}
+# Configurações de segurança para produção
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_HSTS_SECONDS = 31536000  # 1 ano
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+    X_FRAME_OPTIONS = 'DENY'
 
 # Application definition
 
@@ -118,16 +128,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': BASE_DIR / 'db.sqlite3',
-#    }
-#}
 
 #DATABASES = {
 #    'default': {
@@ -136,24 +138,14 @@ WSGI_APPLICATION = 'core.wsgi.application'
 #    }
 #}
 
-# Banco de dados (Heroku injeta DATABASE_URL)
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql',
-#    }
-#}
-#import dj_database_url
-#from pathlib import Path
-#
-#BASE_DIR = Path(__file__).resolve().parent.parent
-#
-#DATABASES = {
-#    'default': dj_database_url.config(
-#        default='sqlite:///' + str(BASE_DIR / 'db.sqlite3'),
-#        conn_max_age=600,
-#        ssl_require=True
-#    )
-#}
+# Configuração do banco de dados
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL'),
+        conn_max_age=600,  # Conexões persistentes
+        ssl_require=not DEBUG  # SSL obrigatório em produção
+    )
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -190,13 +182,26 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-# Arquivos estáticos (Whitenoise)
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = 'backend/static/'
+## Arquivos estáticos (Whitenoise)
+#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+#STATIC_URL = 'backend/static/'
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Configurações estáticas (importante para Heroku)
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [BASE_DIR / 'static']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Ativa configurações Heroku
-django_heroku.settings(locals())
+# Configurações de mídia
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+## Ativa configurações Heroku
+#django_heroku.settings(locals())
+
+# Configurações do Heroku no final do arquivo
+#django_heroku.settings(locals(), staticfiles=False)  # staticfiles=False se estiver usando Whitenoise
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
