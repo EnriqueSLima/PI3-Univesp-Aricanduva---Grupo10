@@ -6,5 +6,5 @@ whitenoise==6.9.0
 gunicorn==21.2.0
 dj-database-url==2.1.0
 python-dotenv==1.0.0
-pandas==2.2.0 --only-binary=:all:
+pandas==2.2.3 --only-binary=:all:
 numpy==1.26.4 --only-binary=:all:
