@@ -50,8 +50,17 @@ from pathlib import Path
 from dotenv import load_dotenv
 import dj_database_url
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+# Força o reconhecimento da estrutura
+import sys
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
+sys.path.append(str(BASE_DIR / 'sala_leitura/backend'))
+
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',') or ['*']
+
+## Build paths inside the project like this: BASE_DIR / 'subdir'.
+#BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 load_dotenv(BASE_DIR / '.env')  # Especifica o caminho completo para o arquivo .env
 
@@ -63,11 +72,11 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 if not SECRET_KEY and DEBUG:
     SECRET_KEY = 'django-insecure-dev-key-only'  # Apenas para desenvolvimento
 
-# Configuração de hosts permitidos
-ALLOWED_HOSTS = [
-    host.strip() for host in os.getenv('ALLOWED_HOSTS', '').split(',') 
-    if host.strip()
-] or ['*'] if DEBUG else []
+## Configuração de hosts permitidos
+#ALLOWED_HOSTS = [
+#    host.strip() for host in os.getenv('ALLOWED_HOSTS', '').split(',') 
+#    if host.strip()
+#] or ['*'] if DEBUG else []
 
 # Configurações de segurança para produção
 if not DEBUG:

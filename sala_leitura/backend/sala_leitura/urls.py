@@ -24,7 +24,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'), # Funcionalidade nativa Django (autenticar)
     path('logout/', auth_views.LogoutView.as_view(), name='logout'), # Funcionalidade nativa Django (desautenticar)
     path('signin/', views.cadastrar_usuario, name='signin'), # Funcionalidade nativa Django (cadastrar)
-    path('/', landing_page, name='landing_page'),    
+    path('', landing_page, name='landing_page'),    
     path('home/', home_page, name='home_page'),
     path('cadastro/', cadastro, name='cadastro'),
     path('consulta/', consulta, name='consulta'),
