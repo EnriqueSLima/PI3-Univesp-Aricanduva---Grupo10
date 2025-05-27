@@ -211,8 +211,3 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ]
 }
-
-if '/app' in BASE_DIR.__str__():  # Detecta se está no Heroku
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    SECURE_SSL_REDIRECT = True
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
