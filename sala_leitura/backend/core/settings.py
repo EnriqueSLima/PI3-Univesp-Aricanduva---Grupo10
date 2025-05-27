@@ -47,7 +47,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from pathlib import Path
-#import django_heroku
 from dotenv import load_dotenv
 import dj_database_url
 
@@ -197,12 +196,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-## Ativa configurações Heroku
-#django_heroku.settings(locals())
-
-# Configurações do Heroku no final do arquivo
-#django_heroku.settings(locals(), staticfiles=False)  # staticfiles=False se estiver usando Whitenoise
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -218,3 +211,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ]
 }
+
+if '/app' in BASE_DIR.__str__():  # Detecta se está no Heroku
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
