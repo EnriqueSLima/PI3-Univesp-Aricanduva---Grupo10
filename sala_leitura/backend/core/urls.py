@@ -17,10 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import redirect
-from .views import landing_page
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', landing_page, name='landing_page'),   # Redireciona a URL raiz para '/sala_leitura/'
+    #path('', landing_page, name='landing_page'),   # Redireciona a URL raiz para '/sala_leitura/'
     path('sala_leitura/', include('sala_leitura.urls')),  # Inclui as URLs do app 'sala_leitura'
 ]
