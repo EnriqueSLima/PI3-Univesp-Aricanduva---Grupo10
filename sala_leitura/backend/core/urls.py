@@ -20,6 +20,6 @@ from django.shortcuts import redirect
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', lambda request: redirect('sala_leitura/')),  # Redireciona a URL raiz para '/sala_leitura/'
+    path('', landing_page, name='landing_page'),   # Redireciona a URL raiz para '/sala_leitura/'
     path('sala_leitura/', include('sala_leitura.urls')),  # Inclui as URLs do app 'sala_leitura'
 ]
