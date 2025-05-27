@@ -36,6 +36,7 @@ def cadastrar_usuario(request):
 # VIEW PARA HOME_PAGE
 @login_required(login_url='landing_page')
 def home_page(request):
+    
     # Contagem de livros, alunos, categorias e editoras
     livros_count = Livro.objects.filter(usuario=request.user).distinct().count()
     alunos_count = Aluno.objects.filter(usuario=request.user).distinct().count()
@@ -45,67 +46,72 @@ def home_page(request):
     emprestimos_count = Emprestimo.objects.filter(usuario=request.user).count()  # Total de empréstimos realizados
     emprestimos_ativos_count = Emprestimo.objects.filter(usuario=request.user, ativo=True).count()  # Empréstimos ativos
 
-    # Consulta para pegar o top 5 categorias
-    top_categorias = (
-        Livro.objects
-        .filter(usuario=request.user)
-        .values('categoria') 
-        .annotate(total=Count('id'))
-        .order_by('-total')[:5]  # Apenas as 5 categorias com mais livros
-    )
-
-    # Extrai labels e valores
-    categorias = [item['categoria'] for item in top_categorias]
-    cat_quantidades = [item['total'] for item in top_categorias]
-
-    categorias = categorias[::-1]          # Inverte a ordem das categorias
-    cat_quantidades = cat_quantidades[::-1]  # Inverte a ordem dos valores
-
-    # Cria o gráfico
-    plt.figure(figsize=(10, 5))
-    bars = plt.barh(categorias, cat_quantidades, color='lightgreen')
-    plt.title('Top 5 Categorias com Mais Livros')
-
-    # Remove bordas para um visual mais limpo
-    plt.gca().spines['top'].set_visible(False)
-    plt.gca().spines['right'].set_visible(False)
-
-    # Salva o gráfico em uma imagem base64
-    buffer = BytesIO()
-    plt.savefig(buffer, format='png', bbox_inches='tight', dpi=100)
-    plt.close()
-    cat_grafico = base64.b64encode(buffer.getvalue()).decode('utf-8')
-
-    # Consulta para pegar o top 5 editoras
-    top_editoras = (
-        Livro.objects
-        .filter(usuario=request.user)
-        .values('editora')
-        .annotate(total=Count('id'))
-        .order_by('-total')[:5]
-    )
-
-    # Extrai labels e valores
-    editoras = [item['editora'] for item in top_editoras]
-    edit_quantidades = [item['total'] for item in top_editoras]
-
-    editoras = editoras[::-1]
-    edit_quantidades = edit_quantidades[::-1]
-
-    # Cria o gráfico
-    plt.figure(figsize=(10, 5))
-    plt.barh(editoras, edit_quantidades, color='green')
-    plt.title('Top 5 Editoras com Mais Livros')
-
-    # Remove bordas para um visual mais limpo
-    plt.gca().spines['top'].set_visible(False)
-    plt.gca().spines['right'].set_visible(False)
-
-    # Converte para imagem
-    buffer = BytesIO()
-    plt.savefig(buffer, format='png', bbox_inches='tight', dpi=100)
-    plt.close()
-    edit_grafico = base64.b64encode(buffer.getvalue()).decode('utf-8')
+    try:
+        import pandas as pd
+        # Consulta para pegar o top 5 categorias
+        top_categorias = (
+            Livro.objects
+            .filter(usuario=request.user)
+            .values('categoria') 
+            .annotate(total=Count('id'))
+            .order_by('-total')[:5]  # Apenas as 5 categorias com mais livros
+        )
+    
+        # Extrai labels e valores
+        categorias = [item['categoria'] for item in top_categorias]
+        cat_quantidades = [item['total'] for item in top_categorias]
+    
+        categorias = categorias[::-1]          # Inverte a ordem das categorias
+        cat_quantidades = cat_quantidades[::-1]  # Inverte a ordem dos valores
+    
+        # Cria o gráfico
+        plt.figure(figsize=(10, 5))
+        bars = plt.barh(categorias, cat_quantidades, color='lightgreen')
+        plt.title('Top 5 Categorias com Mais Livros')
+    
+        # Remove bordas para um visual mais limpo
+        plt.gca().spines['top'].set_visible(False)
+        plt.gca().spines['right'].set_visible(False)
+    
+        # Salva o gráfico em uma imagem base64
+        buffer = BytesIO()
+        plt.savefig(buffer, format='png', bbox_inches='tight', dpi=100)
+        plt.close()
+        cat_grafico = base64.b64encode(buffer.getvalue()).decode('utf-8')
+    
+        # Consulta para pegar o top 5 editoras
+        top_editoras = (
+            Livro.objects
+            .filter(usuario=request.user)
+            .values('editora')
+            .annotate(total=Count('id'))
+            .order_by('-total')[:5]
+        )
+    
+        # Extrai labels e valores
+        editoras = [item['editora'] for item in top_editoras]
+        edit_quantidades = [item['total'] for item in top_editoras]
+    
+        editoras = editoras[::-1]
+        edit_quantidades = edit_quantidades[::-1]
+    
+        # Cria o gráfico
+        plt.figure(figsize=(10, 5))
+        plt.barh(editoras, edit_quantidades, color='green')
+        plt.title('Top 5 Editoras com Mais Livros')
+    
+        # Remove bordas para um visual mais limpo
+        plt.gca().spines['top'].set_visible(False)
+        plt.gca().spines['right'].set_visible(False)
+    
+        # Converte para imagem
+        buffer = BytesIO()
+        plt.savefig(buffer, format='png', bbox_inches='tight', dpi=100)
+        plt.close()
+        edit_grafico = base64.b64encode(buffer.getvalue()).decode('utf-8')
+    except ImportError:
+        return HttpResponse("Funcionalidade temporariamente desativada durante manutenção")
+    
 
     # Passando as variáveis para o template
     return render(request, 'home_page.html', {
